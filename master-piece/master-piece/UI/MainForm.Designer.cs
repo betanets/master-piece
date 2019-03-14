@@ -34,6 +34,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.нечёткиеПеременныеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,7 +76,8 @@
             // файлToolStripMenuItem
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.нечёткиеПеременныеToolStripMenuItem});
+            this.нечёткиеПеременныеToolStripMenuItem,
+            this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
@@ -83,8 +85,16 @@
             // нечёткиеПеременныеToolStripMenuItem
             // 
             this.нечёткиеПеременныеToolStripMenuItem.Name = "нечёткиеПеременныеToolStripMenuItem";
-            this.нечёткиеПеременныеToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-            this.нечёткиеПеременныеToolStripMenuItem.Text = "Нечёткие переменные";
+            this.нечёткиеПеременныеToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.нечёткиеПеременныеToolStripMenuItem.Text = "Лингвистические переменные";
+            this.нечёткиеПеременныеToolStripMenuItem.Click += new System.EventHandler(this.нечёткиеПеременныеToolStripMenuItem_Click);
+            // 
+            // выходToolStripMenuItem
+            // 
+            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -99,7 +109,6 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
-            this.TopMost = true;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -115,6 +124,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem нечёткиеПеременныеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
     }
 }
 

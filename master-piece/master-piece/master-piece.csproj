@@ -35,8 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SQLite-net, Version=1.5.231.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\sqlite-net-pcl.1.5.231\lib\netstandard1.1\SQLite-net.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\sqlite-net-pcl.1.4.118\lib\netstandard1.1\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLiteNetExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLiteNetExtensions.2.1.0\lib\netstandard1.1\SQLiteNetExtensions.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_green, Version=1.1.11.121, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.11\lib\net45\SQLitePCLRaw.batteries_green.dll</HintPath>
@@ -65,17 +71,24 @@
   <ItemGroup>
     <Compile Include="domain\FuzzyVariable.cs" />
     <Compile Include="domain\FuzzyVariableValue.cs" />
+    <Compile Include="domain\LinguisticVariable.cs" />
+    <Compile Include="UI\EditLV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\EditLV.Designer.cs">
+      <DependentUpon>EditLV.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FuzzyVariablesList.cs">
+    <Compile Include="UI\VariablesList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FuzzyVariablesList.Designer.cs">
-      <DependentUpon>FuzzyVariablesList.cs</DependentUpon>
+    <Compile Include="UI\VariablesList.Designer.cs">
+      <DependentUpon>VariablesList.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\LoadingForm.cs">
       <SubType>Form</SubType>
@@ -87,11 +100,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Variable\FuzzyVariable.cs" />
     <Compile Include="Variable\IntVariable.cs" />
+    <EmbeddedResource Include="UI\EditLV.resx">
+      <DependentUpon>EditLV.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FuzzyVariablesList.resx">
-      <DependentUpon>FuzzyVariablesList.cs</DependentUpon>
+    <EmbeddedResource Include="UI\VariablesList.resx">
+      <DependentUpon>VariablesList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LoadingForm.resx">
       <DependentUpon>LoadingForm.cs</DependentUpon>

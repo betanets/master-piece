@@ -1,17 +1,20 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SQLiteNetExtensions.Attributes;
 
 namespace master_piece.domain
 {
+    /**
+     * Нечеткая переменная в базе данных
+     */ 
     class FuzzyVariable
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
-        public string shortName { get; set; }
-        public string fullName { get; set; }
+
+        [ForeignKey(typeof(LinguisticVariable)), NotNull]
+        public int linguisticVariableId { get; set; }
+
+        [NotNull]
+        public string name { get; set; }
     }
 }
