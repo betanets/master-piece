@@ -2,13 +2,6 @@
 using master_piece.UI;
 using SQLite;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace master_piece
@@ -21,14 +14,25 @@ namespace master_piece
         {
             dbConnection = arg_dbConnection;
             InitializeComponent();
-            refreshTables();
+            refreshLinguisticTable();
         }
 
-        private void refreshTables()
+        private void refreshLinguisticTable()
         {
-            dataGridViewLV.DataSource = dbConnection.Query<LinguisticVariable>("select * from linguisticVariable");
+            dataGridViewLV.DataSource = dbConnection.Query<LinguisticVariable>("select * from LinguisticVariable");
+        }
 
-            //TODO: init second dataGridView
+        private void refreshFuzzyTable(LinguisticVariable lv)
+        {
+            if (lv != null)
+            {
+                dataGridViewFV.DataSource = dbConnection.Query<FuzzyVariable>("select * from FuzzyVariable where linguisticVariableId = ?", lv.id);
+                toolStripFVSelectStatus.Text = "Получен список нечётких переменных для лингвистической переменной: " + lv.name;
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать лингвистическую переменную", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void button_addLV_Click(object sender, EventArgs e)
@@ -36,17 +40,46 @@ namespace master_piece
             EditLV editLV = new EditLV(dbConnection);
             if(editLV.ShowDialog() == DialogResult.OK)
             {
-                refreshTables();
+                refreshLinguisticTable();
             }
         }
 
         private void button_editLV_Click(object sender, EventArgs e)
         {
-            LinguisticVariable lv = dbConnection.Get<LinguisticVariable>(dataGridViewLV.SelectedRows[0].Cells["LVId"].Value);
-            EditLV editLV = new EditLV(dbConnection, lv);
+            if (dataGridViewLV.SelectedRows.Count > 0)
+            {
+                LinguisticVariable lv = dbConnection.Get<LinguisticVariable>(dataGridViewLV.SelectedRows[0].Cells["LVId"].Value);
+                EditLV editLV = new EditLV(dbConnection, lv);
+                if (editLV.ShowDialog() == DialogResult.OK)
+                {
+                    refreshLinguisticTable();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать лингвистическую переменную", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void getFVList_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewLV.SelectedRows.Count > 0)
+            {
+                LinguisticVariable lv = dbConnection.Get<LinguisticVariable>(dataGridViewLV.SelectedRows[0].Cells["LVId"].Value);
+                refreshFuzzyTable(lv);
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать лингвистическую переменную", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void button_addFV_Click(object sender, EventArgs e)
+        {
+            EditFV editLV = new EditFV(dbConnection);
             if (editLV.ShowDialog() == DialogResult.OK)
             {
-                refreshTables();
+                refreshLinguisticTable();
             }
         }
     }

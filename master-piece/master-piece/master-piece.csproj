@@ -72,6 +72,12 @@
     <Compile Include="domain\FuzzyVariable.cs" />
     <Compile Include="domain\FuzzyVariableValue.cs" />
     <Compile Include="domain\LinguisticVariable.cs" />
+    <Compile Include="UI\EditFV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\EditFV.Designer.cs">
+      <DependentUpon>EditFV.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\EditLV.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Variable\FuzzyVariable.cs" />
     <Compile Include="Variable\IntVariable.cs" />
+    <EmbeddedResource Include="UI\EditFV.resx">
+      <DependentUpon>EditFV.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\EditLV.resx">
       <DependentUpon>EditLV.cs</DependentUpon>
     </EmbeddedResource>

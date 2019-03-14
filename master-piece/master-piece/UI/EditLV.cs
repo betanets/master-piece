@@ -22,12 +22,13 @@ namespace master_piece.UI
             {
                 linguisticVariable = arg_linguisticVariable;
                 textBox_name.Text = linguisticVariable.name;
+                Text = "Редактирование лингвистической переменной";
             }
         }
 
         private void button_ok_Click(object sender, EventArgs e)
         {
-            if(textBox_name.Text.Length > 0)
+            if (textBox_name.Text.Length > 0)
             {
                 //LinguisticVariable could be null now
                 if (linguisticVariable == null)
@@ -36,7 +37,8 @@ namespace master_piece.UI
                     {
                         name = textBox_name.Text
                     };
-                } else
+                }
+                else
                 {
                     linguisticVariable.name = textBox_name.Text;
                 }
@@ -47,7 +49,8 @@ namespace master_piece.UI
                     if (linguisticVariable.id == 0)
                     {
                         dbConnection.Insert(linguisticVariable);
-                    } else
+                    }
+                    else
                     {
                         dbConnection.Update(linguisticVariable);
                     }
@@ -64,7 +67,8 @@ namespace master_piece.UI
                 {
                     Close();
                 }
-            } else
+            }
+            else
             {
                 MessageBox.Show("Необходимо ввести название лингвистической переменной", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }

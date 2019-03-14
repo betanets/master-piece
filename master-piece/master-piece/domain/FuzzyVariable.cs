@@ -6,7 +6,7 @@ namespace master_piece.domain
     /**
      * Нечеткая переменная в базе данных
      */ 
-    class FuzzyVariable
+    public class FuzzyVariable
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
