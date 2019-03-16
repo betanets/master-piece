@@ -16,5 +16,8 @@ namespace master_piece.domain
 
         [NotNull]
         public string name { get; set; }
+
+        [NotNull]
+        public int deleted { get; set; } = 0;
     }
 }

@@ -82,6 +82,7 @@
             this.Controls.Add(this.label_name);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "EditFV";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление нечёткой переменной";
             this.ResumeLayout(false);
             this.PerformLayout();

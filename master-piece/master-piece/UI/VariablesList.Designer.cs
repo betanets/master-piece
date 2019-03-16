@@ -41,7 +41,9 @@
             this.button_deleteFV = new System.Windows.Forms.Button();
             this.LVId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LVDeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FVId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FVdeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.linguisticVariableID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLV)).BeginInit();
@@ -58,7 +60,8 @@
             this.dataGridViewLV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewLV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.LVId,
-            this.LVName});
+            this.LVName,
+            this.LVDeleted});
             this.dataGridViewLV.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridViewLV.Location = new System.Drawing.Point(12, 12);
             this.dataGridViewLV.MultiSelect = false;
@@ -78,6 +81,7 @@
             this.dataGridViewFV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewFV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FVId,
+            this.FVdeleted,
             this.linguisticVariableID,
             this.FVName});
             this.dataGridViewFV.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -144,6 +148,7 @@
             this.button_deleteLV.TabIndex = 6;
             this.button_deleteLV.Text = "Удалить\r\nлингвистическую переменную";
             this.button_deleteLV.UseVisualStyleBackColor = true;
+            this.button_deleteLV.Click += new System.EventHandler(this.button_deleteLV_Click);
             // 
             // button_addFV
             // 
@@ -163,6 +168,7 @@
             this.button_editFV.TabIndex = 8;
             this.button_editFV.Text = "Редактировать\r\nнечеткую переменную";
             this.button_editFV.UseVisualStyleBackColor = true;
+            this.button_editFV.Click += new System.EventHandler(this.button_editFV_Click);
             // 
             // button_deleteFV
             // 
@@ -172,6 +178,7 @@
             this.button_deleteFV.TabIndex = 9;
             this.button_deleteFV.Text = "Удалить\r\nнечеткую переменную";
             this.button_deleteFV.UseVisualStyleBackColor = true;
+            this.button_deleteFV.Click += new System.EventHandler(this.button_deleteFV_Click);
             // 
             // LVId
             // 
@@ -189,6 +196,14 @@
             this.LVName.ReadOnly = true;
             this.LVName.Width = 490;
             // 
+            // LVDeleted
+            // 
+            this.LVDeleted.DataPropertyName = "deleted";
+            this.LVDeleted.HeaderText = "deleted";
+            this.LVDeleted.Name = "LVDeleted";
+            this.LVDeleted.ReadOnly = true;
+            this.LVDeleted.Visible = false;
+            // 
             // FVId
             // 
             this.FVId.DataPropertyName = "id";
@@ -196,6 +211,14 @@
             this.FVId.Name = "FVId";
             this.FVId.ReadOnly = true;
             this.FVId.Visible = false;
+            // 
+            // FVdeleted
+            // 
+            this.FVdeleted.DataPropertyName = "deleted";
+            this.FVdeleted.HeaderText = "deleted";
+            this.FVdeleted.Name = "FVdeleted";
+            this.FVdeleted.ReadOnly = true;
+            this.FVdeleted.Visible = false;
             // 
             // linguisticVariableID
             // 
@@ -249,14 +272,16 @@
         private System.Windows.Forms.Button button_editLV;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripFVSelectStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LVId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LVName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FVId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn linguisticVariableID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FVName;
         private System.Windows.Forms.Button button_deleteLV;
         private System.Windows.Forms.Button button_addFV;
         private System.Windows.Forms.Button button_editFV;
         private System.Windows.Forms.Button button_deleteFV;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LVId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LVName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LVDeleted;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FVId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FVdeleted;
+        private System.Windows.Forms.DataGridViewTextBoxColumn linguisticVariableID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FVName;
     }
 }

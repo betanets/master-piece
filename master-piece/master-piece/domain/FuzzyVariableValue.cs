@@ -18,5 +18,8 @@ namespace master_piece.domain
 
         [NotNull]
         public double possibility { get; set; }
+
+        [NotNull]
+        public int deleted { get; set; } = 0;
     }
 }
