@@ -2,6 +2,7 @@
 using SQLite;
 using System;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace master_piece.UI
 {
@@ -21,7 +22,20 @@ namespace master_piece.UI
 
         private void refreshFVValuesTable()
         {
-            dataGridView_FVValues.DataSource = dbConnection.Query<FuzzyVariableValue>("select * from FuzzyVariableValue where fuzzyVariableId = ? and deleted = '0'", fuzzyVariableId);
+            //TODO: Possibly there could be a better way than selecting with ORDER BY statement
+            var dataSource = dbConnection.Query<FuzzyVariableValue>("select * from FuzzyVariableValue where fuzzyVariableId = ? and deleted = '0' order by value", fuzzyVariableId);
+            dataGridView_FVValues.DataSource = dataSource;
+            refreshMap(dataSource);
+        }
+
+        private void refreshMap(object dataSource)
+        {
+            chart_map.Series.Clear();
+            chart_map.Series.Add(new Series());
+            chart_map.Series[0].ChartType = SeriesChartType.Area;
+            chart_map.Series[0].XValueMember = dataGridView_FVValues.Columns["value"].DataPropertyName;
+            chart_map.Series[0].YValueMembers = dataGridView_FVValues.Columns["possibility"].DataPropertyName;
+            chart_map.DataSource = dataSource;
         }
 
         private void button_addValue_Click(object sender, System.EventArgs e)

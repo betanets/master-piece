@@ -28,6 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.dataGridView_FVValues = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FVId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,7 +42,9 @@
             this.button_addValue = new System.Windows.Forms.Button();
             this.button_editValue = new System.Windows.Forms.Button();
             this.button_deleteValue = new System.Windows.Forms.Button();
+            this.chart_map = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_FVValues)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_map)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView_FVValues
@@ -132,11 +139,44 @@
             this.button_deleteValue.UseVisualStyleBackColor = true;
             this.button_deleteValue.Click += new System.EventHandler(this.button_deleteValue_Click);
             // 
+            // chart_map
+            // 
+            chartArea1.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Triangle;
+            chartArea1.AxisX.LineWidth = 2;
+            chartArea1.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Triangle;
+            chartArea1.AxisY.LineWidth = 2;
+            chartArea1.Name = "ChartArea_map";
+            this.chart_map.ChartAreas.Add(chartArea1);
+            this.chart_map.Location = new System.Drawing.Point(459, 12);
+            this.chart_map.Name = "chart_map";
+            this.chart_map.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
+            series1.ChartArea = "ChartArea_map";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
+            series1.LegendText = " ";
+            series1.LegendToolTip = "Карта значений";
+            series1.Name = "Series_map";
+            this.chart_map.Series.Add(series1);
+            this.chart_map.Size = new System.Drawing.Size(645, 405);
+            this.chart_map.TabIndex = 4;
+            this.chart_map.Text = "Карта значений нечёткой переменной";
+            title1.Name = "Title_header";
+            title1.Text = "Карта значений нечёткой переменной";
+            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title2.Name = "Title_possibility";
+            title2.Text = "Вероятность";
+            title3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title3.Name = "Title_value";
+            title3.Text = "Значение";
+            this.chart_map.Titles.Add(title1);
+            this.chart_map.Titles.Add(title2);
+            this.chart_map.Titles.Add(title3);
+            // 
             // FVValues
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(461, 429);
+            this.ClientSize = new System.Drawing.Size(1116, 429);
+            this.Controls.Add(this.chart_map);
             this.Controls.Add(this.button_deleteValue);
             this.Controls.Add(this.button_editValue);
             this.Controls.Add(this.button_addValue);
@@ -145,6 +185,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Значения нечеткой переменной";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_FVValues)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_map)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -160,5 +201,6 @@
         private System.Windows.Forms.Button button_addValue;
         private System.Windows.Forms.Button button_editValue;
         private System.Windows.Forms.Button button_deleteValue;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_map;
     }
 }

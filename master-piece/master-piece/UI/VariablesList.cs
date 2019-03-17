@@ -175,8 +175,7 @@ namespace master_piece
         {
             if (dataGridViewFV.SelectedRows.Count > 0)
             {
-                
-                FVValues fVValues = new FVValues(dbConnection, (int)dataGridViewLV.SelectedRows[0].Cells["LVId"].Value);
+                FVValues fVValues = new FVValues(dbConnection, (int)dataGridViewFV.SelectedRows[0].Cells["FVId"].Value);
                 fVValues.ShowDialog();
             }
             else
