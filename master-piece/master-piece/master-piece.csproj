@@ -97,6 +97,12 @@
     <Compile Include="UI\FVValues.Designer.cs">
       <DependentUpon>FVValues.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\LVMap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LVMap.Designer.cs">
+      <DependentUpon>LVMap.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FVValues.resx">
       <DependentUpon>FVValues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LVMap.resx">
+      <DependentUpon>LVMap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

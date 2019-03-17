@@ -103,6 +103,19 @@ namespace master_piece
             }
         }
 
+        private void button_LVmap_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewLV.SelectedRows.Count > 0)
+            {
+                LVMap lvMap = new LVMap(dbConnection, (int)dataGridViewLV.SelectedRows[0].Cells["LVId"].Value);
+                lvMap.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать лингвистическую переменную", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         private void button_addFV_Click(object sender, EventArgs e)
         {
             if (selectedLinguisticVariable != null)

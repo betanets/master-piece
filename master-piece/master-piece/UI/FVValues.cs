@@ -22,7 +22,7 @@ namespace master_piece.UI
 
         private void refreshFVValuesTable()
         {
-            //TODO: Possibly there could be a better way than selecting with ORDER BY statement
+            //TODO: Possibly there could be a better way than selection with ORDER BY statement
             var dataSource = dbConnection.Query<FuzzyVariableValue>("select * from FuzzyVariableValue where fuzzyVariableId = ? and deleted = '0' order by value", fuzzyVariableId);
             dataGridView_FVValues.DataSource = dataSource;
             refreshMap(dataSource);

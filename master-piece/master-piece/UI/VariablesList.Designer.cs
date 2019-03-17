@@ -33,6 +33,10 @@
             this.LVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LVDeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewFV = new System.Windows.Forms.DataGridView();
+            this.FVId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FVdeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.linguisticVariableID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.getFVList = new System.Windows.Forms.Button();
             this.button_addLV = new System.Windows.Forms.Button();
             this.button_editLV = new System.Windows.Forms.Button();
@@ -43,10 +47,7 @@
             this.button_editFV = new System.Windows.Forms.Button();
             this.button_deleteFV = new System.Windows.Forms.Button();
             this.button_setupFV = new System.Windows.Forms.Button();
-            this.FVId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FVdeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.linguisticVariableID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button_LVmap = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFV)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -110,7 +111,7 @@
             this.linguisticVariableID,
             this.FVName});
             this.dataGridViewFV.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridViewFV.Location = new System.Drawing.Point(581, 12);
+            this.dataGridViewFV.Location = new System.Drawing.Point(605, 12);
             this.dataGridViewFV.MultiSelect = false;
             this.dataGridViewFV.Name = "dataGridViewFV";
             this.dataGridViewFV.ReadOnly = true;
@@ -118,102 +119,6 @@
             this.dataGridViewFV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewFV.Size = new System.Drawing.Size(581, 486);
             this.dataGridViewFV.TabIndex = 1;
-            // 
-            // getFVList
-            // 
-            this.getFVList.Location = new System.Drawing.Point(537, 249);
-            this.getFVList.Name = "getFVList";
-            this.getFVList.Size = new System.Drawing.Size(38, 23);
-            this.getFVList.TabIndex = 2;
-            this.getFVList.Text = "-->";
-            this.getFVList.UseVisualStyleBackColor = true;
-            this.getFVList.Click += new System.EventHandler(this.getFVList_Click);
-            // 
-            // button_addLV
-            // 
-            this.button_addLV.Location = new System.Drawing.Point(12, 504);
-            this.button_addLV.Name = "button_addLV";
-            this.button_addLV.Size = new System.Drawing.Size(169, 37);
-            this.button_addLV.TabIndex = 3;
-            this.button_addLV.Text = "Добавить\r\nлингвистическую переменную";
-            this.button_addLV.UseVisualStyleBackColor = true;
-            this.button_addLV.Click += new System.EventHandler(this.button_addLV_Click);
-            // 
-            // button_editLV
-            // 
-            this.button_editLV.Location = new System.Drawing.Point(187, 504);
-            this.button_editLV.Name = "button_editLV";
-            this.button_editLV.Size = new System.Drawing.Size(169, 37);
-            this.button_editLV.TabIndex = 4;
-            this.button_editLV.Text = "Редактировать\r\nлингвистическую переменную";
-            this.button_editLV.UseVisualStyleBackColor = true;
-            this.button_editLV.Click += new System.EventHandler(this.button_editLV_Click);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripFVSelectStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 550);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1177, 22);
-            this.statusStrip1.TabIndex = 5;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripFVSelectStatus
-            // 
-            this.toolStripFVSelectStatus.Name = "toolStripFVSelectStatus";
-            this.toolStripFVSelectStatus.Size = new System.Drawing.Size(267, 17);
-            this.toolStripFVSelectStatus.Text = "Получен список лингвистических переменных";
-            // 
-            // button_deleteLV
-            // 
-            this.button_deleteLV.Location = new System.Drawing.Point(362, 504);
-            this.button_deleteLV.Name = "button_deleteLV";
-            this.button_deleteLV.Size = new System.Drawing.Size(169, 37);
-            this.button_deleteLV.TabIndex = 6;
-            this.button_deleteLV.Text = "Удалить\r\nлингвистическую переменную";
-            this.button_deleteLV.UseVisualStyleBackColor = true;
-            this.button_deleteLV.Click += new System.EventHandler(this.button_deleteLV_Click);
-            // 
-            // button_addFV
-            // 
-            this.button_addFV.Location = new System.Drawing.Point(581, 504);
-            this.button_addFV.Name = "button_addFV";
-            this.button_addFV.Size = new System.Drawing.Size(143, 37);
-            this.button_addFV.TabIndex = 7;
-            this.button_addFV.Text = "Добавить\r\nнечеткую переменную";
-            this.button_addFV.UseVisualStyleBackColor = true;
-            this.button_addFV.Click += new System.EventHandler(this.button_addFV_Click);
-            // 
-            // button_editFV
-            // 
-            this.button_editFV.Location = new System.Drawing.Point(730, 504);
-            this.button_editFV.Name = "button_editFV";
-            this.button_editFV.Size = new System.Drawing.Size(146, 37);
-            this.button_editFV.TabIndex = 8;
-            this.button_editFV.Text = "Редактировать\r\nнечеткую переменную";
-            this.button_editFV.UseVisualStyleBackColor = true;
-            this.button_editFV.Click += new System.EventHandler(this.button_editFV_Click);
-            // 
-            // button_deleteFV
-            // 
-            this.button_deleteFV.Location = new System.Drawing.Point(882, 504);
-            this.button_deleteFV.Name = "button_deleteFV";
-            this.button_deleteFV.Size = new System.Drawing.Size(143, 37);
-            this.button_deleteFV.TabIndex = 9;
-            this.button_deleteFV.Text = "Удалить\r\nнечеткую переменную";
-            this.button_deleteFV.UseVisualStyleBackColor = true;
-            this.button_deleteFV.Click += new System.EventHandler(this.button_deleteFV_Click);
-            // 
-            // button_setupFV
-            // 
-            this.button_setupFV.Location = new System.Drawing.Point(1031, 504);
-            this.button_setupFV.Name = "button_setupFV";
-            this.button_setupFV.Size = new System.Drawing.Size(131, 37);
-            this.button_setupFV.TabIndex = 10;
-            this.button_setupFV.Text = "Задать значения нечеткой переменной";
-            this.button_setupFV.UseVisualStyleBackColor = true;
-            this.button_setupFV.Click += new System.EventHandler(this.button_setupFV_Click);
             // 
             // FVId
             // 
@@ -247,11 +152,118 @@
             this.FVName.ReadOnly = true;
             this.FVName.Width = 550;
             // 
+            // getFVList
+            // 
+            this.getFVList.Location = new System.Drawing.Point(537, 249);
+            this.getFVList.Name = "getFVList";
+            this.getFVList.Size = new System.Drawing.Size(62, 23);
+            this.getFVList.TabIndex = 2;
+            this.getFVList.Text = "-->";
+            this.getFVList.UseVisualStyleBackColor = true;
+            this.getFVList.Click += new System.EventHandler(this.getFVList_Click);
+            // 
+            // button_addLV
+            // 
+            this.button_addLV.Location = new System.Drawing.Point(12, 504);
+            this.button_addLV.Name = "button_addLV";
+            this.button_addLV.Size = new System.Drawing.Size(169, 37);
+            this.button_addLV.TabIndex = 3;
+            this.button_addLV.Text = "Добавить\r\nлингвистическую переменную";
+            this.button_addLV.UseVisualStyleBackColor = true;
+            this.button_addLV.Click += new System.EventHandler(this.button_addLV_Click);
+            // 
+            // button_editLV
+            // 
+            this.button_editLV.Location = new System.Drawing.Point(187, 504);
+            this.button_editLV.Name = "button_editLV";
+            this.button_editLV.Size = new System.Drawing.Size(169, 37);
+            this.button_editLV.TabIndex = 4;
+            this.button_editLV.Text = "Редактировать\r\nлингвистическую переменную";
+            this.button_editLV.UseVisualStyleBackColor = true;
+            this.button_editLV.Click += new System.EventHandler(this.button_editLV_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripFVSelectStatus});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 550);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1198, 22);
+            this.statusStrip1.TabIndex = 5;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripFVSelectStatus
+            // 
+            this.toolStripFVSelectStatus.Name = "toolStripFVSelectStatus";
+            this.toolStripFVSelectStatus.Size = new System.Drawing.Size(267, 17);
+            this.toolStripFVSelectStatus.Text = "Получен список лингвистических переменных";
+            // 
+            // button_deleteLV
+            // 
+            this.button_deleteLV.Location = new System.Drawing.Point(362, 504);
+            this.button_deleteLV.Name = "button_deleteLV";
+            this.button_deleteLV.Size = new System.Drawing.Size(169, 37);
+            this.button_deleteLV.TabIndex = 6;
+            this.button_deleteLV.Text = "Удалить\r\nлингвистическую переменную";
+            this.button_deleteLV.UseVisualStyleBackColor = true;
+            this.button_deleteLV.Click += new System.EventHandler(this.button_deleteLV_Click);
+            // 
+            // button_addFV
+            // 
+            this.button_addFV.Location = new System.Drawing.Point(605, 504);
+            this.button_addFV.Name = "button_addFV";
+            this.button_addFV.Size = new System.Drawing.Size(143, 37);
+            this.button_addFV.TabIndex = 7;
+            this.button_addFV.Text = "Добавить\r\nнечеткую переменную";
+            this.button_addFV.UseVisualStyleBackColor = true;
+            this.button_addFV.Click += new System.EventHandler(this.button_addFV_Click);
+            // 
+            // button_editFV
+            // 
+            this.button_editFV.Location = new System.Drawing.Point(754, 504);
+            this.button_editFV.Name = "button_editFV";
+            this.button_editFV.Size = new System.Drawing.Size(146, 37);
+            this.button_editFV.TabIndex = 8;
+            this.button_editFV.Text = "Редактировать\r\nнечеткую переменную";
+            this.button_editFV.UseVisualStyleBackColor = true;
+            this.button_editFV.Click += new System.EventHandler(this.button_editFV_Click);
+            // 
+            // button_deleteFV
+            // 
+            this.button_deleteFV.Location = new System.Drawing.Point(906, 504);
+            this.button_deleteFV.Name = "button_deleteFV";
+            this.button_deleteFV.Size = new System.Drawing.Size(143, 37);
+            this.button_deleteFV.TabIndex = 9;
+            this.button_deleteFV.Text = "Удалить\r\nнечеткую переменную";
+            this.button_deleteFV.UseVisualStyleBackColor = true;
+            this.button_deleteFV.Click += new System.EventHandler(this.button_deleteFV_Click);
+            // 
+            // button_setupFV
+            // 
+            this.button_setupFV.Location = new System.Drawing.Point(1055, 504);
+            this.button_setupFV.Name = "button_setupFV";
+            this.button_setupFV.Size = new System.Drawing.Size(131, 37);
+            this.button_setupFV.TabIndex = 10;
+            this.button_setupFV.Text = "Задать значения нечеткой переменной";
+            this.button_setupFV.UseVisualStyleBackColor = true;
+            this.button_setupFV.Click += new System.EventHandler(this.button_setupFV_Click);
+            // 
+            // button_LVmap
+            // 
+            this.button_LVmap.Location = new System.Drawing.Point(537, 278);
+            this.button_LVmap.Name = "button_LPmap";
+            this.button_LVmap.Size = new System.Drawing.Size(62, 37);
+            this.button_LVmap.TabIndex = 11;
+            this.button_LVmap.Text = "Карта\r\nзначений";
+            this.button_LVmap.UseVisualStyleBackColor = true;
+            this.button_LVmap.Click += new System.EventHandler(this.button_LVmap_Click);
+            // 
             // VariablesList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1177, 572);
+            this.ClientSize = new System.Drawing.Size(1198, 572);
+            this.Controls.Add(this.button_LVmap);
             this.Controls.Add(this.button_setupFV);
             this.Controls.Add(this.button_deleteFV);
             this.Controls.Add(this.button_editFV);
@@ -296,5 +308,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FVdeleted;
         private System.Windows.Forms.DataGridViewTextBoxColumn linguisticVariableID;
         private System.Windows.Forms.DataGridViewTextBoxColumn FVName;
+        private System.Windows.Forms.Button button_LVmap;
     }
 }
