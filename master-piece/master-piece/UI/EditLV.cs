@@ -10,9 +10,9 @@ namespace master_piece.UI
         private SQLiteConnection dbConnection;
         private LinguisticVariable linguisticVariable;
 
-        public EditLV(SQLiteConnection dbConnection)
+        public EditLV(SQLiteConnection arg_dbConnection)
         {
-            this.dbConnection = dbConnection;
+            dbConnection = arg_dbConnection;
             InitializeComponent();
         }
 

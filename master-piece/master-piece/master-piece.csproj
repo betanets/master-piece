@@ -78,11 +78,23 @@
     <Compile Include="UI\EditFV.Designer.cs">
       <DependentUpon>EditFV.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\EditFVValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\EditFVValue.Designer.cs">
+      <DependentUpon>EditFVValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\EditLV.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\EditLV.Designer.cs">
       <DependentUpon>EditLV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FVValues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FVValues.Designer.cs">
+      <DependentUpon>FVValues.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
@@ -109,8 +121,14 @@
     <EmbeddedResource Include="UI\EditFV.resx">
       <DependentUpon>EditFV.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\EditFVValue.resx">
+      <DependentUpon>EditFVValue.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\EditLV.resx">
       <DependentUpon>EditLV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FVValues.resx">
+      <DependentUpon>FVValues.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

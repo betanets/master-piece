@@ -170,5 +170,19 @@ namespace master_piece
                 MessageBox.Show("Необходимо выбрать нечёткую переменную", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void button_setupFV_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewFV.SelectedRows.Count > 0)
+            {
+                
+                FVValues fVValues = new FVValues(dbConnection, (int)dataGridViewLV.SelectedRows[0].Cells["LVId"].Value);
+                fVValues.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать нечёткую переменную", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }
