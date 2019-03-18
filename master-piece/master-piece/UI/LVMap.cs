@@ -33,6 +33,7 @@ namespace master_piece.UI
                 chart_map.Series.Add(new Series());
                 chart_map.Series[i].ChartType = SeriesChartType.Area;
                 chart_map.Series[i].IsValueShownAsLabel = true;
+                chart_map.Series[i].Name = fv.name;
 
                 chart_map.Series[i].Color = Color.FromArgb(128, random.Next() % 255, random.Next() % 255, random.Next() % 255);
 

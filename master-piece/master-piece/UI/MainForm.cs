@@ -34,5 +34,10 @@ namespace master_piece
             VariablesList fuzzyVariablesList = new VariablesList(dbConnection);
             fuzzyVariablesList.ShowDialog();
         }
+
+        private void button_add_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

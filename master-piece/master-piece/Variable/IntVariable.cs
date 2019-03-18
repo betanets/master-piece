@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace master_piece.Variable
+﻿namespace master_piece.variable
 {
-    [Obsolete("Should be removed or moved to another location")]
-    class IntVariable
+    class IntVariable : AbstractVariable
     {
-        private string name { get; set; }
-        private int value { get; set; }
+        public int value { get; set; }
     }
 }
