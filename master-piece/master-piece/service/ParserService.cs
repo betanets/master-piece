@@ -1,4 +1,5 @@
-﻿using System;
+﻿using master_piece.variable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,20 +32,32 @@ namespace master_piece.service
             return symbol == ' ' || symbol == '\t' || symbol == '\n';
         }
 
+        //TODO: need more research to determine correct parser
         void parse(string expression)
         {
+            ParserResult parserResult = new ParserResult();
             string lexeme = string.Empty;
-
+            AbstractVariable abstractVariable = null; 
             foreach(char c in expression)
             {
                 if(lexeme.Length == 0 && isNumber(c))
                 {
-
+                    abstractVariable = new IntVariable();
                 }
                 lexeme += c;
 
-                //If current symbol is letter or - we're working with identificator
-                if(isBigLetter(c) || isLittleLetter(c) || (lexeme.Length > 0 && isNumber(c)))
+                if (isIgnoredSymbol(c))
+                {
+                    if(abstractVariable != null)
+                    {
+                        parserResult.variablesList.Add(abstractVariable);
+                        abstractVariable = null;
+                        lexeme = string.Empty;
+                    }
+                }
+
+                //If current symbol is letter - we're working with identifier
+                if(isBigLetter(c) || isLittleLetter(c))
                 {
 
                 }

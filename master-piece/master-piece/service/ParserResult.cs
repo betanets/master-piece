@@ -5,7 +5,7 @@ namespace master_piece.service
 {
     class ParserResult
     {
-        private List<AbstractVariable> variablesList;
-        private List<CommonSubexpression> subexpressionsList;
+        public List<AbstractVariable> variablesList = new List<AbstractVariable>();
+        public List<CommonSubexpression> subexpressionsList = new List<CommonSubexpression>();
     }
 }
