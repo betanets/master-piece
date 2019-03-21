@@ -1,4 +1,6 @@
 ﻿using master_piece.domain;
+using master_piece.lexeme;
+using master_piece.service;
 using SQLite;
 using System;
 using System.IO;
@@ -37,7 +39,12 @@ namespace master_piece
 
         private void button_add_Click(object sender, EventArgs e)
         {
-
+            ParserResult parserResult = ParserService.parse(textBox_expression.Text);
+            richTextBox_result.Clear();
+            foreach (Lexeme lexeme in parserResult.lexemesList)
+            {
+                richTextBox_result.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
+            }
         }
     }
 }

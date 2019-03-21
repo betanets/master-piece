@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox_expression = new System.Windows.Forms.TextBox();
             this.button_add = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.нечёткиеПеременныеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox_result = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
@@ -50,12 +50,12 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Если";
             // 
-            // textBox1
+            // textBox_expression
             // 
-            this.textBox1.Location = new System.Drawing.Point(52, 31);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(499, 20);
-            this.textBox1.TabIndex = 1;
+            this.textBox_expression.Location = new System.Drawing.Point(52, 31);
+            this.textBox_expression.Name = "textBox_expression";
+            this.textBox_expression.Size = new System.Drawing.Size(499, 20);
+            this.textBox_expression.TabIndex = 1;
             // 
             // button_add
             // 
@@ -100,13 +100,13 @@
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
-            // richTextBox1
+            // richTextBox_result
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(15, 135);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(772, 303);
-            this.richTextBox1.TabIndex = 4;
-            this.richTextBox1.Text = "";
+            this.richTextBox_result.Location = new System.Drawing.Point(15, 135);
+            this.richTextBox_result.Name = "richTextBox_result";
+            this.richTextBox_result.Size = new System.Drawing.Size(772, 303);
+            this.richTextBox_result.TabIndex = 4;
+            this.richTextBox_result.Text = "";
             // 
             // label2
             // 
@@ -131,9 +131,9 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.richTextBox_result);
             this.Controls.Add(this.button_add);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBox_expression);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -150,13 +150,13 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox_expression;
         private System.Windows.Forms.Button button_add;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem нечёткиеПеременныеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextBox_result;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox2;
     }

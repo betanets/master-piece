@@ -85,6 +85,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="lexeme\Lexeme.cs" />
+    <Compile Include="lexeme\LexemeType.cs" />
     <Compile Include="service\CommonSubexpression.cs" />
     <Compile Include="variable\IntVariable.cs" />
     <Compile Include="service\OperationHelper.cs" />

@@ -1,8 +1,10 @@
-﻿using master_piece.variable;
+﻿using master_piece.lexeme;
+using master_piece.variable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace master_piece.service
@@ -19,7 +21,7 @@ namespace master_piece.service
 
         static bool isLittleLetter(char symbol)
         {
-            return symbol >= 'A' && symbol <= 'Z';
+            return symbol >= 'a' && symbol <= 'z';
         }
 
         static bool isNumber(char symbol)
@@ -32,36 +34,216 @@ namespace master_piece.service
             return symbol == ' ' || symbol == '\t' || symbol == '\n';
         }
 
-        //TODO: need more research to determine correct parser
-        void parse(string expression)
-        {
-            ParserResult parserResult = new ParserResult();
-            string lexeme = string.Empty;
-            AbstractVariable abstractVariable = null; 
-            foreach(char c in expression)
-            {
-                if(lexeme.Length == 0 && isNumber(c))
-                {
-                    abstractVariable = new IntVariable();
-                }
-                lexeme += c;
+        private static ParserResult parserResult;
 
-                if (isIgnoredSymbol(c))
+        //TODO: need more research to determine correct parser
+        public static ParserResult parse(string expression)
+        {
+            parserResult = new ParserResult();
+            string symbolSavior = string.Empty;
+
+            //Remove all whitespaces from expression
+            expression = Regex.Replace(expression, @"\s+", "");
+
+            //Parse expression
+            foreach (char c in expression)
+            {
+                switch (c)
                 {
-                    if(abstractVariable != null)
+                    case '(':
+                        symbolSavior = checkSymbolSavior(symbolSavior);
+                        parserResult.lexemesList.Add(new Lexeme(LexemeType.OpenBracket, c.ToString()));
+                        break;
+                    case ')':
+                        symbolSavior = checkSymbolSavior(symbolSavior);
+                        parserResult.lexemesList.Add(new Lexeme(LexemeType.CloseBracket, c.ToString()));
+                        break;
+                    case '&':
+                        symbolSavior = checkSymbolSavior(symbolSavior);
+                        symbolSavior += c;
+                        if (symbolSavior.Length == 2)
+                        {
+                            if (symbolSavior.Equals("&&"))
+                            {
+                                parserResult.lexemesList.Add(new Lexeme(LexemeType.And, symbolSavior));
+                            }
+                            else
+                            {
+                                parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                            }
+                            symbolSavior = string.Empty;
+                        }
+                        break;
+                    case '|':
+                        symbolSavior = checkSymbolSavior(symbolSavior);
+                        symbolSavior += c;
+                        if (symbolSavior.Length == 2)
+                        {
+                            if (symbolSavior.Equals("||"))
+                            {
+                                parserResult.lexemesList.Add(new Lexeme(LexemeType.Or, symbolSavior));
+                            }
+                            else
+                            {
+                                parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                            }
+                            symbolSavior = string.Empty;
+                        }
+                        break;
+                    case '!':
+                    case '>':
+                    case '<':
+                        symbolSavior = checkSymbolSavior(symbolSavior);
+                        symbolSavior += c;
+                        break;
+                    case '=':
+                        symbolSavior = checkSymbolSavior(symbolSavior);
+                        symbolSavior += c;
+                        if (symbolSavior.Length == 2)
+                        {
+                            switch (symbolSavior[0])
+                            {
+                                case '=':
+                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Equal, symbolSavior));
+                                    break;
+                                case '!':
+                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.NotEqual, symbolSavior));
+                                    break;
+                                case '>':
+                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.MoreOrEqual, symbolSavior));
+                                    break;
+                                case '<':
+                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.LessOrEqual, symbolSavior));
+                                    break;
+                                default:
+                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                                    break;
+                            }
+                            symbolSavior = string.Empty;
+                        }
+                        break;
+                }
+
+                if (isBigLetter(c) || isLittleLetter(c) || isNumber(c))
+                {
+                    if (symbolSavior.Length > 0)
                     {
-                        parserResult.variablesList.Add(abstractVariable);
-                        abstractVariable = null;
-                        lexeme = string.Empty;
+                        if (symbolSavior.Length == 1)
+                        {
+                            switch (symbolSavior[0])
+                            {
+                                case '=':
+                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Assign, symbolSavior));
+                                    symbolSavior = c.ToString();
+                                    break;
+                                case '>':
+                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.More, symbolSavior));
+                                    symbolSavior = c.ToString();
+                                    break;
+                                case '<':
+                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Less, symbolSavior));
+                                    symbolSavior = c.ToString();
+                                    break;
+                                default:
+                                    if (isBigLetter(symbolSavior[0]) || isLittleLetter(symbolSavior[0]) || isNumber(symbolSavior[0]))
+                                    {
+                                        symbolSavior += c;
+                                    }
+                                    else
+                                    {
+                                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                                        symbolSavior = string.Empty;
+                                    }
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            foreach (char sym in symbolSavior)
+                            {
+                                if (!isBigLetter(sym) && !isLittleLetter(sym) && !isNumber(sym))
+                                {
+                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                                    symbolSavior = string.Empty;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        symbolSavior = c.ToString();
+                    }
+                }
+            }
+
+            if(symbolSavior.Length > 0)
+            {
+                checkSymbolSavior(symbolSavior);
+            }
+            return parserResult;
+        }
+
+        private static string checkSymbolSavior(string symbolSavior)
+        {
+            if(symbolSavior.Length == 0)
+            {
+                return string.Empty;
+            }
+            if(symbolSavior.Length == 1)
+            {
+                if(isBigLetter(symbolSavior[0]) || isLittleLetter(symbolSavior[0]))
+                {
+                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Identifier, symbolSavior));
+                }
+                else if(isNumber(symbolSavior[0]))
+                {
+                    parserResult.lexemesList.Add(new Lexeme(LexemeType.IntValue, symbolSavior));
+                }
+                else
+                {
+                    return symbolSavior;
+                }
+                return string.Empty;
+            }
+            if(symbolSavior.Length > 1)
+            {
+                bool isAllNumbers = true;
+                foreach (char sym in symbolSavior)
+                {
+                    if(isBigLetter(sym) || isLittleLetter(sym))
+                    {
+                        isAllNumbers = false;
+                    }
+                    else if(isNumber(sym))
+                    {
+                        //OK, do nothing
+                    }
+                    else
+                    {
+                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                        return string.Empty;
                     }
                 }
 
-                //If current symbol is letter - we're working with identifier
-                if(isBigLetter(c) || isLittleLetter(c))
+                if(isAllNumbers)
                 {
-
+                    parserResult.lexemesList.Add(new Lexeme(LexemeType.IntValue, symbolSavior));
+                    return string.Empty;
                 }
+                else
+                {
+                    if(!isNumber(symbolSavior[0]))
+                    {
+                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Identifier, symbolSavior));
+                    }
+                    else
+                    {
+                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                    }
+                }
+                return string.Empty;
             }
+            return string.Empty;
         }
     }
 }
