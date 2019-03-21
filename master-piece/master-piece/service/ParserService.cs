@@ -159,6 +159,7 @@ namespace master_piece.service
                         }
                         else
                         {
+                            symbolSavior += c;
                             foreach (char sym in symbolSavior)
                             {
                                 if (!isBigLetter(sym) && !isLittleLetter(sym) && !isNumber(sym))
