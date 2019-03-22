@@ -3,6 +3,7 @@ using master_piece.lexeme;
 using master_piece.service;
 using SQLite;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -42,6 +43,14 @@ namespace master_piece
             ParserResult parserResult = ParserService.parse(textBox_expression.Text);
             richTextBox_result.Clear();
             foreach (Lexeme lexeme in parserResult.lexemesList)
+            {
+                richTextBox_result.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
+            }
+
+            richTextBox_result.AppendText("\n----------\nРезультаты представления в обратной польской записи\n-----------\n");
+
+            List <Lexeme> reversePolishNotationLexemeList = ReversePolishNotationService.createNotation(parserResult.lexemesList);
+            foreach (Lexeme lexeme in reversePolishNotationLexemeList)
             {
                 richTextBox_result.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
             }
