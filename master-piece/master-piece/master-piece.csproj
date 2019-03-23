@@ -92,7 +92,8 @@
   <ItemGroup>
     <Compile Include="lexeme\Lexeme.cs" />
     <Compile Include="lexeme\LexemeType.cs" />
-    <Compile Include="service\CommonSubexpression.cs" />
+    <Compile Include="service\SubexpressionService.cs" />
+    <Compile Include="subexpression\Subexpression.cs" />
     <Compile Include="service\ReversePolishNotationService.cs" />
     <Compile Include="tests\ParserServiceTest.cs" />
     <Compile Include="variable\IntVariable.cs" />

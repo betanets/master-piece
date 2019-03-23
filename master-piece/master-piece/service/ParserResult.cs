@@ -9,6 +9,6 @@ namespace master_piece.service
         public List<Lexeme> lexemesList = new List<Lexeme>();
         //TODO: initialize variablesList and subexpressionsList
         public List<AbstractVariable> variablesList = new List<AbstractVariable>();
-        public List<CommonSubexpression> subexpressionsList = new List<CommonSubexpression>();
+        public List<Subexpression> subexpressionsList = new List<Subexpression>();
     }
 }

@@ -54,6 +54,14 @@ namespace master_piece
             {
                 richTextBox_result.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
             }
+
+            richTextBox_result.AppendText("\n----------\nСписок подвыражений\n-----------\n");
+
+            List<Subexpression> subexpressions = SubexpressionService.createSubexpressionsList(reversePolishNotationLexemeList);
+            foreach (Subexpression subexpression in subexpressions)
+            {
+                richTextBox_result.AppendText(subexpression.ToString() + "\n");
+            }
         }
     }
 }
