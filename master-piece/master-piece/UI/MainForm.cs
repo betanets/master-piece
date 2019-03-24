@@ -1,6 +1,7 @@
 ﻿using master_piece.domain;
 using master_piece.lexeme;
 using master_piece.service;
+using master_piece.variable;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -38,30 +39,59 @@ namespace master_piece
             fuzzyVariablesList.ShowDialog();
         }
 
-        private void button_add_Click(object sender, EventArgs e)
+        private void button_process_Click(object sender, EventArgs e)
         {
-            ParserResult parserResult = ParserService.parse(textBox_expression.Text);
-            richTextBox_result.Clear();
-            foreach (Lexeme lexeme in parserResult.lexemesList)
+            richTextBox_log.Clear();
+
+            List<IntVariable> initIntVariables = new List<IntVariable>();
+            List<Subexpression> subexpressions = new List<Subexpression>();
+
+            foreach (DataGridViewRow dgvr in dataGridView_intVariables.Rows)
             {
-                richTextBox_result.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
+                if (dgvr.Index == dataGridView_expressions.NewRowIndex)
+                {
+                    break;
+                }
+                //TODO: add additional checkers
+                initIntVariables.Add(new IntVariable(dgvr.Cells[0].Value.ToString(), Convert.ToInt32(dgvr.Cells[1].Value.ToString())));
             }
 
-            richTextBox_result.AppendText("\n----------\nРезультаты представления в обратной польской записи\n-----------\n");
-
-            List <Lexeme> reversePolishNotationLexemeList = ReversePolishNotationService.createNotation(parserResult.lexemesList);
-            foreach (Lexeme lexeme in reversePolishNotationLexemeList)
+            int i = 1;
+            foreach (DataGridViewRow dgvr in dataGridView_expressions.Rows)
             {
-                richTextBox_result.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
-            }
+                if(dgvr.Index == dataGridView_expressions.NewRowIndex)
+                {
+                    break;
+                }
+                richTextBox_log.AppendText("----------Обработка выражения: " + dgvr.Cells[0].Value.ToString() + "----------------\n");
+                ParserResult parserResult = ParserService.parse(dgvr.Cells[0].Value.ToString());
 
-            richTextBox_result.AppendText("\n----------\nСписок подвыражений\n-----------\n");
+                foreach (Lexeme lexeme in parserResult.lexemesList)
+                {
+                    richTextBox_log.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
+                }
 
-            List<Subexpression> subexpressions = SubexpressionService.createSubexpressionsList(reversePolishNotationLexemeList);
-            foreach (Subexpression subexpression in subexpressions)
-            {
-                richTextBox_result.AppendText(subexpression.ToString() + "\n");
+                richTextBox_log.AppendText("\n----------\nРезультаты представления в обратной польской записи\n-----------\n");
+
+                List<Lexeme> reversePolishNotationLexemeList = ReversePolishNotationService.createNotation(parserResult.lexemesList);
+                foreach (Lexeme lexeme in reversePolishNotationLexemeList)
+                {
+                    richTextBox_log.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
+                }
+
+                richTextBox_log.AppendText("\n----------\nСписок подвыражений\n-----------\n");
+
+                subexpressions.AddRange(SubexpressionService.createSubexpressionsList(reversePolishNotationLexemeList, i));
+                foreach (Subexpression subexpression in subexpressions)
+                {
+                    richTextBox_log.AppendText(subexpression.ToString() + "\n");
+                }
+
+                i++;
             }
+            
+            
+            
         }
     }
 }

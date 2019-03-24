@@ -6,7 +6,7 @@ namespace master_piece.service
 {
     class SubexpressionService
     {
-        public static List<Subexpression> createSubexpressionsList(List<Lexeme> lexemes)
+        public static List<Subexpression> createSubexpressionsList(List<Lexeme> lexemes, int expressionLevel)
         {
             List<Subexpression> subexpressions = new List<Subexpression>();
             Stack<Subexpression> subexpressionsStack = new Stack<Subexpression>();
@@ -24,7 +24,7 @@ namespace master_piece.service
                     {
                         Lexeme lexemeSecond = lexemesStack.Pop();
                         Lexeme lexemeFirst = lexemesStack.Pop();
-                        Subexpression subexpression = new Subexpression(lexemeFirst, getOperationByLexeme(lex.lexemeText), lexemeSecond);
+                        Subexpression subexpression = new Subexpression(lexemeFirst, getOperationByLexeme(lex.lexemeText), lexemeSecond, expressionLevel);
                         subexpressions.Add(subexpression);
                         subexpressionsStack.Push(subexpression);
                     }
@@ -32,7 +32,7 @@ namespace master_piece.service
                     {
                         Subexpression subexpressionSecond = subexpressionsStack.Pop();
                         Subexpression subexpressionFirst = subexpressionsStack.Pop();
-                        Subexpression subexpression = new Subexpression(subexpressionFirst, getOperationByLexeme(lex.lexemeText), subexpressionSecond);
+                        Subexpression subexpression = new Subexpression(subexpressionFirst, getOperationByLexeme(lex.lexemeText), subexpressionSecond, expressionLevel);
                         subexpressions.Add(subexpression);
                         subexpressionsStack.Push(subexpression);
                     }

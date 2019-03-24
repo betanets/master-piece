@@ -12,20 +12,25 @@ namespace master_piece.service
         public Subexpression subexpressionFirst { get; }
         public Subexpression subexpressionSecond { get; }
 
+        //Expression's serial number in list
+        public int expressionLevel { get; }
+
         //Leaf subexpression
-        public Subexpression(Lexeme lexemeFirst, OperationEnum operation, Lexeme lexemeSecond)
+        public Subexpression(Lexeme lexemeFirst, OperationEnum operation, Lexeme lexemeSecond, int expressionLevel)
         {
             this.lexemeFirst = lexemeFirst;
             this.operation = operation;
             this.lexemeSecond = lexemeSecond;
+            this.expressionLevel = expressionLevel;
         }
 
         //Ordinary subexpression
-        public Subexpression(Subexpression subexpressionFirst, OperationEnum operation, Subexpression subexpressionSecond)
+        public Subexpression(Subexpression subexpressionFirst, OperationEnum operation, Subexpression subexpressionSecond, int expressionLevel)
         {
             this.subexpressionFirst = subexpressionFirst;
             this.operation = operation;
             this.subexpressionSecond = subexpressionSecond;
+            this.expressionLevel = expressionLevel;
         }
 
         //Is leaf expression (contains only lemexes and operation)

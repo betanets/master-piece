@@ -2,7 +2,7 @@
 {
     abstract class AbstractVariable
     {
-        private string name { get; set; }
-        private object value { get; set; }
+        protected string name { get; set; }
+        protected object value { get; set; }
     }
 }
