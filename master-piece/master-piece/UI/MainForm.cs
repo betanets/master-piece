@@ -53,7 +53,13 @@ namespace master_piece
                     break;
                 }
                 //TODO: add additional checkers
-                initIntVariables.Add(new IntVariable(dgvr.Cells[0].Value.ToString(), Convert.ToInt32(dgvr.Cells[1].Value.ToString())));
+                try
+                {
+                    initIntVariables.Add(new IntVariable(dgvr.Cells[0].Value.ToString(), Convert.ToInt32(dgvr.Cells[1].Value.ToString())));
+                } catch(Exception ex)
+                {
+
+                }
             }
 
             int i = 1;
@@ -63,7 +69,7 @@ namespace master_piece
                 {
                     break;
                 }
-                richTextBox_log.AppendText("----------Обработка выражения: " + dgvr.Cells[0].Value.ToString() + "----------------\n");
+                richTextBox_log.AppendText("\n\n----------Обработка выражения: " + dgvr.Cells[0].Value.ToString() + "----------------\n");
                 ParserResult parserResult = ParserService.parse(dgvr.Cells[0].Value.ToString());
 
                 foreach (Lexeme lexeme in parserResult.lexemesList)
@@ -81,17 +87,23 @@ namespace master_piece
 
                 richTextBox_log.AppendText("\n----------\nСписок подвыражений\n-----------\n");
 
-                subexpressions.AddRange(SubexpressionService.createSubexpressionsList(reversePolishNotationLexemeList, i));
-                foreach (Subexpression subexpression in subexpressions)
+                List<Subexpression> currentSubexpressions = SubexpressionService.createSubexpressionsList(reversePolishNotationLexemeList, i);
+                foreach (Subexpression subexpression in currentSubexpressions)
                 {
                     richTextBox_log.AppendText(subexpression.ToString() + "\n");
                 }
+                subexpressions.AddRange(currentSubexpressions);
 
                 i++;
             }
-            
-            
-            
+
+            List<Subexpression> duplicates = new List<Subexpression>();
+            richTextBox_log.AppendText("\n----------\nДубликаты подвыражений\n-----------\n");
+            duplicates.AddRange(DuplicateExpressionService.findDuplicates(subexpressions));
+            foreach (Subexpression d in duplicates)
+            {
+                richTextBox_log.AppendText(d.ToString() + "\n");
+            }
         }
     }
 }

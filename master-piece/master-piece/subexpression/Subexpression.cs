@@ -1,4 +1,5 @@
 ﻿using master_piece.lexeme;
+using System.Collections.Generic;
 using static master_piece.service.Operation;
 
 namespace master_piece.service
@@ -67,6 +68,56 @@ namespace master_piece.service
             else {
                 return "(" + subexpressionFirst.ToString() + " " + operation.ToString() + " " + subexpressionSecond.ToString() + ")";
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (GetType() != obj.GetType() || this == null || obj == null)
+            {
+                return false;
+            }
+            var compared = obj as Subexpression;
+
+            if (isLeaf() && compared.isLeaf())
+            {
+                //Comparison for leaf expressions
+                if (lexemeFirst.Equals(compared.lexemeFirst) && lexemeSecond.Equals(compared.lexemeSecond) && operation.Equals(compared.operation))
+                {
+                    return true;
+                }
+                return false;
+            }
+            else if (isMixed() && compared.isMixed())
+            {
+                //Comparison for mixed expressions
+                if (subexpressionFirst.Equals(compared.subexpressionFirst) && lexemeSecond.Equals(compared.lexemeSecond) && operation.Equals(compared.operation))
+                {
+                    return true;
+                }
+                return false;
+            }
+            else if(!isLeaf() && !isMixed() && !compared.isLeaf() && !compared.isMixed())
+            {
+                //Comparison for ordinary expressions
+                if(subexpressionFirst.Equals(compared.subexpressionFirst) && subexpressionSecond.Equals(compared.subexpressionSecond) && operation.Equals(compared.operation))
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -322050275;
+            hashCode = hashCode * -1521134295 + EqualityComparer<Lexeme>.Default.GetHashCode(lexemeFirst);
+            hashCode = hashCode * -1521134295 + operation.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Lexeme>.Default.GetHashCode(lexemeSecond);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Subexpression>.Default.GetHashCode(subexpressionFirst);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Subexpression>.Default.GetHashCode(subexpressionSecond);
+            hashCode = hashCode * -1521134295 + expressionLevel.GetHashCode();
+            return hashCode;
         }
     }
 }
