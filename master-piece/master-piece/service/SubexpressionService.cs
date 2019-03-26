@@ -36,6 +36,14 @@ namespace master_piece.service
                         subexpressions.Add(subexpression);
                         subexpressionsStack.Push(subexpression);
                     }
+                    else if(lexemesStack.Count == 1 && subexpressionsStack.Count == 1)
+                    {
+                        Subexpression subexpressionFirst = subexpressionsStack.Pop();
+                        Lexeme lexemeSecond = lexemesStack.Pop();
+                        Subexpression subexpression = new Subexpression(subexpressionFirst, getOperationByLexeme(lex.lexemeText), lexemeSecond, expressionLevel);
+                        subexpressions.Add(subexpression);
+                        subexpressionsStack.Push(subexpression);
+                    }
                 }
             }
 

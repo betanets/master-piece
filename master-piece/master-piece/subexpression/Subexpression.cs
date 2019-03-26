@@ -33,10 +33,25 @@ namespace master_piece.service
             this.expressionLevel = expressionLevel;
         }
 
+        //Mixed subexpression
+        public Subexpression(Subexpression subexpressionFirst, OperationEnum operation, Lexeme lexemeSecond, int expressionLevel)
+        {
+            this.subexpressionFirst = subexpressionFirst;
+            this.operation = operation;
+            this.lexemeSecond = lexemeSecond;
+            this.expressionLevel = expressionLevel;
+        }
+
         //Is leaf expression (contains only lemexes and operation)
         public bool isLeaf()
         {
             return lexemeFirst != null && lexemeSecond != null && subexpressionFirst == null && subexpressionSecond == null;
+        }
+
+        //Is mixed expression (contains 1 subexpression, 1 operation 1 lexeme) 
+        public bool isMixed()
+        {
+            return lexemeFirst == null && lexemeSecond != null && subexpressionFirst != null && subexpressionSecond == null;
         }
 
         public override string ToString()
@@ -45,8 +60,11 @@ namespace master_piece.service
             {
                 return "(" + lexemeFirst.lexemeText + " " + operation.ToString() + " " + lexemeSecond.lexemeText + ")";
             }
-            else
+            else if (isMixed())
             {
+                return "(" + subexpressionFirst.ToString() + " " + operation.ToString() + " " + lexemeSecond.lexemeText + ")";
+            }
+            else {
                 return "(" + subexpressionFirst.ToString() + " " + operation.ToString() + " " + subexpressionSecond.ToString() + ")";
             }
         }
