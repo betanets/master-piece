@@ -1,11 +1,5 @@
 ﻿using master_piece.lexeme;
-using master_piece.variable;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace master_piece.service
 {
@@ -37,7 +31,8 @@ namespace master_piece.service
         private static ParserResult parserResult;
 
         //TODO: need more research to determine correct parser
-        public static ParserResult parse(string expression)
+        //TODO: combine same parts with parseThenExpression
+        public static ParserResult parseIfExpression(string expression)
         {
             parserResult = new ParserResult();
             string symbolSavior = string.Empty;
@@ -181,6 +176,58 @@ namespace master_piece.service
             {
                 checkSymbolSavior(symbolSavior);
             }
+            return parserResult;
+        }
+
+        public static ParserResult parseThenExpression(string expression)
+        {
+            parserResult = new ParserResult();
+            string symbolSavior = string.Empty;
+
+            //Remove all whitespaces from expression
+            expression = Regex.Replace(expression, @"\s+", "");
+
+            //Parse expression
+            foreach (char c in expression)
+            {
+                switch (c)
+                {
+                    case '=':
+                        symbolSavior = checkSymbolSavior(symbolSavior);
+                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Assign, c.ToString()));
+                        break;
+                    case ',':
+                        symbolSavior = checkSymbolSavior(symbolSavior);
+                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Comma, c.ToString()));
+                        break;
+                }
+
+                if (isBigLetter(c) || isLittleLetter(c) || isNumber(c))
+                {
+                    if (symbolSavior.Length > 0)
+                    {
+                        symbolSavior += c;
+                        foreach (char sym in symbolSavior)
+                        {
+                            if (!isBigLetter(sym) && !isLittleLetter(sym) && !isNumber(sym))
+                            {
+                                parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                                symbolSavior = string.Empty;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        symbolSavior = c.ToString();
+                    }
+                }
+            }
+
+            if (symbolSavior.Length > 0)
+            {
+                checkSymbolSavior(symbolSavior);
+            }
+
             return parserResult;
         }
 

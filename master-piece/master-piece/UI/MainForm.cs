@@ -69,8 +69,10 @@ namespace master_piece
                 {
                     break;
                 }
-                richTextBox_log.AppendText("\n\n----------Обработка выражения: " + dgvr.Cells[0].Value.ToString() + "----------------\n");
-                ParserResult parserResult = ParserService.parse(dgvr.Cells[0].Value.ToString());
+
+                //Checking IF expression
+                richTextBox_log.AppendText("\n\n----------Обработка выражения ЕСЛИ: " + dgvr.Cells[0].Value.ToString() + "----------------\n");
+                ParserResult parserResult = ParserService.parseIfExpression(dgvr.Cells[0].Value.ToString());
 
                 foreach (Lexeme lexeme in parserResult.lexemesList)
                 {
@@ -93,6 +95,16 @@ namespace master_piece
                     richTextBox_log.AppendText(subexpression.ToString() + "\n");
                 }
                 subexpressions.AddRange(currentSubexpressions);
+
+
+                //Checking THEN expression
+                richTextBox_log.AppendText("\n\n----------Обработка выражения ТО: " + dgvr.Cells[1].Value.ToString() + "----------------\n");
+                ParserResult thenParserResult = ParserService.parseThenExpression(dgvr.Cells[1].Value.ToString());
+
+                foreach (Lexeme lexeme in thenParserResult.lexemesList)
+                {
+                    richTextBox_log.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
+                }
 
                 i++;
             }

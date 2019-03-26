@@ -14,6 +14,8 @@
         MoreOrEqual,
         Less,
         LessOrEqual,
+        //Delimiter
+        Comma,
         //Values
         IntValue,
         FuzzyValue,

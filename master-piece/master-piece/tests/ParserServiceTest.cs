@@ -11,7 +11,7 @@ namespace master_piece.tests
         public void identifierTest()
         {
             string expression = "argument71a4";
-            var result = ParserService.parse(expression);
+            var result = ParserService.parseIfExpression(expression);
 
             Assert.AreEqual(result.lexemesList[0].lexemeType, LexemeType.Identifier);
             Assert.AreEqual(result.lexemesList[0].lexemeText, "argument71a4");
@@ -21,7 +21,7 @@ namespace master_piece.tests
         public void incorrentIdentifierTest()
         {
             string expression = "312f24wg";
-            var result = ParserService.parse(expression);
+            var result = ParserService.parseIfExpression(expression);
 
             Assert.AreEqual(result.lexemesList[0].lexemeType, LexemeType.Error);
             Assert.AreEqual(result.lexemesList[0].lexemeText, "312f24wg");
@@ -31,7 +31,7 @@ namespace master_piece.tests
         public void intValueTest()
         {
             string expression = "77008412";
-            var result = ParserService.parse(expression);
+            var result = ParserService.parseIfExpression(expression);
 
             Assert.AreEqual(result.lexemesList[0].lexemeType, LexemeType.IntValue);
             Assert.AreEqual(result.lexemesList[0].lexemeText, "77008412");
@@ -41,7 +41,7 @@ namespace master_piece.tests
         public void AnB()
         {
             string expression = "(a && b)";
-            var result = ParserService.parse(expression);
+            var result = ParserService.parseIfExpression(expression);
 
             Assert.AreEqual(result.lexemesList[0].lexemeType, LexemeType.OpenBracket);
             Assert.AreEqual(result.lexemesList[0].lexemeText, "(");
@@ -63,7 +63,7 @@ namespace master_piece.tests
         public void tripleOperations()
         {
             string expression = "(a1 == 1) && ((a2 == 4) || (x >= 251))";
-            var result = ParserService.parse(expression);
+            var result = ParserService.parseIfExpression(expression);
 
             Assert.AreEqual(result.lexemesList[0].lexemeType, LexemeType.OpenBracket);
             Assert.AreEqual(result.lexemesList[0].lexemeText, "(");
@@ -127,7 +127,7 @@ namespace master_piece.tests
         public void expressionWithWhitespacesTest()
         {
             string expression = "      identifierOne         !=  ident1fier ";
-            var result = ParserService.parse(expression);
+            var result = ParserService.parseIfExpression(expression);
 
             Assert.AreEqual(result.lexemesList[0].lexemeType, LexemeType.Identifier);
             Assert.AreEqual(result.lexemesList[0].lexemeText, "identifierOne");
