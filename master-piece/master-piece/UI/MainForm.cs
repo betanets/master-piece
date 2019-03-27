@@ -43,23 +43,21 @@ namespace master_piece
         {
             richTextBox_log.Clear();
 
-            List<IntVariable> initIntVariables = new List<IntVariable>();
+            List<IntVariable> intVariablesStorage = new List<IntVariable>();
             List<Subexpression> subexpressions = new List<Subexpression>();
 
             foreach (DataGridViewRow dgvr in dataGridView_intVariables.Rows)
             {
-                if (dgvr.Index == dataGridView_expressions.NewRowIndex)
+                if (dgvr.Index == dataGridView_intVariables.NewRowIndex)
                 {
                     break;
                 }
-                //TODO: add additional checkers
-                try
-                {
-                    initIntVariables.Add(new IntVariable(dgvr.Cells[0].Value.ToString(), Convert.ToInt32(dgvr.Cells[1].Value.ToString())));
-                } catch(Exception ex)
-                {
 
-                }
+                //TODO: add additional checkers
+                richTextBox_log.AppendText("\n\n----------Ввод переменных:----------------\n");
+                IntVariable intVariable = new IntVariable(dgvr.Cells[0].Value.ToString(), Convert.ToInt32(dgvr.Cells[1].Value.ToString()));
+                intVariablesStorage.Add(intVariable);
+                richTextBox_log.AppendText("Переменная: " + intVariable.name + ", тип: " + intVariable.value + "\n");
             }
 
             int i = 1;
@@ -79,6 +77,23 @@ namespace master_piece
                     richTextBox_log.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
                 }
 
+                SemanticResult semanticResult = SemanticService.makeSemanticAnalysis(parserResult, intVariablesStorage);
+                richTextBox_log.AppendText("\n----------\nРезультаты семантического анализа\n-----------\n");
+                if (!semanticResult.isCorrect)
+                {
+                    foreach (string str in semanticResult.output)
+                    {
+                        richTextBox_log.AppendText(str);
+                    }
+
+                    richTextBox_log.AppendText("\n----------\nНайдено некорректное выражение. Работа анализатора остановлена\n");
+                    return;
+                } else
+                {
+                    richTextBox_log.AppendText("Семантический анализ успешно выполнен\n");
+                }
+
+                //We should continue only if semantic analysis is correct
                 richTextBox_log.AppendText("\n----------\nРезультаты представления в обратной польской записи\n-----------\n");
 
                 List<Lexeme> reversePolishNotationLexemeList = ReversePolishNotationService.createNotation(parserResult.lexemesList);

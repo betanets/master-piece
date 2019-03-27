@@ -93,6 +93,8 @@
     <Compile Include="lexeme\Lexeme.cs" />
     <Compile Include="lexeme\LexemeType.cs" />
     <Compile Include="service\DuplicateExpressionService.cs" />
+    <Compile Include="service\SemanticResult.cs" />
+    <Compile Include="service\SemanticService.cs" />
     <Compile Include="service\SubexpressionService.cs" />
     <Compile Include="subexpression\Subexpression.cs" />
     <Compile Include="service\ReversePolishNotationService.cs" />
