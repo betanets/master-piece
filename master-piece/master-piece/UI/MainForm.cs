@@ -121,6 +121,14 @@ namespace master_piece
                     richTextBox_log.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
                 }
 
+                SemanticService.assignVariables(thenParserResult, intVariablesStorage);
+
+                richTextBox_log.AppendText("\n\n----------Текущие значения переменных:----------------\n");
+                foreach(IntVariable iv in intVariablesStorage)
+                {
+                    richTextBox_log.AppendText("Переменная: " + iv.name + ", тип: " + iv.value + "\n");
+                }
+
                 i++;
             }
 
