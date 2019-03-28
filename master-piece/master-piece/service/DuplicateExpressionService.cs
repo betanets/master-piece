@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using master_piece.variable;
+using System.Collections.Generic;
 
 namespace master_piece.service
 {
     class DuplicateExpressionService
     {
-        public static List<Subexpression> findDuplicates(List<Subexpression> expressions)
+        public static void markDuplicates(List<Subexpression> expressions, List<IntVariable> intVariablesStorage)
         {
-            List<Subexpression> duplicates = new List<Subexpression>();
             List<Subexpression> deduplicatedExpressions = new List<Subexpression>();
 
             foreach(Subexpression exp in expressions)
@@ -16,9 +16,10 @@ namespace master_piece.service
                 {
                     if(exp.Equals(dde))
                     {
-                        duplicates.Add(exp);
+                        dde.mustBePrecalculated = true;
+                        exp.mustBePrecalculated = true;
                         duplicateFound = true;
-                        break;
+                        //No need to break: we should add all same expressions with different levels
                     }
                 }
                 if(!duplicateFound)
@@ -27,7 +28,29 @@ namespace master_piece.service
                 }
             }
 
-            return duplicates;
+            //Checking semantic and filtering duplicates: if variable already reassigned, we should NOT add subexpression into duplicates
+            //Backward traverse used only for correct remove
+            foreach (Subexpression exp in expressions)
+            {
+                if (exp.mustBePrecalculated == true)
+                {
+                    List<IntVariable> intVariables = SemanticService.getIntVariablesBySubexpression(exp, intVariablesStorage);
+                    bool mustBeFiltered = false;
+                    foreach (IntVariable iv in intVariables)
+                    {
+                        if (iv.firstReassignmentLevel != -1 && iv.firstReassignmentLevel < exp.expressionLevel)
+                        {
+                            mustBeFiltered = true;
+                            break;
+                        }
+                    }
+
+                    if (mustBeFiltered)
+                    {
+                        exp.mustBePrecalculated = false;
+                    }
+                }
+            }
         }
     }
 }

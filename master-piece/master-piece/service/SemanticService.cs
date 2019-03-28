@@ -41,7 +41,7 @@ namespace master_piece.service
 
         //TODO: work with fuzzy variables
         //TODO: possible move to another or separate sevice
-        public static void assignVariables(ParserResult parserResult, List<IntVariable> intVariableStorage)
+        public static void assignVariables(ParserResult parserResult, List<IntVariable> intVariableStorage, int subexpressionLevel)
         {
             //List<IntVariable> intVariables = new List<IntVariable>();
 
@@ -65,6 +65,11 @@ namespace master_piece.service
                             if (iv.name.Equals(identifierSavior.lexemeText))
                             {
                                 iv.value = Convert.ToInt32(lex.lexemeText);
+                                //Setting reassignment level to avoid marking some expressions as duplicates
+                                if(iv.firstReassignmentLevel == -1)
+                                {
+                                    iv.firstReassignmentLevel = subexpressionLevel;
+                                }
                                 assignedToExistingVariable = true;
                                 break;
                             }
@@ -76,6 +81,57 @@ namespace master_piece.service
                     }
                 }
             }
+        }
+
+        public static IntVariable getIntVariableByLexeme(Lexeme lexeme, List<IntVariable> intVariableStorage)
+        {
+            if(lexeme == null || !LexemeTypes.IsIdentifier(lexeme.lexemeType))
+            {
+                return null;
+            }
+
+            foreach(IntVariable iv in intVariableStorage)
+            {
+                if (iv.name.Equals(lexeme.lexemeText))
+                {
+                    return iv;
+                }
+            }
+            return null;
+        }
+
+        public static List<IntVariable> getIntVariablesBySubexpression(Subexpression subexpression, List<IntVariable> intVariableStorage)
+        {
+            List<IntVariable> intVariables = new List<IntVariable>();
+            if (subexpression.isLeaf())
+            {
+                IntVariable ivFirst = getIntVariableByLexeme(subexpression.lexemeFirst, intVariableStorage);
+                if (ivFirst != null)
+                {
+                    intVariables.Add(ivFirst);
+                }
+                IntVariable ivSecond = getIntVariableByLexeme(subexpression.lexemeSecond, intVariableStorage);
+                if (ivSecond != null)
+                {
+                    intVariables.Add(ivSecond);
+                }
+            }
+            else if (subexpression.isMixed())
+            {
+                intVariables.AddRange(getIntVariablesBySubexpression(subexpression.subexpressionFirst, intVariableStorage));
+                IntVariable ivSecond = getIntVariableByLexeme(subexpression.lexemeSecond, intVariableStorage);
+                if (ivSecond != null)
+                {
+                    intVariables.Add(ivSecond);
+                }
+            }
+            else
+            {
+                intVariables.AddRange(getIntVariablesBySubexpression(subexpression.subexpressionFirst, intVariableStorage));
+                intVariables.AddRange(getIntVariablesBySubexpression(subexpression.subexpressionSecond, intVariableStorage));
+            }
+
+            return intVariables;
         }
     }
 }

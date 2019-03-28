@@ -16,6 +16,8 @@ namespace master_piece.service
         //Expression's serial number in list
         public int expressionLevel { get; }
 
+        public bool mustBePrecalculated { get; set; } = false;
+
         //Leaf subexpression
         public Subexpression(Lexeme lexemeFirst, OperationEnum operation, Lexeme lexemeSecond, int expressionLevel)
         {

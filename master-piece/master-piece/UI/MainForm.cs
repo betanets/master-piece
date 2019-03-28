@@ -46,6 +46,7 @@ namespace master_piece
             List<IntVariable> intVariablesStorage = new List<IntVariable>();
             List<Subexpression> subexpressions = new List<Subexpression>();
 
+            richTextBox_log.AppendText("\n\n----------Ввод переменных:----------------\n");
             foreach (DataGridViewRow dgvr in dataGridView_intVariables.Rows)
             {
                 if (dgvr.Index == dataGridView_intVariables.NewRowIndex)
@@ -54,7 +55,6 @@ namespace master_piece
                 }
 
                 //TODO: add additional checkers
-                richTextBox_log.AppendText("\n\n----------Ввод переменных:----------------\n");
                 IntVariable intVariable = new IntVariable(dgvr.Cells[0].Value.ToString(), Convert.ToInt32(dgvr.Cells[1].Value.ToString()));
                 intVariablesStorage.Add(intVariable);
                 richTextBox_log.AppendText("Переменная: " + intVariable.name + ", тип: " + intVariable.value + "\n");
@@ -121,23 +121,25 @@ namespace master_piece
                     richTextBox_log.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
                 }
 
-                SemanticService.assignVariables(thenParserResult, intVariablesStorage);
+                SemanticService.assignVariables(thenParserResult, intVariablesStorage, i);
 
                 richTextBox_log.AppendText("\n\n----------Текущие значения переменных:----------------\n");
                 foreach(IntVariable iv in intVariablesStorage)
                 {
-                    richTextBox_log.AppendText("Переменная: " + iv.name + ", тип: " + iv.value + "\n");
+                    richTextBox_log.AppendText("Переменная: " + iv.name + ", тип: " + iv.value + ", переопределена в выражении: " + iv.firstReassignmentLevel + "\n");
                 }
 
                 i++;
             }
 
-            List<Subexpression> duplicates = new List<Subexpression>();
             richTextBox_log.AppendText("\n----------\nДубликаты подвыражений\n-----------\n");
-            duplicates.AddRange(DuplicateExpressionService.findDuplicates(subexpressions));
-            foreach (Subexpression d in duplicates)
+            DuplicateExpressionService.markDuplicates(subexpressions, intVariablesStorage);
+            foreach (Subexpression exp in subexpressions)
             {
-                richTextBox_log.AppendText(d.ToString() + "\n");
+                if (exp.mustBePrecalculated)
+                {
+                    richTextBox_log.AppendText(exp.ToString() + ", уровень: " + exp.expressionLevel + "\n");
+                }
             }
         }
     }
