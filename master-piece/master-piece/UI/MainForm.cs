@@ -57,7 +57,7 @@ namespace master_piece
                 //TODO: add additional checkers
                 IntVariable intVariable = new IntVariable(dgvr.Cells[0].Value.ToString(), Convert.ToInt32(dgvr.Cells[1].Value.ToString()));
                 intVariablesStorage.Add(intVariable);
-                richTextBox_log.AppendText("Переменная: " + intVariable.name + ", тип: " + intVariable.value + "\n");
+                richTextBox_log.AppendText("Переменная: " + intVariable.name + ", значение: " + intVariable.value + "\n");
             }
 
             int i = 1;
