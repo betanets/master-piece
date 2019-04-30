@@ -1,6 +1,7 @@
 ﻿using master_piece.domain;
 using master_piece.lexeme;
 using master_piece.service;
+using master_piece.subexpression;
 using master_piece.variable;
 using SQLite;
 using System;
@@ -14,86 +15,64 @@ namespace master_piece
     {
         private SQLiteConnection dbConnection;
 
+        List<IntVariable> intVariablesStorage = new List<IntVariable>();
+        List<Expression> expressionsStorage = new List<Expression>();
+
+        List<Subexpression> subexpressions = new List<Subexpression>();
+
         public MainForm()
         {
             //TODO: move DB connection to separate file
             var databasePath = Path.Combine(Environment.CurrentDirectory, "mp.db"); //TODO: change path later
-
+            //Preparing DB commection
             dbConnection = new SQLiteConnection(databasePath);
+
+            //Creating tables IF NOT EXISTS
             dbConnection.CreateTable<LinguisticVariable>();
             dbConnection.CreateTable<FuzzyVariable>();
             dbConnection.CreateTable<FuzzyVariableValue>();
 
-
             InitializeComponent();
         }
 
-        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Method to clear temporary variables
+        /// </summary>
+        private void clearWorkplace()
         {
-            Application.Exit();
-        }
-
-        private void нечёткиеПеременныеToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VariablesList fuzzyVariablesList = new VariablesList(dbConnection);
-            fuzzyVariablesList.ShowDialog();
+            richTextBox_log.Clear();
+            intVariablesStorage.Clear();
+            expressionsStorage.Clear();
+            subexpressions.Clear();
         }
 
         private void button_process_Click(object sender, EventArgs e)
         {
-            richTextBox_log.Clear();
+            clearWorkplace();
 
-            List<IntVariable> intVariablesStorage = new List<IntVariable>();
-            List<Subexpression> subexpressions = new List<Subexpression>();
+            //Init int variables
+            intVariablesStorage.AddRange(
+                InitVariablesService.initIntVariables(dataGridView_intVariables.Rows, dataGridView_intVariables.NewRowIndex, richTextBox_log)
+            );
 
-            richTextBox_log.AppendText("\n\n----------Ввод переменных:----------------\n");
-            foreach (DataGridViewRow dgvr in dataGridView_intVariables.Rows)
+            //Init expressions
+            expressionsStorage.AddRange(
+                InitExpressionsService.initExpressions(dataGridView_expressions.Rows, dataGridView_expressions.NewRowIndex, richTextBox_log)
+            );
+
+            foreach (Expression expression in expressionsStorage)
             {
-                if (dgvr.Index == dataGridView_intVariables.NewRowIndex)
-                {
-                    break;
-                }
-
-                //TODO: add additional checkers
-                IntVariable intVariable = new IntVariable(dgvr.Cells[0].Value.ToString(), Convert.ToInt32(dgvr.Cells[1].Value.ToString()));
-                intVariablesStorage.Add(intVariable);
-                richTextBox_log.AppendText("Переменная: " + intVariable.name + ", значение: " + intVariable.value + "\n");
-            }
-
-            int i = 1;
-            foreach (DataGridViewRow dgvr in dataGridView_expressions.Rows)
-            {
-                if(dgvr.Index == dataGridView_expressions.NewRowIndex)
-                {
-                    break;
-                }
-
                 //Checking IF expression
-                richTextBox_log.AppendText("\n\n----------Обработка выражения ЕСЛИ: " + dgvr.Cells[0].Value.ToString() + "----------------\n");
-                ParserResult parserResult = ParserService.parseIfExpression(dgvr.Cells[0].Value.ToString());
-
-                foreach (Lexeme lexeme in parserResult.lexemesList)
-                {
-                    richTextBox_log.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
-                }
+                ParserResult parserResult = ParserService.parseIfExpression(expression.ifExpressionText);
+                LoggerService.logParser(richTextBox_log, expression.ifExpressionText, parserResult.lexemesList);
 
                 SemanticResult semanticResult = SemanticService.makeSemanticAnalysis(parserResult, intVariablesStorage);
-                richTextBox_log.AppendText("\n----------\nРезультаты семантического анализа\n-----------\n");
-                if (!semanticResult.isCorrect)
-                {
-                    foreach (string str in semanticResult.output)
-                    {
-                        richTextBox_log.AppendText(str);
-                    }
-
-                    richTextBox_log.AppendText("\n----------\nНайдено некорректное выражение. Работа анализатора остановлена\n");
-                    return;
-                } else
-                {
-                    richTextBox_log.AppendText("Семантический анализ успешно выполнен\n");
-                }
+                LoggerService.logSemantic(richTextBox_log, semanticResult);
 
                 //We should continue only if semantic analysis is correct
+                if (!semanticResult.isCorrect) return;
+                
+
                 richTextBox_log.AppendText("\n----------\nРезультаты представления в обратной польской записи\n-----------\n");
 
                 List<Lexeme> reversePolishNotationLexemeList = ReversePolishNotationService.createNotation(parserResult.lexemesList);
@@ -104,7 +83,7 @@ namespace master_piece
 
                 richTextBox_log.AppendText("\n----------\nСписок подвыражений\n-----------\n");
 
-                List<Subexpression> currentSubexpressions = SubexpressionService.createSubexpressionsList(reversePolishNotationLexemeList, i);
+                List<Subexpression> currentSubexpressions = SubexpressionService.createSubexpressionsList(reversePolishNotationLexemeList, expression.expressionLevel);
                 foreach (Subexpression subexpression in currentSubexpressions)
                 {
                     richTextBox_log.AppendText(subexpression.ToString() + "\n");
@@ -113,23 +92,21 @@ namespace master_piece
 
 
                 //Checking THEN expression
-                richTextBox_log.AppendText("\n\n----------Обработка выражения ТО: " + dgvr.Cells[1].Value.ToString() + "----------------\n");
-                ParserResult thenParserResult = ParserService.parseThenExpression(dgvr.Cells[1].Value.ToString());
+                richTextBox_log.AppendText("\n\n----------Обработка выражения ТО: " + expression.thenExpressionText + "----------------\n");
+                ParserResult thenParserResult = ParserService.parseThenExpression(expression.thenExpressionText);
 
                 foreach (Lexeme lexeme in thenParserResult.lexemesList)
                 {
                     richTextBox_log.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
                 }
 
-                SemanticService.assignVariables(thenParserResult, intVariablesStorage, i);
+                SemanticService.assignVariables(thenParserResult, intVariablesStorage, expression.expressionLevel);
 
                 richTextBox_log.AppendText("\n\n----------Текущие значения переменных:----------------\n");
                 foreach(IntVariable iv in intVariablesStorage)
                 {
                     richTextBox_log.AppendText("Переменная: " + iv.name + ", тип: " + iv.value + ", переопределена в выражении: " + iv.firstReassignmentLevel + "\n");
                 }
-
-                i++;
             }
 
             richTextBox_log.AppendText("\n----------\nДубликаты подвыражений\n-----------\n");
@@ -141,6 +118,17 @@ namespace master_piece
                     richTextBox_log.AppendText(exp.ToString() + ", уровень: " + exp.expressionLevel + "\n");
                 }
             }
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void нечёткиеПеременныеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VariablesList fuzzyVariablesList = new VariablesList(dbConnection);
+            fuzzyVariablesList.ShowDialog();
         }
     }
 }

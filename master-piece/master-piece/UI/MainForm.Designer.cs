@@ -37,12 +37,13 @@
             this.label_log = new System.Windows.Forms.Label();
             this.dataGridView_expressions = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.ifExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.thenExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView_intVariables = new System.Windows.Forms.DataGridView();
             this.identifier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.identifierValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ifExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.thenExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.elseExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_expressions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_intVariables)).BeginInit();
@@ -114,7 +115,8 @@
             this.dataGridView_expressions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_expressions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ifExpression,
-            this.thenExpression});
+            this.thenExpression,
+            this.elseExpression});
             this.dataGridView_expressions.Location = new System.Drawing.Point(20, 232);
             this.dataGridView_expressions.Name = "dataGridView_expressions";
             this.dataGridView_expressions.RowHeadersVisible = false;
@@ -129,18 +131,6 @@
             this.label1.Size = new System.Drawing.Size(113, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "Введите выражения:";
-            // 
-            // ifExpression
-            // 
-            this.ifExpression.HeaderText = "Если";
-            this.ifExpression.Name = "ifExpression";
-            this.ifExpression.Width = 500;
-            // 
-            // thenExpression
-            // 
-            this.thenExpression.HeaderText = "то";
-            this.thenExpression.Name = "thenExpression";
-            this.thenExpression.Width = 250;
             // 
             // label2
             // 
@@ -175,6 +165,24 @@
             this.identifierValue.HeaderText = "Значение";
             this.identifierValue.Name = "identifierValue";
             this.identifierValue.Width = 300;
+            // 
+            // ifExpression
+            // 
+            this.ifExpression.HeaderText = "Если";
+            this.ifExpression.Name = "ifExpression";
+            this.ifExpression.Width = 400;
+            // 
+            // thenExpression
+            // 
+            this.thenExpression.HeaderText = "то";
+            this.thenExpression.Name = "thenExpression";
+            this.thenExpression.Width = 175;
+            // 
+            // elseExpression
+            // 
+            this.elseExpression.HeaderText = "иначе";
+            this.elseExpression.Name = "elseExpression";
+            this.elseExpression.Width = 175;
             // 
             // MainForm
             // 
@@ -212,12 +220,13 @@
         private System.Windows.Forms.Label label_log;
         private System.Windows.Forms.DataGridView dataGridView_expressions;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ifExpression;
-        private System.Windows.Forms.DataGridViewTextBoxColumn thenExpression;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView_intVariables;
         private System.Windows.Forms.DataGridViewTextBoxColumn identifier;
         private System.Windows.Forms.DataGridViewTextBoxColumn identifierValue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ifExpression;
+        private System.Windows.Forms.DataGridViewTextBoxColumn thenExpression;
+        private System.Windows.Forms.DataGridViewTextBoxColumn elseExpression;
     }
 }
 
