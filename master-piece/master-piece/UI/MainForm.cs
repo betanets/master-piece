@@ -64,60 +64,36 @@ namespace master_piece
             {
                 //Checking IF expression
                 ParserResult parserResult = ParserService.parseIfExpression(expression.ifExpressionText);
-                LoggerService.logParser(richTextBox_log, expression.ifExpressionText, parserResult.lexemesList);
+                LoggerService.logIfParser(richTextBox_log, expression.ifExpressionText, parserResult.lexemesList);
 
+                //Checking semantic
                 SemanticResult semanticResult = SemanticService.makeSemanticAnalysis(parserResult, intVariablesStorage);
                 LoggerService.logSemantic(richTextBox_log, semanticResult);
 
-                //We should continue only if semantic analysis is correct
+                //Next steps are available only if semantic analysis is correct
                 if (!semanticResult.isCorrect) return;
                 
-
-                richTextBox_log.AppendText("\n----------\nРезультаты представления в обратной польской записи\n-----------\n");
-
+                //Sorting by reverse polish notation
                 List<Lexeme> reversePolishNotationLexemeList = ReversePolishNotationService.createNotation(parserResult.lexemesList);
-                foreach (Lexeme lexeme in reversePolishNotationLexemeList)
-                {
-                    richTextBox_log.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
-                }
+                LoggerService.logReversePolishNotation(richTextBox_log, reversePolishNotationLexemeList);
 
-                richTextBox_log.AppendText("\n----------\nСписок подвыражений\n-----------\n");
-
+                //Creating subexpressions
                 List<Subexpression> currentSubexpressions = SubexpressionService.createSubexpressionsList(reversePolishNotationLexemeList, expression.expressionLevel);
-                foreach (Subexpression subexpression in currentSubexpressions)
-                {
-                    richTextBox_log.AppendText(subexpression.ToString() + "\n");
-                }
+                LoggerService.logSubexpressions(richTextBox_log, currentSubexpressions);
                 subexpressions.AddRange(currentSubexpressions);
 
-
                 //Checking THEN expression
-                richTextBox_log.AppendText("\n\n----------Обработка выражения ТО: " + expression.thenExpressionText + "----------------\n");
                 ParserResult thenParserResult = ParserService.parseThenExpression(expression.thenExpressionText);
-
-                foreach (Lexeme lexeme in thenParserResult.lexemesList)
-                {
-                    richTextBox_log.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
-                }
-
+                LoggerService.logThenParser(richTextBox_log, expression.thenExpressionText, parserResult.lexemesList);
+                
+                //Variable assignment
                 SemanticService.assignVariables(thenParserResult, intVariablesStorage, expression.expressionLevel);
-
-                richTextBox_log.AppendText("\n\n----------Текущие значения переменных:----------------\n");
-                foreach(IntVariable iv in intVariablesStorage)
-                {
-                    richTextBox_log.AppendText("Переменная: " + iv.name + ", тип: " + iv.value + ", переопределена в выражении: " + iv.firstReassignmentLevel + "\n");
-                }
+                LoggerService.logAssignedVariables(richTextBox_log, intVariablesStorage);
             }
 
-            richTextBox_log.AppendText("\n----------\nДубликаты подвыражений\n-----------\n");
+            //Marking duplicates
             DuplicateExpressionService.markDuplicates(subexpressions, intVariablesStorage);
-            foreach (Subexpression exp in subexpressions)
-            {
-                if (exp.mustBePrecalculated)
-                {
-                    richTextBox_log.AppendText(exp.ToString() + ", уровень: " + exp.expressionLevel + "\n");
-                }
-            }
+            LoggerService.logDuplicates(richTextBox_log, subexpressions);
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)

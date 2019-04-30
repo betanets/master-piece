@@ -36,12 +36,12 @@ namespace master_piece.service
         }
 
         /// <summary>
-        /// Parser service logging method
+        /// Parser service logging method for IF expressions
         /// </summary>
         /// <param name="loggerComponent">Log output component</param>
         /// <param name="expression">Expression parsed by service</param>
         /// <param name="lexemesList">List of lexemes obtained using the service</param>
-        public static void logParser(RichTextBox loggerComponent, string expression, List<Lexeme> lexemesList)
+        public static void logIfParser(RichTextBox loggerComponent, string expression, List<Lexeme> lexemesList)
         {
             loggerComponent.AppendText("\n\n----------Обработка выражения ЕСЛИ: " + expression + "----------------\n");
             foreach (Lexeme lexeme in lexemesList)
@@ -50,6 +50,26 @@ namespace master_piece.service
             }
         }
 
+        /// <summary>
+        /// Parser service logging method for THEN expressions
+        /// </summary>
+        /// <param name="loggerComponent">Log output component</param>
+        /// <param name="expression">Expression parsed by service</param>
+        /// <param name="lexemesList">List of lexemes obtained using the service</param>
+        public static void logThenParser(RichTextBox loggerComponent, string expression, List<Lexeme> lexemesList)
+        {
+            loggerComponent.AppendText("\n\n----------Обработка выражения ТО: " + expression + "----------------\n");
+            foreach (Lexeme lexeme in lexemesList)
+            {
+                loggerComponent.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
+            }
+        }
+
+        /// <summary>
+        /// Semantic analysis result logging method
+        /// </summary>
+        /// <param name="loggerComponent">Log output component</param>
+        /// <param name="semanticResult">Semantic analysis result</param>
         public static void logSemantic(RichTextBox loggerComponent, SemanticResult semanticResult)
         {
             loggerComponent.AppendText("\n----------\nРезультаты семантического анализа\n-----------\n");
@@ -65,6 +85,67 @@ namespace master_piece.service
             else
             {
                 loggerComponent.AppendText("Семантический анализ успешно выполнен\n");
+            }
+        }
+
+        /// <summary>
+        /// Reverse polish notation logging method
+        /// </summary>
+        /// <param name="loggerComponent">Log output component</param>
+        /// <param name="reversePolishNotationResult">Reverse polish notation sorting result</param>
+        public static void logReversePolishNotation(RichTextBox loggerComponent, List<Lexeme> reversePolishNotationResult)
+        {
+            loggerComponent.AppendText("\n----------\nРезультаты представления в обратной польской записи\n-----------\n");
+            foreach (Lexeme lexeme in reversePolishNotationResult)
+            {
+                loggerComponent.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
+            }
+        }
+
+        /// <summary>
+        /// Subexpressions logging method
+        /// </summary>
+        /// <param name="loggerComponent">Log output component</param>
+        /// <param name="subexpressions">List of subexpressions obtained by service</param>
+        public static void logSubexpressions(RichTextBox loggerComponent, List<Subexpression> subexpressions)
+        {
+            loggerComponent.AppendText("\n----------\nСписок подвыражений\n-----------\n");
+
+            foreach (Subexpression subexpression in subexpressions)
+            {
+                loggerComponent.AppendText(subexpression.ToString() + "\n");
+            }
+        }
+
+        /// <summary>
+        /// Variables list logging method
+        /// </summary>
+        /// <param name="loggerComponent">Log output component</param>
+        /// <param name="intVariables">List of integer variables</param>
+        public static void logAssignedVariables(RichTextBox loggerComponent, List<IntVariable> intVariables)
+        {
+            loggerComponent.AppendText("\n\n----------Текущие значения переменных:----------------\n");
+            foreach (IntVariable iv in intVariables)
+            {
+                loggerComponent.AppendText("Переменная: " + iv.name + ", тип: " + iv.value + ", переопределена в выражении: " + iv.firstReassignmentLevel + "\n");
+            }
+        }
+
+        /// <summary>
+        /// Duplicates logging method
+        /// </summary>
+        /// <param name="loggerComponent">Log output component</param>
+        /// <param name="subexpressions">List of all subexpressions</param>
+        public static void logDuplicates(RichTextBox loggerComponent, List<Subexpression> subexpressions)
+        {
+            loggerComponent.AppendText("\n----------\nДубликаты подвыражений\n-----------\n");
+
+            foreach (Subexpression exp in subexpressions)
+            {
+                if (exp.mustBePrecalculated)
+                {
+                    loggerComponent.AppendText(exp.ToString() + ", уровень: " + exp.expressionLevel + "\n");
+                }
             }
         }
     }
