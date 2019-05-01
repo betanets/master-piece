@@ -148,5 +148,20 @@ namespace master_piece.service
                 }
             }
         }
+
+        /// <summary>
+        /// Subexpressions values logging method
+        /// </summary>
+        /// <param name="loggerComponent"></param>
+        /// <param name="subexpressions"></param>
+        public static void logSubexpressionsValues(RichTextBox loggerComponent, List<Subexpression> subexpressions)
+        {
+            loggerComponent.AppendText("\n----------\nЗначения подвыражений\n-----------\n");
+
+            foreach (Subexpression exp in subexpressions)
+            {
+                loggerComponent.AppendText(exp.ToString() + ", значение: " + exp.value + "\n");
+            }
+        }
     }
 }

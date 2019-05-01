@@ -1,4 +1,5 @@
 ﻿using master_piece.lexeme;
+using System;
 using System.Collections.Generic;
 using static master_piece.service.Operation;
 
@@ -17,6 +18,11 @@ namespace master_piece.service
         public int expressionLevel { get; }
 
         public bool mustBePrecalculated { get; set; } = false;
+
+        /// <summary>
+        /// Expression's value. Remains null until calculated
+        /// </summary>
+        public bool? value = null;
 
         //Leaf subexpression
         public Subexpression(Lexeme lexemeFirst, OperationEnum operation, Lexeme lexemeSecond, int expressionLevel)

@@ -94,6 +94,13 @@ namespace master_piece
             //Marking duplicates
             DuplicateExpressionService.markDuplicates(subexpressions, intVariablesStorage);
             LoggerService.logDuplicates(richTextBox_log, subexpressions);
+
+            //Calculating subexpressions
+            foreach (Subexpression subexpression in subexpressions)
+            {
+                subexpression.value = SubexpressionService.calculateSubexpressionValue(subexpression, intVariablesStorage);
+            }
+            LoggerService.logSubexpressionsValues(richTextBox_log, subexpressions);
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
