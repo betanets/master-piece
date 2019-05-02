@@ -41,6 +41,7 @@ namespace master_piece.service
 
         //TODO: work with fuzzy variables
         //TODO: possible move to another or separate sevice
+        //TODO: split into two methods: one for assign value, another for assign level
         public static void assignVariables(ParserResult parserResult, List<IntVariable> intVariableStorage, int subexpressionLevel)
         {
             //List<IntVariable> intVariables = new List<IntVariable>();

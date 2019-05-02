@@ -24,6 +24,11 @@ namespace master_piece.service
         /// </summary>
         public bool? value = null;
 
+        /// <summary>
+        /// Is expression major - not a part of another subexpression
+        /// </summary>
+        public bool major { get; set; } = false;
+
         //Leaf subexpression
         public Subexpression(Lexeme lexemeFirst, OperationEnum operation, Lexeme lexemeSecond, int expressionLevel)
         {

@@ -51,14 +51,15 @@ namespace master_piece.service
         }
 
         /// <summary>
-        /// Parser service logging method for THEN expressions
+        /// Parser service logging method for THEN or ELSE expressions
         /// </summary>
         /// <param name="loggerComponent">Log output component</param>
         /// <param name="expression">Expression parsed by service</param>
         /// <param name="lexemesList">List of lexemes obtained using the service</param>
-        public static void logThenParser(RichTextBox loggerComponent, string expression, List<Lexeme> lexemesList)
+        /// <param name="isThenExpression">True if THEN expression, False if ELSE expression</param>
+        public static void logThenOrElseParser(RichTextBox loggerComponent, string expression, List<Lexeme> lexemesList, bool isThenExpression)
         {
-            loggerComponent.AppendText("\n\n----------Обработка выражения ТО: " + expression + "----------------\n");
+            loggerComponent.AppendText("\n\n----------Обработка выражения " + (isThenExpression ? "ТО: " : "ИНАЧЕ: ") + expression + "----------------\n");
             foreach (Lexeme lexeme in lexemesList)
             {
                 loggerComponent.AppendText("Лексема: " + lexeme.lexemeText + ", тип: " + lexeme.lexemeType + "\n");
@@ -113,7 +114,7 @@ namespace master_piece.service
 
             foreach (Subexpression subexpression in subexpressions)
             {
-                loggerComponent.AppendText(subexpression.ToString() + "\n");
+                loggerComponent.AppendText(subexpression.ToString() + ", тип: " + (subexpression.major ? "Главное" : "Подвыражение") + "\n");
             }
         }
 
@@ -122,12 +123,13 @@ namespace master_piece.service
         /// </summary>
         /// <param name="loggerComponent">Log output component</param>
         /// <param name="intVariables">List of integer variables</param>
-        public static void logAssignedVariables(RichTextBox loggerComponent, List<IntVariable> intVariables)
+        /// <param name="showReassignmentInfo">TRUE if reassignment info should be shown, FALSE elsewhere</param>
+        public static void logAssignedVariables(RichTextBox loggerComponent, List<IntVariable> intVariables, bool showReassignmentInfo)
         {
             loggerComponent.AppendText("\n\n----------Текущие значения переменных:----------------\n");
             foreach (IntVariable iv in intVariables)
             {
-                loggerComponent.AppendText("Переменная: " + iv.name + ", тип: " + iv.value + ", переопределена в выражении: " + iv.firstReassignmentLevel + "\n");
+                loggerComponent.AppendText("Переменная: " + iv.name + ", значение: " + iv.value + (showReassignmentInfo ? ", переопределена в выражении: " + iv.firstReassignmentLevel : "") + "\n");
             }
         }
 
@@ -145,6 +147,24 @@ namespace master_piece.service
                 if (exp.mustBePrecalculated)
                 {
                     loggerComponent.AppendText(exp.ToString() + ", уровень: " + exp.expressionLevel + "\n");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Duplicates values logging method
+        /// </summary>
+        /// <param name="loggerComponent">Log output component</param>
+        /// <param name="subexpressions">List of all subexpressions</param>
+        public static void logDuplicatesValues(RichTextBox loggerComponent, List<Subexpression> subexpressions)
+        {
+            loggerComponent.AppendText("\n----------\nЗначения дубликатов подвыражений\n-----------\n");
+
+            foreach (Subexpression exp in subexpressions)
+            {
+                if (exp.mustBePrecalculated)
+                {
+                    loggerComponent.AppendText(exp.ToString() + ", значение: " + exp.value + "\n");
                 }
             }
         }

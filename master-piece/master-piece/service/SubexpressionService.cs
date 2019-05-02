@@ -49,7 +49,29 @@ namespace master_piece.service
                 }
             }
 
+            //Last expression in list is always major
+            if (subexpressions.Count > 0)
+            {
+                subexpressions[subexpressions.Count - 1].major = true;
+            }
+
             return subexpressions;
+        }
+
+        /// <summary>
+        /// Duplicates precalculation method
+        /// </summary>
+        /// <param name="subexpressions">List of subexpressions</param>
+        /// <param name="intVariables">List of currently initialized variables</param>
+        public static void calculateDuplicates(List<Subexpression> subexpressions, List<IntVariable> intVariables)
+        {
+            foreach (Subexpression subexpression in subexpressions)
+            {
+                if (subexpression.mustBePrecalculated)
+                {
+                    subexpression.value = calculateSubexpressionValue(subexpression, intVariables);
+                }
+            }
         }
 
         //TODO: work with fuzzy values
@@ -85,7 +107,7 @@ namespace master_piece.service
                 //TODO: is it correct to return false in this case?
                 if(!intValueFirst.HasValue || !intValueSecond.HasValue)
                 {
-                    subexpression.value = false;
+                    return false;
                 }
 
                 switch(subexpression.operation)
@@ -136,7 +158,7 @@ namespace master_piece.service
                 //TODO: is it correct to return false in this case?
                 if (!intValueSecond.HasValue)
                 {
-                    subexpression.value = false;
+                    return false;
                 }
 
                 switch (subexpression.operation)

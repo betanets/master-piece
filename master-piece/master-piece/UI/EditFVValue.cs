@@ -54,7 +54,7 @@ namespace master_piece.UI
             {
                 value = Convert.ToDouble(textBox_value.Text);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Значение нечёткой переменной введено неверно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -73,7 +73,7 @@ namespace master_piece.UI
             {
                 possibility = Convert.ToDouble(textBox_possibility.Text);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Вероятность значения нечёткой переменной введена неверно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

@@ -200,7 +200,7 @@ namespace master_piece.service
             return parserResult;
         }
 
-        public static ParserResult parseThenExpression(string expression)
+        public static ParserResult parseThenOrElseExpression(string expression)
         {
             parserResult = new ParserResult();
             string symbolSavior = string.Empty;
