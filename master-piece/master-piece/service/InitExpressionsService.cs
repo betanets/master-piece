@@ -35,6 +35,24 @@ namespace master_piece.service
                     processingTerminated = true;
                     break;
                 }
+                
+                int openBracketCount = 0, closeBracketCount = 0;
+                foreach (char c in dgvr.Cells[0].Value.ToString())
+                {
+                    if (c == '(')
+                        openBracketCount++;
+                    else if (c == ')')
+                        closeBracketCount++;
+                }
+
+                if(openBracketCount != closeBracketCount)
+                {
+                    logComponent.AppendText("Ошибка в строке " + dgvr.Index.ToString() + 
+                        ": количество открывающих скобок (" + openBracketCount + 
+                        ") не совпадает с количеством закрывающих (" + closeBracketCount + ")\n");
+                    processingTerminated = true;
+                    break;
+                }
 
                 Expression expression = new Expression(index, dgvr.Cells[0].Value.ToString(), dgvr.Cells[1].Value.ToString(),
                     dgvr.Cells[2].Value != null ? dgvr.Cells[2].Value.ToString() : string.Empty);
