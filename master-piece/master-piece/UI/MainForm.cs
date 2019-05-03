@@ -151,10 +151,86 @@ namespace master_piece
             Application.Exit();
         }
 
-        private void нечёткиеПеременныеToolStripMenuItem_Click(object sender, EventArgs e)
+        private void лингвистическиеПеременныеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             VariablesList fuzzyVariablesList = new VariablesList(dbConnection);
             fuzzyVariablesList.ShowDialog();
+        }
+
+        private void переменныеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Текстовые файлы|*.txt|Все файлы|*.*";
+            openFileDialog.RestoreDirectory = true;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                dataGridView_intVariables.Rows.Clear();
+                clearWorkplace();
+
+                string filePath = openFileDialog.FileName;
+                Stream fileStream = openFileDialog.OpenFile();
+                using (StreamReader reader = new StreamReader(fileStream))
+                {
+                    string line;
+                    int lineCounter = 0;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        lineCounter++;
+                        string[] values = line.Split(new string[] { "\t\t" }, StringSplitOptions.RemoveEmptyEntries);
+                        if (values.Length == 2)
+                        {
+                            dataGridView_intVariables.Rows.Add(values[0], values[1]);
+                        }
+                        else
+                        {
+                            string errorMessage = "Файл переменных некорректен.\nНайдена ошибка в " + lineCounter + " строке";
+                            richTextBox_log.AppendText(errorMessage + '\n');
+                            MessageBox.Show(errorMessage, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void выраженияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Текстовые файлы|*.txt|Все файлы|*.*";
+            openFileDialog.RestoreDirectory = true;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                dataGridView_expressions.Rows.Clear();
+                clearWorkplace();
+
+                string filePath = openFileDialog.FileName;
+                Stream fileStream = openFileDialog.OpenFile();
+                using (StreamReader reader = new StreamReader(fileStream))
+                {
+                    string line;
+                    int lineCounter = 0;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        lineCounter++;
+                        string[] values = line.Split(new string[] { "\t\t" }, StringSplitOptions.RemoveEmptyEntries);
+                        if (values.Length == 2)
+                        {
+                            dataGridView_expressions.Rows.Add(values[0], values[1]);
+                        }
+                        else if (values.Length == 3)
+                        {
+                            dataGridView_expressions.Rows.Add(values[0], values[1], values[2]);
+                        }
+                        else
+                        {
+                            string errorMessage = "Файл выражений некорректен.\nНайдена ошибка в " + lineCounter + " строке";
+                            richTextBox_log.AppendText(errorMessage + '\n');
+                            MessageBox.Show(errorMessage, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 }

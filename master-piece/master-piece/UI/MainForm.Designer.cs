@@ -31,19 +31,23 @@
             this.button_process = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.нечёткиеПеременныеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.базаДанныхToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.лингвистическиеПеременныеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.richTextBox_log = new System.Windows.Forms.RichTextBox();
             this.label_log = new System.Windows.Forms.Label();
             this.dataGridView_expressions = new System.Windows.Forms.DataGridView();
+            this.ifExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.thenExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.elseExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView_intVariables = new System.Windows.Forms.DataGridView();
             this.identifier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.identifierValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ifExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.thenExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.elseExpression = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.загрузитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.переменныеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выраженияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_expressions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_intVariables)).BeginInit();
@@ -62,7 +66,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.файлToolStripMenuItem});
+            this.файлToolStripMenuItem,
+            this.базаДанныхToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1284, 24);
@@ -72,25 +77,33 @@
             // файлToolStripMenuItem
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.нечёткиеПеременныеToolStripMenuItem,
+            this.загрузитьToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
-            // нечёткиеПеременныеToolStripMenuItem
-            // 
-            this.нечёткиеПеременныеToolStripMenuItem.Name = "нечёткиеПеременныеToolStripMenuItem";
-            this.нечёткиеПеременныеToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
-            this.нечёткиеПеременныеToolStripMenuItem.Text = "Лингвистические переменные";
-            this.нечёткиеПеременныеToolStripMenuItem.Click += new System.EventHandler(this.нечёткиеПеременныеToolStripMenuItem_Click);
-            // 
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
+            // 
+            // базаДанныхToolStripMenuItem
+            // 
+            this.базаДанныхToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.лингвистическиеПеременныеToolStripMenuItem});
+            this.базаДанныхToolStripMenuItem.Name = "базаДанныхToolStripMenuItem";
+            this.базаДанныхToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
+            this.базаДанныхToolStripMenuItem.Text = "База знаний";
+            // 
+            // лингвистическиеПеременныеToolStripMenuItem
+            // 
+            this.лингвистическиеПеременныеToolStripMenuItem.Name = "лингвистическиеПеременныеToolStripMenuItem";
+            this.лингвистическиеПеременныеToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.лингвистическиеПеременныеToolStripMenuItem.Text = "Лингвистические переменные";
+            this.лингвистическиеПеременныеToolStripMenuItem.Click += new System.EventHandler(this.лингвистическиеПеременныеToolStripMenuItem_Click);
             // 
             // richTextBox_log
             // 
@@ -122,6 +135,24 @@
             this.dataGridView_expressions.RowHeadersVisible = false;
             this.dataGridView_expressions.Size = new System.Drawing.Size(781, 376);
             this.dataGridView_expressions.TabIndex = 12;
+            // 
+            // ifExpression
+            // 
+            this.ifExpression.HeaderText = "Если";
+            this.ifExpression.Name = "ifExpression";
+            this.ifExpression.Width = 400;
+            // 
+            // thenExpression
+            // 
+            this.thenExpression.HeaderText = "то";
+            this.thenExpression.Name = "thenExpression";
+            this.thenExpression.Width = 175;
+            // 
+            // elseExpression
+            // 
+            this.elseExpression.HeaderText = "иначе";
+            this.elseExpression.Name = "elseExpression";
+            this.elseExpression.Width = 175;
             // 
             // label1
             // 
@@ -166,23 +197,28 @@
             this.identifierValue.Name = "identifierValue";
             this.identifierValue.Width = 300;
             // 
-            // ifExpression
+            // загрузитьToolStripMenuItem
             // 
-            this.ifExpression.HeaderText = "Если";
-            this.ifExpression.Name = "ifExpression";
-            this.ifExpression.Width = 400;
+            this.загрузитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.переменныеToolStripMenuItem,
+            this.выраженияToolStripMenuItem});
+            this.загрузитьToolStripMenuItem.Name = "загрузитьToolStripMenuItem";
+            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.загрузитьToolStripMenuItem.Text = "Импорт";
             // 
-            // thenExpression
+            // переменныеToolStripMenuItem
             // 
-            this.thenExpression.HeaderText = "то";
-            this.thenExpression.Name = "thenExpression";
-            this.thenExpression.Width = 175;
+            this.переменныеToolStripMenuItem.Name = "переменныеToolStripMenuItem";
+            this.переменныеToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.переменныеToolStripMenuItem.Text = "Переменные";
+            this.переменныеToolStripMenuItem.Click += new System.EventHandler(this.переменныеToolStripMenuItem_Click);
             // 
-            // elseExpression
+            // выраженияToolStripMenuItem
             // 
-            this.elseExpression.HeaderText = "иначе";
-            this.elseExpression.Name = "elseExpression";
-            this.elseExpression.Width = 175;
+            this.выраженияToolStripMenuItem.Name = "выраженияToolStripMenuItem";
+            this.выраженияToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.выраженияToolStripMenuItem.Text = "Выражения";
+            this.выраженияToolStripMenuItem.Click += new System.EventHandler(this.выраженияToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -214,7 +250,6 @@
         private System.Windows.Forms.Button button_process;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem нечёткиеПеременныеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
         private System.Windows.Forms.RichTextBox richTextBox_log;
         private System.Windows.Forms.Label label_log;
@@ -227,6 +262,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ifExpression;
         private System.Windows.Forms.DataGridViewTextBoxColumn thenExpression;
         private System.Windows.Forms.DataGridViewTextBoxColumn elseExpression;
+        private System.Windows.Forms.ToolStripMenuItem базаДанныхToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem лингвистическиеПеременныеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem загрузитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem переменныеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem выраженияToolStripMenuItem;
     }
 }
 

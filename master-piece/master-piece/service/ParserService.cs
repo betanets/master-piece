@@ -52,12 +52,16 @@ namespace master_piece.service
                         symbolSavior = c.ToString();
                         noNeedToCheckSavior = true;
                         i++;
-                        while ((i != expression.Length - 1) || (expression[i] != '"'))
+                        while (i != expression.Length - 1)
                         {
-                            symbolSavior += expression[i];
+                            char currentSym = expression[i];
+                            symbolSavior += currentSym;
                             i++;
+                            if (currentSym == '"')
+                            {
+                                break;
+                            }
                         }
-                        symbolSavior += expression[i];
                         parserResult.lexemesList.Add(new Lexeme(LexemeType.FuzzyValue, symbolSavior));
                         //Cleanup symbol savior
                         symbolSavior = string.Empty;
