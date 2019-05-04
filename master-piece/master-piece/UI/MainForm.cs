@@ -1,6 +1,7 @@
 ﻿using master_piece.domain;
 using master_piece.lexeme;
 using master_piece.service;
+using master_piece.service.import_export;
 using master_piece.subexpression;
 using master_piece.variable;
 using SQLite;
@@ -157,79 +158,90 @@ namespace master_piece
             fuzzyVariablesList.ShowDialog();
         }
 
+        /// <summary>
+        /// Variables import call method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void переменныеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Текстовые файлы|*.txt|Все файлы|*.*";
-            openFileDialog.RestoreDirectory = true;
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            ImportExportResult result = ImportExportService.importVariables(dataGridView_intVariables);
+            if(result.status.Equals(ImportExportResultStatus.Error))
             {
-                dataGridView_intVariables.Rows.Clear();
-                clearWorkplace();
-
-                string filePath = openFileDialog.FileName;
-                Stream fileStream = openFileDialog.OpenFile();
-                using (StreamReader reader = new StreamReader(fileStream))
-                {
-                    string line;
-                    int lineCounter = 0;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        lineCounter++;
-                        string[] values = line.Split(new string[] { "\t\t" }, StringSplitOptions.RemoveEmptyEntries);
-                        if (values.Length == 2)
-                        {
-                            dataGridView_intVariables.Rows.Add(values[0], values[1]);
-                        }
-                        else
-                        {
-                            string errorMessage = "Файл переменных некорректен.\nНайдена ошибка в " + lineCounter + " строке";
-                            richTextBox_log.AppendText(errorMessage + '\n');
-                            MessageBox.Show(errorMessage, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        }
-                    }
-                }
+                richTextBox_log.AppendText(result.messageString + '\n');
+                MessageBox.Show(result.messageString, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        /// <summary>
+        /// Expressions import call method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void выраженияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Текстовые файлы|*.txt|Все файлы|*.*";
-            openFileDialog.RestoreDirectory = true;
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            ImportExportResult result = ImportExportService.importExpressions(dataGridView_expressions);
+            if (result.status.Equals(ImportExportResultStatus.Error))
             {
-                dataGridView_expressions.Rows.Clear();
-                clearWorkplace();
+                richTextBox_log.AppendText(result.messageString + '\n');
+                MessageBox.Show(result.messageString, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-                string filePath = openFileDialog.FileName;
-                Stream fileStream = openFileDialog.OpenFile();
-                using (StreamReader reader = new StreamReader(fileStream))
-                {
-                    string line;
-                    int lineCounter = 0;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        lineCounter++;
-                        string[] values = line.Split(new string[] { "\t\t" }, StringSplitOptions.RemoveEmptyEntries);
-                        if (values.Length == 2)
-                        {
-                            dataGridView_expressions.Rows.Add(values[0], values[1]);
-                        }
-                        else if (values.Length == 3)
-                        {
-                            dataGridView_expressions.Rows.Add(values[0], values[1], values[2]);
-                        }
-                        else
-                        {
-                            string errorMessage = "Файл выражений некорректен.\nНайдена ошибка в " + lineCounter + " строке";
-                            richTextBox_log.AppendText(errorMessage + '\n');
-                            MessageBox.Show(errorMessage, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        }
-                    }
-                }
+        /// <summary>
+        /// Variables export call method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void переменныеToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ImportExportResult result = ImportExportService.exportVariables(dataGridView_intVariables);
+            switch(result.status)
+            {
+                case ImportExportResultStatus.Success:
+                    MessageBox.Show(result.messageString, "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                case ImportExportResultStatus.Error:
+                    MessageBox.Show(result.messageString, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Expressions export call method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void выраженияToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ImportExportResult result = ImportExportService.exportExpressions(dataGridView_expressions);
+            switch (result.status)
+            {
+                case ImportExportResultStatus.Success:
+                    MessageBox.Show(result.messageString, "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                case ImportExportResultStatus.Error:
+                    MessageBox.Show(result.messageString, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Results export call method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void результатыОбработкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ImportExportResult result = ImportExportService.exportResults(richTextBox_log);
+            switch (result.status)
+            {
+                case ImportExportResultStatus.Success:
+                    MessageBox.Show(result.messageString, "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                case ImportExportResultStatus.Error:
+                    MessageBox.Show(result.messageString, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
             }
         }
     }

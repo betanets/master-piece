@@ -93,6 +93,9 @@
     <Compile Include="lexeme\Lexeme.cs" />
     <Compile Include="lexeme\LexemeType.cs" />
     <Compile Include="service\DuplicateExpressionService.cs" />
+    <Compile Include="service\import-export\ImportExportResultStatus.cs" />
+    <Compile Include="service\import-export\ImportExportService.cs" />
+    <Compile Include="service\import-export\ImportExportResult.cs" />
     <Compile Include="service\InitExpressionsService.cs" />
     <Compile Include="service\InitVariablesService.cs" />
     <Compile Include="service\LoggerService.cs" />

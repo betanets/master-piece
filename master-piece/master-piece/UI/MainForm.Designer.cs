@@ -31,6 +31,13 @@
             this.button_process = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.загрузитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.переменныеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выраженияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.экспортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.переменныеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.выраженияToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.результатыОбработкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.базаДанныхToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.лингвистическиеПеременныеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,9 +52,6 @@
             this.dataGridView_intVariables = new System.Windows.Forms.DataGridView();
             this.identifier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.identifierValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.загрузитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.переменныеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.выраженияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_expressions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_intVariables)).BeginInit();
@@ -78,10 +82,65 @@
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.загрузитьToolStripMenuItem,
+            this.экспортToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // загрузитьToolStripMenuItem
+            // 
+            this.загрузитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.переменныеToolStripMenuItem,
+            this.выраженияToolStripMenuItem});
+            this.загрузитьToolStripMenuItem.Name = "загрузитьToolStripMenuItem";
+            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.загрузитьToolStripMenuItem.Text = "Импорт";
+            // 
+            // переменныеToolStripMenuItem
+            // 
+            this.переменныеToolStripMenuItem.Name = "переменныеToolStripMenuItem";
+            this.переменныеToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.переменныеToolStripMenuItem.Text = "Переменные";
+            this.переменныеToolStripMenuItem.Click += new System.EventHandler(this.переменныеToolStripMenuItem_Click);
+            // 
+            // выраженияToolStripMenuItem
+            // 
+            this.выраженияToolStripMenuItem.Name = "выраженияToolStripMenuItem";
+            this.выраженияToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.выраженияToolStripMenuItem.Text = "Выражения";
+            this.выраженияToolStripMenuItem.Click += new System.EventHandler(this.выраженияToolStripMenuItem_Click);
+            // 
+            // экспортToolStripMenuItem
+            // 
+            this.экспортToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.переменныеToolStripMenuItem1,
+            this.выраженияToolStripMenuItem1,
+            this.результатыОбработкиToolStripMenuItem});
+            this.экспортToolStripMenuItem.Name = "экспортToolStripMenuItem";
+            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.экспортToolStripMenuItem.Text = "Экспорт";
+            // 
+            // переменныеToolStripMenuItem1
+            // 
+            this.переменныеToolStripMenuItem1.Name = "переменныеToolStripMenuItem1";
+            this.переменныеToolStripMenuItem1.Size = new System.Drawing.Size(198, 22);
+            this.переменныеToolStripMenuItem1.Text = "Переменные";
+            this.переменныеToolStripMenuItem1.Click += new System.EventHandler(this.переменныеToolStripMenuItem1_Click);
+            // 
+            // выраженияToolStripMenuItem1
+            // 
+            this.выраженияToolStripMenuItem1.Name = "выраженияToolStripMenuItem1";
+            this.выраженияToolStripMenuItem1.Size = new System.Drawing.Size(198, 22);
+            this.выраженияToolStripMenuItem1.Text = "Выражения";
+            this.выраженияToolStripMenuItem1.Click += new System.EventHandler(this.выраженияToolStripMenuItem1_Click);
+            // 
+            // результатыОбработкиToolStripMenuItem
+            // 
+            this.результатыОбработкиToolStripMenuItem.Name = "результатыОбработкиToolStripMenuItem";
+            this.результатыОбработкиToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.результатыОбработкиToolStripMenuItem.Text = "Результаты обработки";
+            this.результатыОбработкиToolStripMenuItem.Click += new System.EventHandler(this.результатыОбработкиToolStripMenuItem_Click);
             // 
             // выходToolStripMenuItem
             // 
@@ -109,6 +168,7 @@
             // 
             this.richTextBox_log.Location = new System.Drawing.Point(807, 47);
             this.richTextBox_log.Name = "richTextBox_log";
+            this.richTextBox_log.ReadOnly = true;
             this.richTextBox_log.Size = new System.Drawing.Size(465, 591);
             this.richTextBox_log.TabIndex = 4;
             this.richTextBox_log.Text = "";
@@ -197,29 +257,6 @@
             this.identifierValue.Name = "identifierValue";
             this.identifierValue.Width = 300;
             // 
-            // загрузитьToolStripMenuItem
-            // 
-            this.загрузитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.переменныеToolStripMenuItem,
-            this.выраженияToolStripMenuItem});
-            this.загрузитьToolStripMenuItem.Name = "загрузитьToolStripMenuItem";
-            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.загрузитьToolStripMenuItem.Text = "Импорт";
-            // 
-            // переменныеToolStripMenuItem
-            // 
-            this.переменныеToolStripMenuItem.Name = "переменныеToolStripMenuItem";
-            this.переменныеToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.переменныеToolStripMenuItem.Text = "Переменные";
-            this.переменныеToolStripMenuItem.Click += new System.EventHandler(this.переменныеToolStripMenuItem_Click);
-            // 
-            // выраженияToolStripMenuItem
-            // 
-            this.выраженияToolStripMenuItem.Name = "выраженияToolStripMenuItem";
-            this.выраженияToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.выраженияToolStripMenuItem.Text = "Выражения";
-            this.выраженияToolStripMenuItem.Click += new System.EventHandler(this.выраженияToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -267,6 +304,10 @@
         private System.Windows.Forms.ToolStripMenuItem загрузитьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem переменныеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выраженияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem экспортToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem переменныеToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem выраженияToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem результатыОбработкиToolStripMenuItem;
     }
 }
 
