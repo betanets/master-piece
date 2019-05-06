@@ -52,7 +52,7 @@ namespace master_piece.service
                         symbolSavior = c.ToString();
                         noNeedToCheckSavior = true;
                         i++;
-                        while (i != expression.Length - 1)
+                        while (i != expression.Length)
                         {
                             char currentSym = expression[i];
                             symbolSavior += currentSym;
@@ -213,10 +213,31 @@ namespace master_piece.service
             expression = Regex.Replace(expression, @"\s+", "");
 
             //Parse expression
-            foreach (char c in expression)
+            for (int i = 0; i < expression.Length; i++)
             {
+                char c = expression[i];
+                bool noNeedToCheckSavior = false;
                 switch (c)
                 {
+                    case '"':
+                        //Parse fuzzy value. Symbol savior must be empty
+                        symbolSavior = c.ToString();
+                        noNeedToCheckSavior = true;
+                        i++;
+                        while (i != expression.Length)
+                        {
+                            char currentSym = expression[i];
+                            symbolSavior += currentSym;
+                            i++;
+                            if (currentSym == '"')
+                            {
+                                break;
+                            }
+                        }
+                        parserResult.lexemesList.Add(new Lexeme(LexemeType.FuzzyValue, symbolSavior));
+                        //Cleanup symbol savior
+                        symbolSavior = string.Empty;
+                        break;
                     case '=':
                         symbolSavior = checkSymbolSavior(symbolSavior);
                         parserResult.lexemesList.Add(new Lexeme(LexemeType.Assign, c.ToString()));
@@ -225,6 +246,11 @@ namespace master_piece.service
                         symbolSavior = checkSymbolSavior(symbolSavior);
                         parserResult.lexemesList.Add(new Lexeme(LexemeType.Comma, c.ToString()));
                         break;
+                }
+
+                if (noNeedToCheckSavior)
+                {
+                    continue;
                 }
 
                 if (isBigLetter(c) || isLittleLetter(c) || isNumber(c))

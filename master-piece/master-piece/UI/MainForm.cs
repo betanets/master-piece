@@ -46,6 +46,7 @@ namespace master_piece
         {
             richTextBox_log.Clear();
             variablesStorage.Clear();
+            variablesStorage_holder.Clear();
             expressionsStorage.Clear();
             subexpressions.Clear();
         }
@@ -57,8 +58,6 @@ namespace master_piece
             //Init int and fuzzy variables
             VariablesStorage variablesStorage = 
                 InitVariablesService.initIntVariables(dataGridView_intVariables.Rows, dataGridView_intVariables.NewRowIndex, richTextBox_log);
-
-
 
             //Copy int and fuzzy variables into holder
             variablesStorage_holder.intVariables.AddRange(variablesStorage.intVariables);
@@ -93,7 +92,7 @@ namespace master_piece
 
                 //Checking THEN expression
                 ParserResult thenParserResult = ParserService.parseThenOrElseExpression(expression.thenExpressionText);
-                LoggerService.logThenOrElseParser(richTextBox_log, expression.thenExpressionText, parserResult.lexemesList, true);
+                LoggerService.logThenOrElseParser(richTextBox_log, expression.thenExpressionText, thenParserResult.lexemesList, true);
 
 
                 //Variable assignment
@@ -104,7 +103,7 @@ namespace master_piece
 
                 //Checking ELSE expression
                 ParserResult elseParserResult = ParserService.parseThenOrElseExpression(expression.elseExpressionText);
-                LoggerService.logThenOrElseParser(richTextBox_log, expression.thenExpressionText, parserResult.lexemesList, false);
+                LoggerService.logThenOrElseParser(richTextBox_log, expression.elseExpressionText, elseParserResult.lexemesList, false);
 
                 SemanticService.assignVariables(elseParserResult, variablesStorage, expression.expressionLevel);
                 LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, true);
