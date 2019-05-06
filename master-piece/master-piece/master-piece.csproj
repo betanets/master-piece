@@ -96,8 +96,9 @@
     <Compile Include="service\import-export\ImportExportResultStatus.cs" />
     <Compile Include="service\import-export\ImportExportService.cs" />
     <Compile Include="service\import-export\ImportExportResult.cs" />
+    <Compile Include="service\init-variables\VariablesStorage.cs" />
     <Compile Include="service\InitExpressionsService.cs" />
-    <Compile Include="service\InitVariablesService.cs" />
+    <Compile Include="service\init-variables\InitVariablesService.cs" />
     <Compile Include="service\LoggerService.cs" />
     <Compile Include="service\SemanticResult.cs" />
     <Compile Include="service\SemanticService.cs" />
@@ -106,7 +107,8 @@
     <Compile Include="subexpression\Subexpression.cs" />
     <Compile Include="service\ReversePolishNotationService.cs" />
     <Compile Include="tests\ParserServiceTest.cs" />
-    <Compile Include="variable\IntVariable.cs" />
+    <Compile Include="variable\FuzzyViewVariable.cs" />
+    <Compile Include="variable\IntViewVariable.cs" />
     <Compile Include="service\OperationHelper.cs" />
     <Compile Include="service\ParserResult.cs" />
     <Compile Include="service\ParserService.cs" />
@@ -163,7 +165,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="variable\AbstractVariable.cs" />
+    <Compile Include="variable\AbstractViewVariable.cs" />
     <EmbeddedResource Include="UI\EditFV.resx">
       <DependentUpon>EditFV.cs</DependentUpon>
     </EmbeddedResource>

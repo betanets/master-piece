@@ -1,11 +1,12 @@
-﻿using master_piece.variable;
+﻿using master_piece.service.init_variables;
+using master_piece.variable;
 using System.Collections.Generic;
 
 namespace master_piece.service
 {
     class DuplicateExpressionService
     {
-        public static void markDuplicates(List<Subexpression> expressions, List<IntVariable> intVariablesStorage)
+        public static void markDuplicates(List<Subexpression> expressions, VariablesStorage variablesStorage)
         {
             List<Subexpression> deduplicatedExpressions = new List<Subexpression>();
 
@@ -34,11 +35,11 @@ namespace master_piece.service
             {
                 if (exp.mustBePrecalculated == true)
                 {
-                    List<IntVariable> intVariables = SemanticService.getIntVariablesBySubexpression(exp, intVariablesStorage);
+                    List<AbstractViewVariable> abstractVariables = SemanticService.getVariablesBySubexpression(exp, variablesStorage);
                     bool mustBeFiltered = false;
-                    foreach (IntVariable iv in intVariables)
+                    foreach (AbstractViewVariable av in abstractVariables)
                     {
-                        if (iv.firstReassignmentLevel != -1 && iv.firstReassignmentLevel < exp.expressionLevel)
+                        if (av.firstReassignmentLevel != -1 && av.firstReassignmentLevel < exp.expressionLevel)
                         {
                             mustBeFiltered = true;
                             break;

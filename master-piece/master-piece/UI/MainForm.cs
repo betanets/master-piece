@@ -2,6 +2,7 @@
 using master_piece.lexeme;
 using master_piece.service;
 using master_piece.service.import_export;
+using master_piece.service.init_variables;
 using master_piece.subexpression;
 using master_piece.variable;
 using SQLite;
@@ -16,8 +17,8 @@ namespace master_piece
     {
         private SQLiteConnection dbConnection;
 
-        List<IntVariable> intVariablesStorage = new List<IntVariable>();
-        List<IntVariable> intVariablesStorage_holder = new List<IntVariable>();
+        VariablesStorage variablesStorage = new VariablesStorage();
+        VariablesStorage variablesStorage_holder = new VariablesStorage();
 
         List<Expression> expressionsStorage = new List<Expression>();
 
@@ -44,8 +45,7 @@ namespace master_piece
         private void clearWorkplace()
         {
             richTextBox_log.Clear();
-            intVariablesStorage.Clear();
-            intVariablesStorage_holder.Clear();
+            variablesStorage.Clear();
             expressionsStorage.Clear();
             subexpressions.Clear();
         }
@@ -54,13 +54,15 @@ namespace master_piece
         {
             clearWorkplace();
 
-            //Init int variables
-            intVariablesStorage.AddRange(
-                InitVariablesService.initIntVariables(dataGridView_intVariables.Rows, dataGridView_intVariables.NewRowIndex, richTextBox_log)
-            );
+            //Init int and fuzzy variables
+            VariablesStorage variablesStorage = 
+                InitVariablesService.initIntVariables(dataGridView_intVariables.Rows, dataGridView_intVariables.NewRowIndex, richTextBox_log);
 
-            //Copy int variables into holder
-            intVariablesStorage_holder.AddRange(intVariablesStorage);
+
+
+            //Copy int and fuzzy variables into holder
+            variablesStorage_holder.intVariables.AddRange(variablesStorage.intVariables);
+            variablesStorage_holder.fuzzyVariables.AddRange(variablesStorage.fuzzyVariables);
 
             //Init expressions
             expressionsStorage.AddRange(
@@ -74,7 +76,7 @@ namespace master_piece
                 LoggerService.logIfParser(richTextBox_log, expression.ifExpressionText, parserResult.lexemesList);
 
                 //Checking semantic
-                SemanticResult semanticResult = SemanticService.makeSemanticAnalysis(parserResult, intVariablesStorage);
+                SemanticResult semanticResult = SemanticService.makeSemanticAnalysis(parserResult, variablesStorage);
                 LoggerService.logSemantic(richTextBox_log, semanticResult);
 
                 //Next steps are available only if semantic analysis is correct
@@ -97,28 +99,29 @@ namespace master_piece
                 //Variable assignment
                 //We should assign variables now to correctly mark duplicates
                 //We have no idea now whether THEN or ELSE expression will be executed
-                SemanticService.assignVariables(thenParserResult, intVariablesStorage, expression.expressionLevel);
-                LoggerService.logAssignedVariables(richTextBox_log, intVariablesStorage, true);
+                SemanticService.assignVariables(thenParserResult, variablesStorage, expression.expressionLevel);
+                LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, true);
 
                 //Checking ELSE expression
                 ParserResult elseParserResult = ParserService.parseThenOrElseExpression(expression.elseExpressionText);
                 LoggerService.logThenOrElseParser(richTextBox_log, expression.thenExpressionText, parserResult.lexemesList, false);
 
-                SemanticService.assignVariables(elseParserResult, intVariablesStorage, expression.expressionLevel);
-                LoggerService.logAssignedVariables(richTextBox_log, intVariablesStorage, true);
+                SemanticService.assignVariables(elseParserResult, variablesStorage, expression.expressionLevel);
+                LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, true);
             }
 
             //Marking duplicates
-            DuplicateExpressionService.markDuplicates(subexpressions, intVariablesStorage);
+            DuplicateExpressionService.markDuplicates(subexpressions, variablesStorage);
             LoggerService.logDuplicates(richTextBox_log, subexpressions);
 
             //Precalculating duplicates
-            SubexpressionService.calculateDuplicates(subexpressions, intVariablesStorage);
+            SubexpressionService.calculateDuplicates(subexpressions, variablesStorage);
             LoggerService.logDuplicatesValues(richTextBox_log, subexpressions);
 
             //Restore int variables storage to init state
-            intVariablesStorage.Clear();
-            intVariablesStorage.AddRange(intVariablesStorage_holder);
+            variablesStorage.Clear();
+            variablesStorage.intVariables.AddRange(variablesStorage_holder.intVariables);
+            variablesStorage.fuzzyVariables.AddRange(variablesStorage_holder.fuzzyVariables);
 
             richTextBox_log.AppendText("------========РЕЗУЛЬТАТЫ:========---------\n");
             //Calculating major subexpressions one by one
@@ -128,7 +131,7 @@ namespace master_piece
                 if (subexpression.major)
                 {
                     //Calculate subexpression
-                    subexpression.value = SubexpressionService.calculateSubexpressionValue(subexpression, intVariablesStorage);
+                    subexpression.value = SubexpressionService.calculateSubexpressionValue(subexpression, variablesStorage);
                     LoggerService.logSubexpressions(richTextBox_log, subexpressions);
 
                     //Prepare int variables storage to next iteration
@@ -141,10 +144,10 @@ namespace master_piece
                     {
                         parserResult = ParserService.parseThenOrElseExpression(expressionsStorage[subexpression.expressionLevel - 1].elseExpressionText);
                     }
-                    SemanticService.assignVariables(parserResult, intVariablesStorage, subexpression.expressionLevel);
+                    SemanticService.assignVariables(parserResult, variablesStorage, subexpression.expressionLevel);
                 }
             }
-            LoggerService.logAssignedVariables(richTextBox_log, intVariablesStorage, false);
+            LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, false);
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)

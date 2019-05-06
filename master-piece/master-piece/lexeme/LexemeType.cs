@@ -1,4 +1,6 @@
-﻿namespace master_piece.lexeme
+﻿using System;
+
+namespace master_piece.lexeme
 {
     public enum LexemeType
     {
@@ -46,6 +48,17 @@
             }
         }
 
+        public static bool IsIntValue(LexemeType lexemeType)
+        {
+            return lexemeType == LexemeType.IntValue;
+        }
+
+        public static bool IsFuzzyValue(LexemeType lexemeType)
+        {
+            return lexemeType == LexemeType.FuzzyValue;
+        }
+
+        [Obsolete("Use IsIntValue or IsFuzzyValue instead")]
         public static bool IsValue(LexemeType lexemeType)
         {
             switch (lexemeType)

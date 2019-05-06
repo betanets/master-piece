@@ -1,6 +1,6 @@
 ﻿namespace master_piece.variable
 {
-    abstract class AbstractVariable
+    abstract class AbstractViewVariable
     {
         public string name { get; set; }
         protected object value { get; set; }

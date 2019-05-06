@@ -1,4 +1,5 @@
 ﻿using master_piece.lexeme;
+using master_piece.service.init_variables;
 using master_piece.subexpression;
 using master_piece.variable;
 using System.Collections.Generic;
@@ -9,15 +10,32 @@ namespace master_piece.service
     class LoggerService
     {
         /// <summary>
-        /// Integer variables logging method
+        /// Variables logging method
         /// </summary>
         /// <param name="loggerComponent">Log output component</param>
-        /// <param name="intVariablesStorage">Integer variables storage</param>
-        public static void logIntVariables(RichTextBox loggerComponent, List<IntVariable> intVariablesStorage)
+        /// <param name="variablesStorage">Variables storage: list of integer variables and list of fuzzy variables</param>
+        public static void logVariables(RichTextBox loggerComponent, VariablesStorage variablesStorage)
         {
-            foreach (IntVariable intVariable in intVariablesStorage)
+            foreach (IntViewVariable intVariable in variablesStorage.intVariables)
             {
                 loggerComponent.AppendText("Переменная: " + intVariable.name + ", значение: " + intVariable.value + "\n");
+            }
+            foreach (FuzzyViewVariable fuzzyVariable in variablesStorage.fuzzyVariables)
+            {
+                loggerComponent.AppendText("Переменная: " + fuzzyVariable.name + ", значение: " + fuzzyVariable.value + "\n");
+            }
+        }
+
+        /// <summary>
+        /// Fuzzy variables logging method
+        /// </summary>
+        /// <param name="loggerComponent">Log output component</param>
+        /// <param name="fuzzyVariables">List of integer variables</param>
+        public static void logFuzzyVariables(RichTextBox loggerComponent, List<FuzzyViewVariable> fuzzyVariables)
+        {
+            foreach (FuzzyViewVariable fuzzyVariable in fuzzyVariables)
+            {
+                loggerComponent.AppendText("Переменная: " + fuzzyVariable.name + ", значение: " + fuzzyVariable.value + "\n");
             }
         }
 
@@ -122,14 +140,20 @@ namespace master_piece.service
         /// Variables list logging method
         /// </summary>
         /// <param name="loggerComponent">Log output component</param>
-        /// <param name="intVariables">List of integer variables</param>
+        /// <param name="variables">Variables storage: list of integer variables and list of fuzzy variables</param>
         /// <param name="showReassignmentInfo">TRUE if reassignment info should be shown, FALSE elsewhere</param>
-        public static void logAssignedVariables(RichTextBox loggerComponent, List<IntVariable> intVariables, bool showReassignmentInfo)
+        public static void logAssignedVariables(RichTextBox loggerComponent, VariablesStorage variables, bool showReassignmentInfo)
         {
             loggerComponent.AppendText("\n\n----------Текущие значения переменных:----------------\n");
-            foreach (IntVariable iv in intVariables)
+            foreach (IntViewVariable iv in variables.intVariables)
             {
-                loggerComponent.AppendText("Переменная: " + iv.name + ", значение: " + iv.value + (showReassignmentInfo ? ", переопределена в выражении: " + iv.firstReassignmentLevel : "") + "\n");
+                loggerComponent.AppendText("Переменная: " + iv.name + ", значение: " + iv.value 
+                    + (showReassignmentInfo ? ", переопределена в выражении: " + iv.firstReassignmentLevel : "") + "\n");
+            }
+            foreach (FuzzyViewVariable iv in variables.fuzzyVariables)
+            {
+                loggerComponent.AppendText("Переменная: " + iv.name + ", значение: " + iv.value 
+                    + (showReassignmentInfo ? ", переопределена в выражении: " + iv.firstReassignmentLevel : "") + "\n");
             }
         }
 

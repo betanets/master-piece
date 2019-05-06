@@ -1,10 +1,10 @@
 ﻿namespace master_piece.variable
 {
-    class IntVariable : AbstractVariable
+    class IntViewVariable : AbstractViewVariable
     {
         public new int value { get; set; }
 
-        public IntVariable(string name, int value)
+        public IntViewVariable(string name, int value)
         {
             this.name = name;
             this.value = value;

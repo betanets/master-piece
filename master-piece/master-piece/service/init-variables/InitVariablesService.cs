@@ -1,17 +1,17 @@
-﻿using master_piece.variable;
+﻿using master_piece.service.init_variables;
+using master_piece.variable;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace master_piece.service
 {
     class InitVariablesService
     {
-        public static List<IntVariable> initIntVariables(DataGridViewRowCollection dgvrCollection, int newRowIndex, RichTextBox logComponent)
+        public static VariablesStorage initIntVariables(DataGridViewRowCollection dgvrCollection, int newRowIndex, RichTextBox logComponent)
         {
             logComponent.AppendText("\n\n----------Ввод переменных:----------------\n");
 
-            List<IntVariable> intVariables = new List<IntVariable>();
+            VariablesStorage variablesStorage = new VariablesStorage();
 
             bool processingTerminated = false;
 
@@ -35,10 +35,21 @@ namespace master_piece.service
                     break;
                 }
 
-                int intVariableValue;
                 try
                 {
-                    intVariableValue = Convert.ToInt32(dgvr.Cells[1].Value.ToString());
+                    string value = dgvr.Cells[1].Value.ToString();
+                    if (value.StartsWith("\""))
+                    {
+                        //TODO: set id instead of 0!
+                        FuzzyViewVariable fuzzyVariable = new FuzzyViewVariable(dgvr.Cells[0].Value.ToString(), value, 0);
+                        variablesStorage.fuzzyVariables.Add(fuzzyVariable);
+                    }
+                    else
+                    {
+                        int intVariableValue = Convert.ToInt32(value);
+                        IntViewVariable intVariable = new IntViewVariable(dgvr.Cells[0].Value.ToString(), intVariableValue);
+                        variablesStorage.intVariables.Add(intVariable);
+                    }
                 }
                 catch (Exception)
                 {
@@ -46,17 +57,14 @@ namespace master_piece.service
                     processingTerminated = true;
                     break;
                 }
-
-                IntVariable intVariable = new IntVariable(dgvr.Cells[0].Value.ToString(), intVariableValue);
-                intVariables.Add(intVariable);
             }
 
             if (!processingTerminated)
             {
-                LoggerService.logIntVariables(logComponent, intVariables);
+                LoggerService.logVariables(logComponent, variablesStorage);
             }
 
-            return intVariables;
+            return variablesStorage;
         }
     }
 }
