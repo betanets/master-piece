@@ -1,10 +1,10 @@
 ﻿using master_piece.domain;
 using master_piece.lexeme;
 using master_piece.service;
+using master_piece.service.fuzzy_variable;
 using master_piece.service.import_export;
 using master_piece.service.init_variables;
 using master_piece.subexpression;
-using master_piece.variable;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -16,6 +16,7 @@ namespace master_piece
     public partial class MainForm : Form
     {
         private SQLiteConnection dbConnection;
+        private FuzzyVariableService fuzzyVariableService;
 
         VariablesStorage variablesStorage = new VariablesStorage();
         VariablesStorage variablesStorage_holder = new VariablesStorage();
@@ -35,6 +36,9 @@ namespace master_piece
             dbConnection.CreateTable<LinguisticVariable>();
             dbConnection.CreateTable<FuzzyVariable>();
             dbConnection.CreateTable<FuzzyVariableValue>();
+
+            //Init fuzzy variable service
+            fuzzyVariableService = new FuzzyVariableService(dbConnection);
 
             InitializeComponent();
         }
@@ -57,7 +61,15 @@ namespace master_piece
 
             //Init int and fuzzy variables
             VariablesStorage variablesStorage = 
-                InitVariablesService.initIntVariables(dataGridView_intVariables.Rows, dataGridView_intVariables.NewRowIndex, richTextBox_log);
+                InitVariablesService.initVariables(dataGridView_intVariables.Rows, dataGridView_intVariables.NewRowIndex, richTextBox_log);
+
+            //Select fuzzy variables by their names
+            FuzzyVariableSelectionResult selectionResult = fuzzyVariableService.makeSelection(variablesStorage);
+            if(!selectionResult.isSuccess)
+            {
+                LoggerService.logFuzzySelectionError(richTextBox_log, selectionResult);
+                return;
+            }
 
             //Copy int and fuzzy variables into holder
             variablesStorage_holder.intVariables.AddRange(variablesStorage.intVariables);
@@ -73,6 +85,14 @@ namespace master_piece
                 //Checking IF expression
                 ParserResult parserResult = ParserService.parseIfExpression(expression.ifExpressionText);
                 LoggerService.logIfParser(richTextBox_log, expression.ifExpressionText, parserResult.lexemesList);
+
+                //Checking parser result on fuzzy values existence
+                FuzzyVariableSelectionResult ifSelectionResult = fuzzyVariableService.makeSelection(parserResult.lexemesList);
+                if (!ifSelectionResult.isSuccess)
+                {
+                    LoggerService.logFuzzySelectionError(richTextBox_log, ifSelectionResult);
+                    return;
+                }
 
                 //Checking semantic
                 SemanticResult semanticResult = SemanticService.makeSemanticAnalysis(parserResult, variablesStorage);
@@ -101,12 +121,28 @@ namespace master_piece
                 SemanticService.assignVariables(thenParserResult, variablesStorage, expression.expressionLevel);
                 LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, true);
 
+                //Select fuzzy variables by their names
+                FuzzyVariableSelectionResult thenSelectionResult = fuzzyVariableService.makeSelection(variablesStorage);
+                if (!thenSelectionResult.isSuccess)
+                {
+                    LoggerService.logFuzzySelectionError(richTextBox_log, thenSelectionResult);
+                    return;
+                }
+
                 //Checking ELSE expression
                 ParserResult elseParserResult = ParserService.parseThenOrElseExpression(expression.elseExpressionText);
                 LoggerService.logThenOrElseParser(richTextBox_log, expression.elseExpressionText, elseParserResult.lexemesList, false);
 
                 SemanticService.assignVariables(elseParserResult, variablesStorage, expression.expressionLevel);
                 LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, true);
+
+                //Select fuzzy variables by their names
+                FuzzyVariableSelectionResult elseSelectionResult = fuzzyVariableService.makeSelection(variablesStorage);
+                if (!elseSelectionResult.isSuccess)
+                {
+                    LoggerService.logFuzzySelectionError(richTextBox_log, elseSelectionResult);
+                    return;
+                }
             }
 
             //Marking duplicates
@@ -144,6 +180,14 @@ namespace master_piece
                         parserResult = ParserService.parseThenOrElseExpression(expressionsStorage[subexpression.expressionLevel - 1].elseExpressionText);
                     }
                     SemanticService.assignVariables(parserResult, variablesStorage, subexpression.expressionLevel);
+
+                    //Select fuzzy variables by their names
+                    FuzzyVariableSelectionResult sfvSelectionResult = fuzzyVariableService.makeSelection(variablesStorage);
+                    if (!sfvSelectionResult.isSuccess)
+                    {
+                        LoggerService.logFuzzySelectionError(richTextBox_log, sfvSelectionResult);
+                        return;
+                    }
                 }
             }
             LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, false);

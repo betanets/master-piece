@@ -1,4 +1,5 @@
 ﻿using master_piece.lexeme;
+using master_piece.service.fuzzy_variable;
 using master_piece.service.init_variables;
 using master_piece.subexpression;
 using master_piece.variable;
@@ -206,6 +207,17 @@ namespace master_piece.service
             {
                 loggerComponent.AppendText(exp.ToString() + ", значение: " + exp.value + "\n");
             }
+        }
+
+        /// <summary>
+        /// Fuzzy value selection error logging method
+        /// </summary>
+        /// <param name="loggerComponent"></param>
+        /// <param name="selectionResult"></param>
+        public static void logFuzzySelectionError(RichTextBox loggerComponent, FuzzyVariableSelectionResult selectionResult)
+        {
+            loggerComponent.AppendText("\n----------\nПодбор нечётких переменных по значению\n-----------\n");
+            loggerComponent.AppendText(selectionResult.messageString + "\n");
         }
     }
 }

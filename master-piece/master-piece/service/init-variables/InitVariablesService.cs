@@ -7,7 +7,7 @@ namespace master_piece.service
 {
     class InitVariablesService
     {
-        public static VariablesStorage initIntVariables(DataGridViewRowCollection dgvrCollection, int newRowIndex, RichTextBox logComponent)
+        public static VariablesStorage initVariables(DataGridViewRowCollection dgvrCollection, int newRowIndex, RichTextBox logComponent)
         {
             logComponent.AppendText("\n\n----------Ввод переменных:----------------\n");
 
@@ -40,8 +40,7 @@ namespace master_piece.service
                     string value = dgvr.Cells[1].Value.ToString();
                     if (value.StartsWith("\""))
                     {
-                        //TODO: set id instead of 0!
-                        FuzzyViewVariable fuzzyVariable = new FuzzyViewVariable(dgvr.Cells[0].Value.ToString(), value, 0);
+                        FuzzyViewVariable fuzzyVariable = new FuzzyViewVariable(dgvr.Cells[0].Value.ToString(), value);
                         variablesStorage.fuzzyVariables.Add(fuzzyVariable);
                     }
                     else

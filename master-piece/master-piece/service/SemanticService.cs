@@ -56,8 +56,6 @@ namespace master_piece.service
         //TODO: split into two methods: one for assign value, another for assign level
         public static void assignVariables(ParserResult parserResult, VariablesStorage variables, int subexpressionLevel)
         {
-            //List<IntVariable> intVariables = new List<IntVariable>();
-
             //Lexemes now stored as Identifier-Assign-Value-Comma-Identifier-...
             //TODO: check assign and comma lexemes
             Lexeme identifierSavior = null;
@@ -114,8 +112,7 @@ namespace master_piece.service
                     }
                     if (!assignedToExistingVariable)
                     {
-                        //TODO: set id instead of 0
-                        variables.fuzzyVariables.Add(new FuzzyViewVariable(identifierSavior.lexemeText, lex.lexemeText, 0));
+                        variables.fuzzyVariables.Add(new FuzzyViewVariable(identifierSavior.lexemeText, lex.lexemeText));
                     }
                     identifierSavior = null;
                 }

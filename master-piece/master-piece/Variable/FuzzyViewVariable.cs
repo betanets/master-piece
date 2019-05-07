@@ -7,9 +7,9 @@
         /// <summary>
         /// ID of fuzzy variable in database
         /// </summary>
-        public int fuzzyVariableId { get; }
+        public int? fuzzyVariableId { get; set; }
 
-        public FuzzyViewVariable(string name, string value, int fuzzyVariableId)
+        public FuzzyViewVariable(string name, string value)
         {
             this.name = name;
             this.value = value;
