@@ -1,6 +1,8 @@
 ﻿using master_piece.lexeme;
+using master_piece.service.fuzzy_variable;
 using master_piece.service.init_variables;
 using master_piece.variable;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using static master_piece.service.Operation;
@@ -9,7 +11,16 @@ namespace master_piece.service
 {
     class SubexpressionService
     {
-        public static List<Subexpression> createSubexpressionsList(List<Lexeme> lexemes, int expressionLevel)
+        private SQLiteConnection dbConnection;
+        private FuzzyVariableService fuzzyVariableService;
+
+        public SubexpressionService(SQLiteConnection arg_dbConnection)
+        {
+            dbConnection = arg_dbConnection;
+            fuzzyVariableService = new FuzzyVariableService(dbConnection);
+        }
+
+        public List<Subexpression> createSubexpressionsList(List<Lexeme> lexemes, int expressionLevel)
         {
             List<Subexpression> subexpressions = new List<Subexpression>();
             Stack<Subexpression> subexpressionsStack = new Stack<Subexpression>();
@@ -64,7 +75,7 @@ namespace master_piece.service
         /// </summary>
         /// <param name="subexpressions">List of subexpressions</param>
         /// <param name="variables">Lists of currently initialized int and fuzzy variables</param>
-        public static void calculateDuplicates(List<Subexpression> subexpressions, VariablesStorage variables)
+        public void calculateDuplicates(List<Subexpression> subexpressions, VariablesStorage variables)
         {
             foreach (Subexpression subexpression in subexpressions)
             {
@@ -75,7 +86,7 @@ namespace master_piece.service
             }
         }
 
-        public static bool calculateSubexpressionValue(Subexpression subexpression, VariablesStorage variablesStorage)
+        public bool calculateSubexpressionValue(Subexpression subexpression, VariablesStorage variablesStorage)
         {
             //If subexpression already has the value, simply return it
             if (subexpression.value.HasValue) return subexpression.value.Value;
@@ -195,16 +206,14 @@ namespace master_piece.service
                             }
                             else
                             {
-                                //TODO: implement fuzzy equals
-                                return false;
+                                return fuzzyVariableService.fuzzyEquals(intValueFirst.Value, stringValueSecond);
                             }
                         }
                         else
                         {
                             if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
                             {
-                                //TODO: implement fuzzy equals
-                                return false;
+                                return fuzzyVariableService.fuzzyEquals(intValueSecond.Value, stringValueFirst);
                             }
                             else
                             {
@@ -220,16 +229,14 @@ namespace master_piece.service
                             }
                             else
                             {
-                                //TODO: implement fuzzy not equals
-                                return false;
+                                return fuzzyVariableService.fuzzyNotEquals(intValueFirst.Value, stringValueSecond);
                             }
                         }
                         else
                         {
                             if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
                             {
-                                //TODO: implement fuzzy not equals
-                                return false;
+                                return fuzzyVariableService.fuzzyNotEquals(intValueSecond.Value, stringValueFirst);
                             }
                             else
                             {
@@ -245,21 +252,18 @@ namespace master_piece.service
                             }
                             else
                             {
-                                //TODO: implement fuzzy more
-                                return false;
+                                return fuzzyVariableService.fuzzyMore(intValueFirst.Value, stringValueSecond);
                             }
                         }
                         else
                         {
                             if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
                             {
-                                //TODO: implement fuzzy more
-                                return false;
+                                return fuzzyVariableService.fuzzyMore(stringValueFirst, intValueSecond.Value);
                             }
                             else
                             {
-                                //TODO: implement fuzzy more
-                                return false;
+                                return fuzzyVariableService.fuzzyMore(stringValueFirst, stringValueSecond);
                             }
                         }
                     case OperationEnum.MoreOrEqual:
@@ -271,21 +275,18 @@ namespace master_piece.service
                             }
                             else
                             {
-                                //TODO: implement fuzzy more or equal
-                                return false;
+                                return fuzzyVariableService.fuzzyMoreOrEquals(intValueFirst.Value, stringValueSecond);
                             }
                         }
                         else
                         {
                             if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
                             {
-                                //TODO: implement fuzzy more or equal
-                                return false;
+                                return fuzzyVariableService.fuzzyMoreOrEquals(stringValueFirst, intValueSecond.Value);
                             }
                             else
                             {
-                                //TODO: implement fuzzy more or equal
-                                return false;
+                                return fuzzyVariableService.fuzzyMoreOrEquals(stringValueFirst, stringValueSecond);
                             }
                         }
                     case OperationEnum.Less:
@@ -297,21 +298,18 @@ namespace master_piece.service
                             }
                             else
                             {
-                                //TODO: implement fuzzy less
-                                return false;
+                                return fuzzyVariableService.fuzzyLess(intValueFirst.Value, stringValueSecond);
                             }
                         }
                         else
                         {
                             if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
                             {
-                                //TODO: implement fuzzy less
-                                return false;
+                                return fuzzyVariableService.fuzzyLess(stringValueFirst, intValueSecond.Value);
                             }
                             else
                             {
-                                //TODO: implement fuzzy less
-                                return false;
+                                return fuzzyVariableService.fuzzyLess(stringValueFirst, stringValueSecond);
                             }
                         }
                     case OperationEnum.LessOrEqual:
@@ -323,21 +321,18 @@ namespace master_piece.service
                             }
                             else
                             {
-                                //TODO: implement fuzzy less or equal
-                                return false;
+                                return fuzzyVariableService.fuzzyLessOrEquals(intValueFirst.Value, stringValueSecond);
                             }
                         }
                         else
                         {
                             if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
                             {
-                                //TODO: implement fuzzy less or equal
-                                return false;
+                                return fuzzyVariableService.fuzzyLessOrEquals(stringValueFirst, intValueSecond.Value);
                             }
                             else
                             {
-                                //TODO: implement fuzzy less or equal
-                                return false;
+                                return fuzzyVariableService.fuzzyLessOrEquals(stringValueFirst, stringValueSecond);
                             }
                         }
                     //Rest operations are not allowed, and in this case false will be returned
@@ -466,7 +461,7 @@ namespace master_piece.service
         }
 
         //TODO: move to another class?
-        public static object getValueFromVariablesStorage(string identifier, VariablesStorage variablesStorage)
+        public object getValueFromVariablesStorage(string identifier, VariablesStorage variablesStorage)
         {
             foreach (IntViewVariable iv in variablesStorage.intVariables)
             {

@@ -18,6 +18,12 @@ namespace master_piece.domain
         public string name { get; set; }
 
         [NotNull]
+        public double rangeStart { get; set; } = 0;
+
+        [NotNull]
+        public double rangeEnd { get; set; } = 0;
+
+        [NotNull]
         public int deleted { get; set; } = 0;
     }
 }

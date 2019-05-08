@@ -1,4 +1,5 @@
 ﻿using master_piece.domain;
+using master_piece.service.fuzzy_variable;
 using SQLite;
 using System;
 using System.Windows.Forms;
@@ -12,10 +13,15 @@ namespace master_piece.UI
 
         private SQLiteConnection dbConnection;
 
+        private FuzzyVariableService fuzzyVariableService;
+
         public FVValues(SQLiteConnection arg_dbConnection, int arg_fuzzyVariableId)
         {
             dbConnection = arg_dbConnection;
             fuzzyVariableId = arg_fuzzyVariableId;
+
+            fuzzyVariableService = new FuzzyVariableService(dbConnection);
+
             InitializeComponent();
             refreshFVValuesTable();
         }
@@ -77,6 +83,7 @@ namespace master_piece.UI
                         fvValue.deleted = 1;
                         dbConnection.Update(fvValue);
                         refreshFVValuesTable();
+                        fuzzyVariableService.calculateFuzzyRanges(fuzzyVariableId);
                     }
                     catch (Exception ex)
                     {

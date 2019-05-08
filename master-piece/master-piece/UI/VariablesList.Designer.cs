@@ -33,10 +33,6 @@
             this.LVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LVDeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewFV = new System.Windows.Forms.DataGridView();
-            this.FVId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FVdeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.linguisticVariableID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.getFVList = new System.Windows.Forms.Button();
             this.button_addLV = new System.Windows.Forms.Button();
             this.button_editLV = new System.Windows.Forms.Button();
@@ -48,6 +44,12 @@
             this.button_deleteFV = new System.Windows.Forms.Button();
             this.button_setupFV = new System.Windows.Forms.Button();
             this.button_LVmap = new System.Windows.Forms.Button();
+            this.FVId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FVdeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.linguisticVariableID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rangeStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.randeEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFV)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -109,7 +111,9 @@
             this.FVId,
             this.FVdeleted,
             this.linguisticVariableID,
-            this.FVName});
+            this.FVName,
+            this.rangeStart,
+            this.randeEnd});
             this.dataGridViewFV.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridViewFV.Location = new System.Drawing.Point(605, 12);
             this.dataGridViewFV.MultiSelect = false;
@@ -119,38 +123,6 @@
             this.dataGridViewFV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewFV.Size = new System.Drawing.Size(581, 486);
             this.dataGridViewFV.TabIndex = 1;
-            // 
-            // FVId
-            // 
-            this.FVId.DataPropertyName = "id";
-            this.FVId.HeaderText = "ID";
-            this.FVId.Name = "FVId";
-            this.FVId.ReadOnly = true;
-            this.FVId.Visible = false;
-            // 
-            // FVdeleted
-            // 
-            this.FVdeleted.DataPropertyName = "deleted";
-            this.FVdeleted.HeaderText = "deleted";
-            this.FVdeleted.Name = "FVdeleted";
-            this.FVdeleted.ReadOnly = true;
-            this.FVdeleted.Visible = false;
-            // 
-            // linguisticVariableID
-            // 
-            this.linguisticVariableID.DataPropertyName = "linguisticVariableId";
-            this.linguisticVariableID.HeaderText = "linguisticVariableID";
-            this.linguisticVariableID.Name = "linguisticVariableID";
-            this.linguisticVariableID.ReadOnly = true;
-            this.linguisticVariableID.Visible = false;
-            // 
-            // FVName
-            // 
-            this.FVName.DataPropertyName = "name";
-            this.FVName.HeaderText = "Имя нёчеткой переменной";
-            this.FVName.Name = "FVName";
-            this.FVName.ReadOnly = true;
-            this.FVName.Width = 550;
             // 
             // getFVList
             // 
@@ -251,12 +223,60 @@
             // button_LVmap
             // 
             this.button_LVmap.Location = new System.Drawing.Point(537, 278);
-            this.button_LVmap.Name = "button_LPmap";
+            this.button_LVmap.Name = "button_LVmap";
             this.button_LVmap.Size = new System.Drawing.Size(62, 37);
             this.button_LVmap.TabIndex = 11;
             this.button_LVmap.Text = "Карта\r\nзначений";
             this.button_LVmap.UseVisualStyleBackColor = true;
             this.button_LVmap.Click += new System.EventHandler(this.button_LVmap_Click);
+            // 
+            // FVId
+            // 
+            this.FVId.DataPropertyName = "id";
+            this.FVId.HeaderText = "ID";
+            this.FVId.Name = "FVId";
+            this.FVId.ReadOnly = true;
+            this.FVId.Visible = false;
+            // 
+            // FVdeleted
+            // 
+            this.FVdeleted.DataPropertyName = "deleted";
+            this.FVdeleted.HeaderText = "deleted";
+            this.FVdeleted.Name = "FVdeleted";
+            this.FVdeleted.ReadOnly = true;
+            this.FVdeleted.Visible = false;
+            // 
+            // linguisticVariableID
+            // 
+            this.linguisticVariableID.DataPropertyName = "linguisticVariableId";
+            this.linguisticVariableID.HeaderText = "linguisticVariableID";
+            this.linguisticVariableID.Name = "linguisticVariableID";
+            this.linguisticVariableID.ReadOnly = true;
+            this.linguisticVariableID.Visible = false;
+            // 
+            // FVName
+            // 
+            this.FVName.DataPropertyName = "name";
+            this.FVName.HeaderText = "Имя нёчеткой переменной";
+            this.FVName.Name = "FVName";
+            this.FVName.ReadOnly = true;
+            this.FVName.Width = 400;
+            // 
+            // rangeStart
+            // 
+            this.rangeStart.DataPropertyName = "rangeStart";
+            this.rangeStart.HeaderText = "Диапазон ОТ";
+            this.rangeStart.Name = "rangeStart";
+            this.rangeStart.ReadOnly = true;
+            this.rangeStart.Width = 75;
+            // 
+            // randeEnd
+            // 
+            this.randeEnd.DataPropertyName = "rangeEnd";
+            this.randeEnd.HeaderText = "Диапазон ДО";
+            this.randeEnd.Name = "randeEnd";
+            this.randeEnd.ReadOnly = true;
+            this.randeEnd.Width = 75;
             // 
             // VariablesList
             // 
@@ -304,10 +324,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn LVName;
         private System.Windows.Forms.DataGridViewTextBoxColumn LVDeleted;
         private System.Windows.Forms.Button button_setupFV;
+        private System.Windows.Forms.Button button_LVmap;
         private System.Windows.Forms.DataGridViewTextBoxColumn FVId;
         private System.Windows.Forms.DataGridViewTextBoxColumn FVdeleted;
         private System.Windows.Forms.DataGridViewTextBoxColumn linguisticVariableID;
         private System.Windows.Forms.DataGridViewTextBoxColumn FVName;
-        private System.Windows.Forms.Button button_LVmap;
+        private System.Windows.Forms.DataGridViewTextBoxColumn rangeStart;
+        private System.Windows.Forms.DataGridViewTextBoxColumn randeEnd;
     }
 }

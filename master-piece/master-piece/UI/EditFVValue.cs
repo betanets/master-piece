@@ -1,13 +1,7 @@
 ﻿using master_piece.domain;
+using master_piece.service.fuzzy_variable;
 using SQLite;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace master_piece.UI
@@ -18,10 +12,15 @@ namespace master_piece.UI
         private FuzzyVariableValue fuzzyVariableValue;
         private int fuzzyVariableId;
 
+        private FuzzyVariableService fuzzyVariableService;
+
         public EditFVValue(SQLiteConnection arg_dbConnection, int arg_fuzzyVariableId)
         {
             dbConnection = arg_dbConnection;
             fuzzyVariableId = arg_fuzzyVariableId;
+
+            fuzzyVariableService = new FuzzyVariableService(dbConnection);
+
             InitializeComponent();
         }
 
@@ -107,6 +106,8 @@ namespace master_piece.UI
                 {
                     dbConnection.Update(fuzzyVariableValue);
                 }
+                //Recalculate fuzzy ranges for linguistic variable
+                fuzzyVariableService.calculateFuzzyRanges(fuzzyVariableId);
                 DialogResult = DialogResult.OK;
             }
             catch (Exception ex)

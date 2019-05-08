@@ -17,6 +17,7 @@ namespace master_piece
     {
         private SQLiteConnection dbConnection;
         private FuzzyVariableService fuzzyVariableService;
+        private SubexpressionService subexpressionService;
 
         VariablesStorage variablesStorage = new VariablesStorage();
         VariablesStorage variablesStorage_holder = new VariablesStorage();
@@ -39,6 +40,8 @@ namespace master_piece
 
             //Init fuzzy variable service
             fuzzyVariableService = new FuzzyVariableService(dbConnection);
+            //Init subexpression service
+            subexpressionService = new SubexpressionService(dbConnection);
 
             InitializeComponent();
         }
@@ -106,7 +109,7 @@ namespace master_piece
                 LoggerService.logReversePolishNotation(richTextBox_log, reversePolishNotationLexemeList);
 
                 //Creating subexpressions
-                List<Subexpression> currentSubexpressions = SubexpressionService.createSubexpressionsList(reversePolishNotationLexemeList, expression.expressionLevel);
+                List<Subexpression> currentSubexpressions = subexpressionService.createSubexpressionsList(reversePolishNotationLexemeList, expression.expressionLevel);
                 LoggerService.logSubexpressions(richTextBox_log, currentSubexpressions);
                 subexpressions.AddRange(currentSubexpressions);
 
@@ -150,7 +153,7 @@ namespace master_piece
             LoggerService.logDuplicates(richTextBox_log, subexpressions);
 
             //Precalculating duplicates
-            SubexpressionService.calculateDuplicates(subexpressions, variablesStorage);
+            subexpressionService.calculateDuplicates(subexpressions, variablesStorage);
             LoggerService.logDuplicatesValues(richTextBox_log, subexpressions);
 
             //Restore int variables storage to init state
@@ -166,7 +169,7 @@ namespace master_piece
                 if (subexpression.major)
                 {
                     //Calculate subexpression
-                    subexpression.value = SubexpressionService.calculateSubexpressionValue(subexpression, variablesStorage);
+                    subexpression.value = subexpressionService.calculateSubexpressionValue(subexpression, variablesStorage);
                     LoggerService.logSubexpressions(richTextBox_log, subexpressions);
 
                     //Prepare int variables storage to next iteration
