@@ -56,11 +56,11 @@ namespace master_piece.service
                         {
                             char currentSym = expression[i];
                             symbolSavior += currentSym;
-                            i++;
                             if (currentSym == '"')
                             {
                                 break;
                             }
+                            i++;
                         }
                         parserResult.lexemesList.Add(new Lexeme(LexemeType.FuzzyValue, symbolSavior));
                         //Cleanup symbol savior

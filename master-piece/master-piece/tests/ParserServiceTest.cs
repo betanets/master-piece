@@ -138,5 +138,21 @@ namespace master_piece.tests
             Assert.AreEqual(result.lexemesList[2].lexemeType, LexemeType.Identifier);
             Assert.AreEqual(result.lexemesList[2].lexemeText, "ident1fier");
         }
+
+        [Test]
+        public void doubleFuzzyExpression()
+        {
+            string expression = "\"хорошо\" == \"хорошо\"";
+            var result = ParserService.parseIfExpression(expression);
+
+            Assert.AreEqual(result.lexemesList[0].lexemeType, LexemeType.FuzzyValue);
+            Assert.AreEqual(result.lexemesList[0].lexemeText, "\"хорошо\"");
+
+            Assert.AreEqual(result.lexemesList[1].lexemeType, LexemeType.Equal);
+            Assert.AreEqual(result.lexemesList[1].lexemeText, "==");
+
+            Assert.AreEqual(result.lexemesList[2].lexemeType, LexemeType.FuzzyValue);
+            Assert.AreEqual(result.lexemesList[2].lexemeText, "\"хорошо\"");
+        }
     }
 }
