@@ -9,13 +9,13 @@ namespace master_piece.service
     class SemanticService
     {
         //TODO: work with possible redefinitions in THEN expressions
-        public static SemanticResult makeSemanticAnalysis(ParserResult parserResult, VariablesStorage variables)
+        public static SemanticResult makeSemanticAnalysis(List<Lexeme> parserResult, VariablesStorage variables)
         {
             SemanticResult semanticResult = new SemanticResult();
             semanticResult.isCorrect = true;
             semanticResult.output = new List<string>();
 
-            foreach(Lexeme lexeme in parserResult.lexemesList)
+            foreach(Lexeme lexeme in parserResult)
             {
                 if(LexemeTypes.IsIdentifier(lexeme.lexemeType))
                 {
@@ -54,12 +54,12 @@ namespace master_piece.service
 
         //TODO: possible move to another or separate sevice
         //TODO: split into two methods: one for assign value, another for assign level
-        public static void assignVariables(ParserResult parserResult, VariablesStorage variables, int subexpressionLevel)
+        public static void assignVariables(List<Lexeme> parserResult, VariablesStorage variables, int subexpressionLevel)
         {
             //Lexemes now stored as Identifier-Assign-Value-Comma-Identifier-...
             //TODO: check assign and comma lexemes
             Lexeme identifierSavior = null;
-            foreach (Lexeme lex in parserResult.lexemesList)
+            foreach (Lexeme lex in parserResult)
             {
                 if (LexemeTypes.IsIdentifier(lex.lexemeType))
                 {

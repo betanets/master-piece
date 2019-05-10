@@ -90,8 +90,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="lexeme\Lexeme.cs" />
-    <Compile Include="lexeme\LexemeType.cs" />
+    <Compile Include="service\parser\Lexeme.cs" />
+    <Compile Include="service\parser\LexemeType.cs" />
     <Compile Include="service\DuplicateExpressionService.cs" />
     <Compile Include="service\fuzzy-variable\FuzzyVariableSelectionResult.cs" />
     <Compile Include="service\fuzzy-variable\FuzzyVariableService.cs" />
@@ -112,8 +112,8 @@
     <Compile Include="variable\FuzzyViewVariable.cs" />
     <Compile Include="variable\IntViewVariable.cs" />
     <Compile Include="service\OperationHelper.cs" />
-    <Compile Include="service\ParserResult.cs" />
-    <Compile Include="service\ParserService.cs" />
+    <Compile Include="service\parser\ParserResult.cs" />
+    <Compile Include="service\parser\ParserService.cs" />
     <Compile Include="UI\EditFV.cs">
       <SubType>Form</SubType>
     </Compile>

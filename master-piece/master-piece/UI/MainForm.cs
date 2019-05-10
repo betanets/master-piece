@@ -86,11 +86,11 @@ namespace master_piece
             foreach (Expression expression in expressionsStorage)
             {
                 //Checking IF expression
-                ParserResult parserResult = ParserService.parseIfExpression(expression.ifExpressionText);
-                LoggerService.logIfParser(richTextBox_log, expression.ifExpressionText, parserResult.lexemesList);
+                List<Lexeme> ifParserResult = ParserService.parseIfExpression(expression.ifExpressionText);
+                LoggerService.logIfParser(richTextBox_log, expression.ifExpressionText, ifParserResult);
 
                 //Checking parser result on fuzzy values existence
-                FuzzyVariableSelectionResult ifSelectionResult = fuzzyVariableService.makeSelection(parserResult.lexemesList);
+                FuzzyVariableSelectionResult ifSelectionResult = fuzzyVariableService.makeSelection(ifParserResult);
                 if (!ifSelectionResult.isSuccess)
                 {
                     LoggerService.logFuzzySelectionError(richTextBox_log, ifSelectionResult);
@@ -98,14 +98,14 @@ namespace master_piece
                 }
 
                 //Checking semantic
-                SemanticResult semanticResult = SemanticService.makeSemanticAnalysis(parserResult, variablesStorage);
+                SemanticResult semanticResult = SemanticService.makeSemanticAnalysis(ifParserResult, variablesStorage);
                 LoggerService.logSemantic(richTextBox_log, semanticResult);
 
                 //Next steps are available only if semantic analysis is correct
                 if (!semanticResult.isCorrect) return;
 
                 //Sorting by reverse polish notation
-                List<Lexeme> reversePolishNotationLexemeList = ReversePolishNotationService.createNotation(parserResult.lexemesList);
+                List<Lexeme> reversePolishNotationLexemeList = ReversePolishNotationService.createNotation(ifParserResult);
                 LoggerService.logReversePolishNotation(richTextBox_log, reversePolishNotationLexemeList);
 
                 //Creating subexpressions
@@ -114,8 +114,8 @@ namespace master_piece
                 subexpressions.AddRange(currentSubexpressions);
 
                 //Checking THEN expression
-                ParserResult thenParserResult = ParserService.parseThenOrElseExpression(expression.thenExpressionText);
-                LoggerService.logThenOrElseParser(richTextBox_log, expression.thenExpressionText, thenParserResult.lexemesList, true);
+                List<Lexeme> thenParserResult = ParserService.parseThenOrElseExpression(expression.thenExpressionText);
+                LoggerService.logThenOrElseParser(richTextBox_log, expression.thenExpressionText, thenParserResult, true);
 
 
                 //Variable assignment
@@ -133,8 +133,8 @@ namespace master_piece
                 }
 
                 //Checking ELSE expression
-                ParserResult elseParserResult = ParserService.parseThenOrElseExpression(expression.elseExpressionText);
-                LoggerService.logThenOrElseParser(richTextBox_log, expression.elseExpressionText, elseParserResult.lexemesList, false);
+                List<Lexeme> elseParserResult = ParserService.parseThenOrElseExpression(expression.elseExpressionText);
+                LoggerService.logThenOrElseParser(richTextBox_log, expression.elseExpressionText, elseParserResult, false);
 
                 SemanticService.assignVariables(elseParserResult, variablesStorage, expression.expressionLevel);
                 LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, true);
@@ -173,7 +173,7 @@ namespace master_piece
                     LoggerService.logSubexpressions(richTextBox_log, subexpressions);
 
                     //Prepare int variables storage to next iteration
-                    ParserResult parserResult;
+                    List<Lexeme> parserResult;
                     if (subexpression.value.Value)
                     {
                         parserResult = ParserService.parseThenOrElseExpression(expressionsStorage[subexpression.expressionLevel - 1].thenExpressionText);

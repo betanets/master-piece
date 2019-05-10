@@ -1,4 +1,5 @@
 ﻿using master_piece.lexeme;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace master_piece.service
@@ -28,13 +29,13 @@ namespace master_piece.service
             return symbol == ' ' || symbol == '\t' || symbol == '\n';
         }
 
-        private static ParserResult parserResult;
+        private static List<Lexeme> lexemesList;
 
         //TODO: need more research to determine correct parser
         //TODO: combine same parts with parseThenExpression
-        public static ParserResult parseIfExpression(string expression)
+        public static List<Lexeme> parseIfExpression(string expression)
         {
-            parserResult = new ParserResult();
+            lexemesList = new List<Lexeme>();
             string symbolSavior = string.Empty;
 
             //Remove all whitespaces from expression
@@ -62,17 +63,17 @@ namespace master_piece.service
                             }
                             i++;
                         }
-                        parserResult.lexemesList.Add(new Lexeme(LexemeType.FuzzyValue, symbolSavior));
+                        lexemesList.Add(new Lexeme(LexemeType.FuzzyValue, symbolSavior));
                         //Cleanup symbol savior
                         symbolSavior = string.Empty;
                         break;
                     case '(':
                         symbolSavior = checkSymbolSavior(symbolSavior);
-                        parserResult.lexemesList.Add(new Lexeme(LexemeType.OpenBracket, c.ToString()));
+                        lexemesList.Add(new Lexeme(LexemeType.OpenBracket, c.ToString()));
                         break;
                     case ')':
                         symbolSavior = checkSymbolSavior(symbolSavior);
-                        parserResult.lexemesList.Add(new Lexeme(LexemeType.CloseBracket, c.ToString()));
+                        lexemesList.Add(new Lexeme(LexemeType.CloseBracket, c.ToString()));
                         break;
                     case '&':
                         symbolSavior = checkSymbolSavior(symbolSavior);
@@ -81,11 +82,11 @@ namespace master_piece.service
                         {
                             if (symbolSavior.Equals("&&"))
                             {
-                                parserResult.lexemesList.Add(new Lexeme(LexemeType.And, symbolSavior));
+                                lexemesList.Add(new Lexeme(LexemeType.And, symbolSavior));
                             }
                             else
                             {
-                                parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                                lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
                             }
                             symbolSavior = string.Empty;
                         }
@@ -97,11 +98,11 @@ namespace master_piece.service
                         {
                             if (symbolSavior.Equals("||"))
                             {
-                                parserResult.lexemesList.Add(new Lexeme(LexemeType.Or, symbolSavior));
+                                lexemesList.Add(new Lexeme(LexemeType.Or, symbolSavior));
                             }
                             else
                             {
-                                parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                                lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
                             }
                             symbolSavior = string.Empty;
                         }
@@ -120,19 +121,19 @@ namespace master_piece.service
                             switch (symbolSavior[0])
                             {
                                 case '=':
-                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Equal, symbolSavior));
+                                    lexemesList.Add(new Lexeme(LexemeType.Equal, symbolSavior));
                                     break;
                                 case '!':
-                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.NotEqual, symbolSavior));
+                                    lexemesList.Add(new Lexeme(LexemeType.NotEqual, symbolSavior));
                                     break;
                                 case '>':
-                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.MoreOrEqual, symbolSavior));
+                                    lexemesList.Add(new Lexeme(LexemeType.MoreOrEqual, symbolSavior));
                                     break;
                                 case '<':
-                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.LessOrEqual, symbolSavior));
+                                    lexemesList.Add(new Lexeme(LexemeType.LessOrEqual, symbolSavior));
                                     break;
                                 default:
-                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                                    lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
                                     break;
                             }
                             symbolSavior = string.Empty;
@@ -153,15 +154,15 @@ namespace master_piece.service
                             switch (symbolSavior[0])
                             {
                                 case '=':
-                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Assign, symbolSavior));
+                                    lexemesList.Add(new Lexeme(LexemeType.Assign, symbolSavior));
                                     symbolSavior = c.ToString();
                                     break;
                                 case '>':
-                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.More, symbolSavior));
+                                    lexemesList.Add(new Lexeme(LexemeType.More, symbolSavior));
                                     symbolSavior = c.ToString();
                                     break;
                                 case '<':
-                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Less, symbolSavior));
+                                    lexemesList.Add(new Lexeme(LexemeType.Less, symbolSavior));
                                     symbolSavior = c.ToString();
                                     break;
                                 default:
@@ -171,7 +172,7 @@ namespace master_piece.service
                                     }
                                     else
                                     {
-                                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                                        lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
                                         symbolSavior = string.Empty;
                                     }
                                     break;
@@ -184,7 +185,7 @@ namespace master_piece.service
                             {
                                 if (!isBigLetter(sym) && !isLittleLetter(sym) && !isNumber(sym))
                                 {
-                                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                                    lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
                                     symbolSavior = string.Empty;
                                 }
                             }
@@ -201,12 +202,12 @@ namespace master_piece.service
             {
                 checkSymbolSavior(symbolSavior);
             }
-            return parserResult;
+            return lexemesList;
         }
 
-        public static ParserResult parseThenOrElseExpression(string expression)
+        public static List<Lexeme> parseThenOrElseExpression(string expression)
         {
-            parserResult = new ParserResult();
+            lexemesList = new List<Lexeme>();
             string symbolSavior = string.Empty;
 
             //Remove all whitespaces from expression
@@ -234,17 +235,17 @@ namespace master_piece.service
                                 break;
                             }
                         }
-                        parserResult.lexemesList.Add(new Lexeme(LexemeType.FuzzyValue, symbolSavior));
+                        lexemesList.Add(new Lexeme(LexemeType.FuzzyValue, symbolSavior));
                         //Cleanup symbol savior
                         symbolSavior = string.Empty;
                         break;
                     case '=':
                         symbolSavior = checkSymbolSavior(symbolSavior);
-                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Assign, c.ToString()));
+                        lexemesList.Add(new Lexeme(LexemeType.Assign, c.ToString()));
                         break;
                     case ',':
                         symbolSavior = checkSymbolSavior(symbolSavior);
-                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Comma, c.ToString()));
+                        lexemesList.Add(new Lexeme(LexemeType.Comma, c.ToString()));
                         break;
                 }
 
@@ -262,7 +263,7 @@ namespace master_piece.service
                         {
                             if (!isBigLetter(sym) && !isLittleLetter(sym) && !isNumber(sym))
                             {
-                                parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                                lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
                                 symbolSavior = string.Empty;
                             }
                         }
@@ -279,7 +280,7 @@ namespace master_piece.service
                 checkSymbolSavior(symbolSavior);
             }
 
-            return parserResult;
+            return lexemesList;
         }
 
         private static string checkSymbolSavior(string symbolSavior)
@@ -292,11 +293,11 @@ namespace master_piece.service
             {
                 if(isBigLetter(symbolSavior[0]) || isLittleLetter(symbolSavior[0]))
                 {
-                    parserResult.lexemesList.Add(new Lexeme(LexemeType.Identifier, symbolSavior));
+                    lexemesList.Add(new Lexeme(LexemeType.Identifier, symbolSavior));
                 }
                 else if(isNumber(symbolSavior[0]))
                 {
-                    parserResult.lexemesList.Add(new Lexeme(LexemeType.IntValue, symbolSavior));
+                    lexemesList.Add(new Lexeme(LexemeType.IntValue, symbolSavior));
                 }
                 else
                 {
@@ -319,25 +320,25 @@ namespace master_piece.service
                     }
                     else
                     {
-                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                        lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
                         return string.Empty;
                     }
                 }
 
                 if(isAllNumbers)
                 {
-                    parserResult.lexemesList.Add(new Lexeme(LexemeType.IntValue, symbolSavior));
+                    lexemesList.Add(new Lexeme(LexemeType.IntValue, symbolSavior));
                     return string.Empty;
                 }
                 else
                 {
                     if(!isNumber(symbolSavior[0]))
                     {
-                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Identifier, symbolSavior));
+                        lexemesList.Add(new Lexeme(LexemeType.Identifier, symbolSavior));
                     }
                     else
                     {
-                        parserResult.lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
+                        lexemesList.Add(new Lexeme(LexemeType.Error, symbolSavior));
                     }
                 }
                 return string.Empty;
