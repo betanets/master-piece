@@ -70,7 +70,7 @@ namespace master_piece
             FuzzyVariableSelectionResult selectionResult = fuzzyVariableService.makeSelection(variablesStorage);
             if(!selectionResult.isSuccess)
             {
-                LoggerService.logFuzzySelectionError(richTextBox_log, selectionResult);
+                LoggingService.logFuzzySelectionError(richTextBox_log, selectionResult);
                 return;
             }
 
@@ -87,74 +87,74 @@ namespace master_piece
             {
                 //Checking IF expression
                 List<Lexeme> ifParserResult = ParserService.parseIfExpression(expression.ifExpressionText);
-                LoggerService.logIfParser(richTextBox_log, expression.ifExpressionText, ifParserResult);
+                LoggingService.logIfParser(richTextBox_log, expression.ifExpressionText, ifParserResult);
 
                 //Checking parser result on fuzzy values existence
                 FuzzyVariableSelectionResult ifSelectionResult = fuzzyVariableService.makeSelection(ifParserResult);
                 if (!ifSelectionResult.isSuccess)
                 {
-                    LoggerService.logFuzzySelectionError(richTextBox_log, ifSelectionResult);
+                    LoggingService.logFuzzySelectionError(richTextBox_log, ifSelectionResult);
                     return;
                 }
 
                 //Checking semantic
-                SemanticResult semanticResult = SemanticService.makeSemanticAnalysis(ifParserResult, variablesStorage);
-                LoggerService.logSemantic(richTextBox_log, semanticResult);
+                LexicalAnalysisResult semanticResult = LexicalAnalysisService.makeSemanticAnalysis(ifParserResult, variablesStorage);
+                LoggingService.logSemantic(richTextBox_log, semanticResult);
 
                 //Next steps are available only if semantic analysis is correct
                 if (!semanticResult.isCorrect) return;
 
                 //Sorting by reverse polish notation
                 List<Lexeme> reversePolishNotationLexemeList = ReversePolishNotationService.createNotation(ifParserResult);
-                LoggerService.logReversePolishNotation(richTextBox_log, reversePolishNotationLexemeList);
+                LoggingService.logReversePolishNotation(richTextBox_log, reversePolishNotationLexemeList);
 
                 //Creating subexpressions
                 List<Subexpression> currentSubexpressions = subexpressionService.createSubexpressionsList(reversePolishNotationLexemeList, expression.expressionLevel);
-                LoggerService.logSubexpressions(richTextBox_log, currentSubexpressions);
+                LoggingService.logSubexpressions(richTextBox_log, currentSubexpressions);
                 subexpressions.AddRange(currentSubexpressions);
 
                 //Checking THEN expression
                 List<Lexeme> thenParserResult = ParserService.parseThenOrElseExpression(expression.thenExpressionText);
-                LoggerService.logThenOrElseParser(richTextBox_log, expression.thenExpressionText, thenParserResult, true);
+                LoggingService.logThenOrElseParser(richTextBox_log, expression.thenExpressionText, thenParserResult, true);
 
 
                 //Variable assignment
                 //We should assign variables now to correctly mark duplicates
                 //We have no idea now whether THEN or ELSE expression will be executed
-                SemanticService.assignVariables(thenParserResult, variablesStorage, expression.expressionLevel);
-                LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, true);
+                LexicalAnalysisService.assignVariables(thenParserResult, variablesStorage, expression.expressionLevel);
+                LoggingService.logAssignedVariables(richTextBox_log, variablesStorage, true);
 
                 //Select fuzzy variables by their names
                 FuzzyVariableSelectionResult thenSelectionResult = fuzzyVariableService.makeSelection(variablesStorage);
                 if (!thenSelectionResult.isSuccess)
                 {
-                    LoggerService.logFuzzySelectionError(richTextBox_log, thenSelectionResult);
+                    LoggingService.logFuzzySelectionError(richTextBox_log, thenSelectionResult);
                     return;
                 }
 
                 //Checking ELSE expression
                 List<Lexeme> elseParserResult = ParserService.parseThenOrElseExpression(expression.elseExpressionText);
-                LoggerService.logThenOrElseParser(richTextBox_log, expression.elseExpressionText, elseParserResult, false);
+                LoggingService.logThenOrElseParser(richTextBox_log, expression.elseExpressionText, elseParserResult, false);
 
-                SemanticService.assignVariables(elseParserResult, variablesStorage, expression.expressionLevel);
-                LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, true);
+                LexicalAnalysisService.assignVariables(elseParserResult, variablesStorage, expression.expressionLevel);
+                LoggingService.logAssignedVariables(richTextBox_log, variablesStorage, true);
 
                 //Select fuzzy variables by their names
                 FuzzyVariableSelectionResult elseSelectionResult = fuzzyVariableService.makeSelection(variablesStorage);
                 if (!elseSelectionResult.isSuccess)
                 {
-                    LoggerService.logFuzzySelectionError(richTextBox_log, elseSelectionResult);
+                    LoggingService.logFuzzySelectionError(richTextBox_log, elseSelectionResult);
                     return;
                 }
             }
 
             //Marking duplicates
             DuplicateExpressionService.markDuplicates(subexpressions, variablesStorage);
-            LoggerService.logDuplicates(richTextBox_log, subexpressions);
+            LoggingService.logDuplicates(richTextBox_log, subexpressions);
 
             //Precalculating duplicates
             subexpressionService.calculateDuplicates(subexpressions, variablesStorage);
-            LoggerService.logDuplicatesValues(richTextBox_log, subexpressions);
+            LoggingService.logDuplicatesValues(richTextBox_log, subexpressions);
 
             //Restore int variables storage to init state
             variablesStorage.Clear();
@@ -170,7 +170,7 @@ namespace master_piece
                 {
                     //Calculate subexpression
                     subexpression.value = subexpressionService.calculateSubexpressionValue(subexpression, variablesStorage);
-                    LoggerService.logSubexpressions(richTextBox_log, subexpressions);
+                    LoggingService.logSubexpressions(richTextBox_log, subexpressions);
 
                     //Prepare int variables storage to next iteration
                     List<Lexeme> parserResult;
@@ -182,18 +182,18 @@ namespace master_piece
                     {
                         parserResult = ParserService.parseThenOrElseExpression(expressionsStorage[subexpression.expressionLevel - 1].elseExpressionText);
                     }
-                    SemanticService.assignVariables(parserResult, variablesStorage, subexpression.expressionLevel);
+                    LexicalAnalysisService.assignVariables(parserResult, variablesStorage, subexpression.expressionLevel);
 
                     //Select fuzzy variables by their names
                     FuzzyVariableSelectionResult sfvSelectionResult = fuzzyVariableService.makeSelection(variablesStorage);
                     if (!sfvSelectionResult.isSuccess)
                     {
-                        LoggerService.logFuzzySelectionError(richTextBox_log, sfvSelectionResult);
+                        LoggingService.logFuzzySelectionError(richTextBox_log, sfvSelectionResult);
                         return;
                     }
                 }
             }
-            LoggerService.logAssignedVariables(richTextBox_log, variablesStorage, false);
+            LoggingService.logAssignedVariables(richTextBox_log, variablesStorage, false);
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)

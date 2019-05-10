@@ -63,7 +63,7 @@ namespace master_piece.service
 
             if (!processingTerminated)
             {
-                LoggerService.logExpressions(logComponent, expressions);
+                LoggingService.logExpressions(logComponent, expressions);
             }
 
             return expressions;

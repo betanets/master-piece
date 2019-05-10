@@ -35,7 +35,7 @@ namespace master_piece.service
             {
                 if (exp.mustBePrecalculated == true)
                 {
-                    List<AbstractViewVariable> abstractVariables = SemanticService.getVariablesBySubexpression(exp, variablesStorage);
+                    List<AbstractViewVariable> abstractVariables = LexicalAnalysisService.getVariablesBySubexpression(exp, variablesStorage);
                     bool mustBeFiltered = false;
                     foreach (AbstractViewVariable av in abstractVariables)
                     {

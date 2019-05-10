@@ -60,7 +60,7 @@ namespace master_piece.service
 
             if (!processingTerminated)
             {
-                LoggerService.logVariables(logComponent, variablesStorage);
+                LoggingService.logVariables(logComponent, variablesStorage);
             }
 
             return variablesStorage;

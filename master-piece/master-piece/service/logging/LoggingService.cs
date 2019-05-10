@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace master_piece.service
 {
-    class LoggerService
+    class LoggingService
     {
         /// <summary>
         /// Variables logging method
@@ -90,7 +90,7 @@ namespace master_piece.service
         /// </summary>
         /// <param name="loggerComponent">Log output component</param>
         /// <param name="semanticResult">Semantic analysis result</param>
-        public static void logSemantic(RichTextBox loggerComponent, SemanticResult semanticResult)
+        public static void logSemantic(RichTextBox loggerComponent, LexicalAnalysisResult semanticResult)
         {
             loggerComponent.AppendText("\n----------\nРезультаты семантического анализа\n-----------\n");
             if (!semanticResult.isCorrect)

@@ -6,12 +6,12 @@ using System.Collections.Generic;
 
 namespace master_piece.service
 {
-    class SemanticService
+    class LexicalAnalysisService
     {
         //TODO: work with possible redefinitions in THEN expressions
-        public static SemanticResult makeSemanticAnalysis(List<Lexeme> parserResult, VariablesStorage variables)
+        public static LexicalAnalysisResult makeSemanticAnalysis(List<Lexeme> parserResult, VariablesStorage variables)
         {
-            SemanticResult semanticResult = new SemanticResult();
+            LexicalAnalysisResult semanticResult = new LexicalAnalysisResult();
             semanticResult.isCorrect = true;
             semanticResult.output = new List<string>();
 
