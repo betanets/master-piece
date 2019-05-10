@@ -151,190 +151,198 @@ namespace master_piece.service
                 {
                     //It is not OK but possible to use AND and OR operaions in leaf expression
                     case OperationEnum.And:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeFirst.lexemeType))
+                        if (intValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return (intValueFirst.Value != 0) && (intValueSecond.Value != 0);
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return (intValueFirst.Value != 0) && (stringValueSecond != null);
                             }
                         }
-                        else
+                        else if (stringValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return (stringValueFirst != null) && (intValueSecond.Value != 0);
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return (stringValueFirst != null) && (stringValueSecond != null);
                             }
                         }
+                        return false;
                     case OperationEnum.Or:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeFirst.lexemeType))
+                        if (intValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return (intValueFirst.Value != 0) || (intValueSecond.Value != 0);
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return (intValueFirst.Value != 0) || (stringValueSecond != null);
                             }
                         }
-                        else
+                        else if (stringValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return (stringValueFirst != null) || (intValueSecond.Value != 0);
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return (stringValueFirst != null) || (stringValueSecond != null);
                             }
                         }
+                        return false;
                     //Comparison operations are fully OK
                     case OperationEnum.Equal:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeFirst.lexemeType))
+                        if (intValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return intValueFirst.Value == intValueSecond.Value;
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyEquals(intValueFirst.Value, stringValueSecond);
                             }
                         }
-                        else
+                        else if (stringValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyEquals(intValueSecond.Value, stringValueFirst);
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return stringValueFirst == stringValueSecond;
                             }
                         }
+                        return false;
                     case OperationEnum.NotEqual:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeFirst.lexemeType))
+                        if (intValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return intValueFirst.Value != intValueSecond.Value;
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyNotEquals(intValueFirst.Value, stringValueSecond);
                             }
                         }
-                        else
+                        else if (stringValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyNotEquals(intValueSecond.Value, stringValueFirst);
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return stringValueFirst != stringValueSecond;
                             }
                         }
+                        return false;
                     case OperationEnum.More:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeFirst.lexemeType))
+                        if (intValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return intValueFirst.Value > intValueSecond.Value;
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyMore(intValueFirst.Value, stringValueSecond);
                             }
                         }
-                        else
+                        else if (stringValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyMore(stringValueFirst, intValueSecond.Value);
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyMore(stringValueFirst, stringValueSecond);
                             }
                         }
+                        return false;
                     case OperationEnum.MoreOrEqual:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeFirst.lexemeType))
+                        if (intValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return intValueFirst.Value >= intValueSecond.Value;
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyMoreOrEquals(intValueFirst.Value, stringValueSecond);
                             }
                         }
-                        else
+                        else if (stringValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyMoreOrEquals(stringValueFirst, intValueSecond.Value);
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyMoreOrEquals(stringValueFirst, stringValueSecond);
                             }
                         }
+                        return false;
                     case OperationEnum.Less:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeFirst.lexemeType))
+                        if (intValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return intValueFirst.Value < intValueSecond.Value;
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyLess(intValueFirst.Value, stringValueSecond);
                             }
                         }
-                        else
+                        else if (stringValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyLess(stringValueFirst, intValueSecond.Value);
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyLess(stringValueFirst, stringValueSecond);
                             }
                         }
+                        return false;
                     case OperationEnum.LessOrEqual:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeFirst.lexemeType))
+                        if (intValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return intValueFirst.Value <= intValueSecond.Value;
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyLessOrEquals(intValueFirst.Value, stringValueSecond);
                             }
                         }
-                        else
+                        else if (stringValueFirst != null)
                         {
-                            if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                            if (intValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyLessOrEquals(stringValueFirst, intValueSecond.Value);
                             }
-                            else
+                            else if (stringValueSecond != null)
                             {
                                 return fuzzyVariableService.fuzzyLessOrEquals(stringValueFirst, stringValueSecond);
                             }
                         }
+                        return false;
                     //Rest operations are not allowed, and in this case false will be returned
                     default:
                         return false;
@@ -384,41 +392,57 @@ namespace master_piece.service
                 {
                     //AND and OR operaions are fully OK in mixed subexpression
                     case OperationEnum.And:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                        if (intValueSecond != null)
                         {
                             return subexpression.subexpressionFirst.value.Value && (intValueSecond.Value != 0);
                         }
-                        else
+                        else if(stringValueSecond != null)
                         {
                             return subexpression.subexpressionFirst.value.Value && (stringValueSecond != null);
                         }
+                        else
+                        {
+                            return false;
+                        }
                     case OperationEnum.Or:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                        if (intValueSecond != null)
                         {
                             return subexpression.subexpressionFirst.value.Value || (intValueSecond.Value != 0);
                         }
-                        else
+                        else if (stringValueSecond != null)
                         {
                             return subexpression.subexpressionFirst.value.Value || (stringValueSecond != null);
                         }
+                        else
+                        {
+                            return false;
+                        }
                     //Comparison operations are strange but possible
                     case OperationEnum.Equal:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                        if (intValueSecond != null)
                         {
                             return subexpression.subexpressionFirst.value.Value == (intValueSecond.Value != 0);
                         }
-                        else
+                        else if (stringValueSecond != null)
                         {
                             return subexpression.subexpressionFirst.value.Value == (stringValueSecond != null);
                         }
+                        else
+                        {
+                            return false;
+                        }
                     case OperationEnum.NotEqual:
-                        if (LexemeTypes.IsIntValue(subexpression.lexemeSecond.lexemeType))
+                        if (intValueSecond != null)
                         {
                             return subexpression.subexpressionFirst.value.Value != (intValueSecond.Value != 0);
                         }
-                        else
+                        else if (stringValueSecond != null)
                         {
                             return subexpression.subexpressionFirst.value.Value != (stringValueSecond != null);
+                        }
+                        else
+                        {
+                            return false;
                         }
                     //Rest operations are not allowed, and in this case false will be returned
                     default:

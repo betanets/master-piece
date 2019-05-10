@@ -112,7 +112,6 @@
     <Compile Include="variable\FuzzyViewVariable.cs" />
     <Compile Include="variable\IntViewVariable.cs" />
     <Compile Include="service\OperationHelper.cs" />
-    <Compile Include="service\parser\ParserResult.cs" />
     <Compile Include="service\parser\ParserService.cs" />
     <Compile Include="UI\EditFV.cs">
       <SubType>Form</SubType>

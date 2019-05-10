@@ -54,10 +54,6 @@ namespace master_piece.service.fuzzy_variable
 
         public FuzzyVariable getFuzzyVariableByName(string fuzzyVariableName)
         {
-            if(fuzzyVariableName == null)
-            {
-                return null;
-            }
             fuzzyVariableName = fuzzyVariableName.Trim(' ', '\t', '"');
             List<FuzzyVariable> variables = dbConnection.Query<FuzzyVariable>("select * from FuzzyVariable where name = ? and deleted = '0' limit 1", fuzzyVariableName);
             if (variables.Count == 1)
