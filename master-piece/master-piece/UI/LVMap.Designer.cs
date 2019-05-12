@@ -35,7 +35,6 @@
             System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.chart_map = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.richTextBox_points = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart_map)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,6 +46,7 @@
             chartArea1.AxisY.LineWidth = 2;
             chartArea1.Name = "ChartArea_map";
             this.chart_map.ChartAreas.Add(chartArea1);
+            this.chart_map.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Name = "Legend1";
             this.chart_map.Legends.Add(legend1);
             this.chart_map.Location = new System.Drawing.Point(0, 0);
@@ -59,7 +59,7 @@
             series1.LegendToolTip = "Карта значений";
             series1.Name = "Series_map";
             this.chart_map.Series.Add(series1);
-            this.chart_map.Size = new System.Drawing.Size(988, 566);
+            this.chart_map.Size = new System.Drawing.Size(989, 568);
             this.chart_map.TabIndex = 5;
             this.chart_map.Text = "Карта значений нечёткой переменной";
             title1.Name = "Title_header";
@@ -74,20 +74,11 @@
             this.chart_map.Titles.Add(title2);
             this.chart_map.Titles.Add(title3);
             // 
-            // richTextBox_points
-            // 
-            this.richTextBox_points.Location = new System.Drawing.Point(13, 573);
-            this.richTextBox_points.Name = "richTextBox_points";
-            this.richTextBox_points.Size = new System.Drawing.Size(964, 131);
-            this.richTextBox_points.TabIndex = 6;
-            this.richTextBox_points.Text = "";
-            // 
             // LVMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(989, 716);
-            this.Controls.Add(this.richTextBox_points);
+            this.ClientSize = new System.Drawing.Size(989, 568);
             this.Controls.Add(this.chart_map);
             this.Name = "LVMap";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -100,6 +91,5 @@
         #endregion
 
         private System.Windows.Forms.DataVisualization.Charting.Chart chart_map;
-        private System.Windows.Forms.RichTextBox richTextBox_points;
     }
 }
