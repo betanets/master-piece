@@ -114,7 +114,11 @@ namespace master_piece.service.fuzzy_variable
             //Selecting fuzzy variables
             List<FuzzyVariable> fuzzyVariables =
                 dbConnection.Query<FuzzyVariable>(
-                    "select * from FuzzyVariable where linguisticVariableId = ? and deleted = '0'", 
+                    "select fv.* from FuzzyVariable fv " +
+                    "join FuzzyVariableValue fvv on fvv.fuzzyVariableId = fv.id " +
+                    "where fv.linguisticVariableId = ? and fv.deleted = '0' and fvv.deleted = '0' " +
+                    "group by fv.id " +
+                    "order by min(fvv.value)", 
                     linguisticVariableId
                 );
 

@@ -27,7 +27,7 @@ namespace master_piece
         {
             if (lv != null)
             {
-                dataGridViewFV.DataSource = dbConnection.Query<FuzzyVariable>("select * from FuzzyVariable where linguisticVariableId = ? and deleted = '0'", lv.id);
+                dataGridViewFV.DataSource = dbConnection.Query<FuzzyVariable>("select * from FuzzyVariable where linguisticVariableId = ? and deleted = '0' order by rangeStart", lv.id);
                 toolStripFVSelectStatus.Text = "Получен список нечётких переменных для лингвистической переменной: " + lv.name;
             }
             else
