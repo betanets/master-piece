@@ -141,7 +141,6 @@ namespace master_piece.service
                 }
 
                 //If subexpression has uninitialized variables, we couldn't evaluate it. Return false in this case
-                //TODO: is it correct to return false in this case?
                 if((!intValueFirst.HasValue && stringValueFirst == null) || (!intValueSecond.HasValue && stringValueSecond == null))
                 {
                     return false;
@@ -382,7 +381,6 @@ namespace master_piece.service
                 }
 
                 //If subexpression has uninitialized variables, we couldn't evaluate it. Return false in this case
-                //TODO: is it correct to return false in this case?
                 if (!intValueSecond.HasValue && stringValueSecond == null)
                 {
                     return false;

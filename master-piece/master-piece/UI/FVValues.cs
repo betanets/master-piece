@@ -28,7 +28,6 @@ namespace master_piece.UI
 
         private void refreshFVValuesTable()
         {
-            //TODO: Possibly there could be a better way than selection with ORDER BY statement
             var dataSource = dbConnection.Query<FuzzyVariableValue>("select * from FuzzyVariableValue where fuzzyVariableId = ? and deleted = '0' order by value", fuzzyVariableId);
             dataGridView_FVValues.DataSource = dataSource;
             refreshMap(dataSource);
@@ -87,7 +86,6 @@ namespace master_piece.UI
                     }
                     catch (Exception ex)
                     {
-                        //TODO: make custom exception window with error, stacktrace, etc
                         //Exception may occur when dbConnection is null
                         MessageBox.Show("Произошла ошибка при работе с базой данных: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }

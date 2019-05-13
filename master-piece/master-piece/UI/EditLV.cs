@@ -58,7 +58,6 @@ namespace master_piece.UI
                 }
                 catch (Exception ex)
                 {
-                    //TODO: make custom exception window with error, stacktrace, etc
                     //Exception may occur when dbConnection is null
                     MessageBox.Show("Произошла ошибка при работе с базой данных: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     DialogResult = DialogResult.Abort;

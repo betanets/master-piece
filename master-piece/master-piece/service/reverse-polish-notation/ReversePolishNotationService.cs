@@ -5,7 +5,6 @@ namespace master_piece.service
 {
     class ReversePolishNotationService
     {
-        //TODO: think about Assign priority. Now it has priority 3 (like identifiers and values)
         private static byte GetPriority(LexemeType lexemeType)
         {
             switch (lexemeType)

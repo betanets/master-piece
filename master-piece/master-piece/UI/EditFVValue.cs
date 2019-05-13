@@ -48,12 +48,8 @@ namespace master_piece.UI
             }
 
             //Value format check
-            //TODO: work with local data format
-            try
-            {
-                value = Convert.ToDouble(textBox_value.Text);
-            }
-            catch (Exception)
+            bool valueParsePassed = double.TryParse(textBox_value.Text.Replace('.', ','), out value);
+            if (!valueParsePassed)
             {
                 MessageBox.Show("Значение нечёткой переменной введено неверно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -67,12 +63,8 @@ namespace master_piece.UI
             }
 
             //Possibility format check
-            //TODO: work with local data format
-            try
-            {
-                possibility = Convert.ToDouble(textBox_possibility.Text);
-            }
-            catch (Exception)
+            bool possibilityParsePassed = double.TryParse(textBox_possibility.Text.Replace('.', ','), out possibility);
+            if(!possibilityParsePassed)
             {
                 MessageBox.Show("Вероятность значения нечёткой переменной введена неверно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -112,7 +104,6 @@ namespace master_piece.UI
             }
             catch (Exception ex)
             {
-                //TODO: make custom exception window with error, stacktrace, etc
                 //Exception may occur when dbConnection is null
                 MessageBox.Show("Произошла ошибка при работе с базой данных: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 DialogResult = DialogResult.Abort;
