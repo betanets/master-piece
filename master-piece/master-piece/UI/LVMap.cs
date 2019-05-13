@@ -1,10 +1,11 @@
-﻿using master_piece.domain;
+﻿using LiveCharts;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
+using master_piece.domain;
 using SQLite;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Media;
 
 namespace master_piece.UI
 {
@@ -23,25 +24,34 @@ namespace master_piece.UI
 
         private void loadMap()
         {
-            int i = 0;
-            Random random = new Random();
-            chart_map.Series.Clear();
+            Axis axisX = new Axis();
+            axisX.Title = "Значение";
+            cartesianChart_map.AxisX.Add(axisX);
+
+            Axis axisY = new Axis();
+            axisY.MinValue = 0;
+            axisY.MaxValue = 1;
+            axisY.Title = "Вероятность";
+            cartesianChart_map.AxisY.Add(axisY);
+
+            cartesianChart_map.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255));
 
             List<FuzzyVariable> fuzzyVariables = dbConnection.Query<FuzzyVariable>("select * from FuzzyVariable where linguisticVariableId = ? and deleted = '0'", linguisticVariableId);
             foreach(FuzzyVariable fv in fuzzyVariables) {
-                chart_map.Series.Add(new Series());
-                chart_map.Series[i].ChartType = SeriesChartType.Area;
-                chart_map.Series[i].IsValueShownAsLabel = true;
-                chart_map.Series[i].Name = fv.name;
-
-                chart_map.Series[i].Color = Color.FromArgb(128, random.Next() % 255, random.Next() % 255, random.Next() % 255);
-
                 List <FuzzyVariableValue> fuzzyVariableValues = dbConnection.Query<FuzzyVariableValue>("select * from FuzzyVariableValue where fuzzyVariableId = ? and deleted = '0' order by value", fv.id);
-                foreach(FuzzyVariableValue fvv in fuzzyVariableValues)
+
+                LineSeries series = new LineSeries
                 {
-                    chart_map.Series[i].Points.AddXY(fvv.value, fvv.possibility);
+                    Title = fv.name,
+                    Values = new ChartValues<ObservablePoint>(),
+                    LineSmoothness = 0
+                };
+
+                foreach (FuzzyVariableValue fvv in fuzzyVariableValues)
+                {
+                    series.Values.Add(new ObservablePoint(fvv.value, fvv.possibility));
                 }
-                i++;
+                cartesianChart_map.Series.Add(series);
             }
         }
     }
