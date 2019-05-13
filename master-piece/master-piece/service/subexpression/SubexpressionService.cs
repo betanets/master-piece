@@ -349,10 +349,22 @@ namespace master_piece.service
             }
             else if (subexpression.isMixed())
             {
+                bool? preBooster = calculationBooster(subexpression);
+                if (preBooster.HasValue)
+                {
+                    return preBooster.Value;
+                }
+
                 //Calculate first subexpression value if it doesn't exists
-                if(!subexpression.subexpressionFirst.value.HasValue)
+                if (!subexpression.subexpressionFirst.value.HasValue)
                 {
                     subexpression.subexpressionFirst.value = calculateSubexpressionValue(subexpression.subexpressionFirst, variablesStorage);
+                }
+
+                bool? secondBooster = calculationBooster(subexpression);
+                if (secondBooster.HasValue)
+                {
+                    return secondBooster.Value;
                 }
 
                 int? intValueSecond = null;
@@ -448,13 +460,24 @@ namespace master_piece.service
                 }
             }
             //Ordinary subexpression are here
-            //TODO: add calculation booster block
             else
             {
+                bool? preBooster = calculationBooster(subexpression);
+                if (preBooster.HasValue)
+                {
+                    return preBooster.Value;
+                }
+
                 //Calculate first subexpression value if it doesn't exists
                 if (!subexpression.subexpressionFirst.value.HasValue)
                 {
                     subexpression.subexpressionFirst.value = calculateSubexpressionValue(subexpression.subexpressionFirst, variablesStorage);
+                }
+
+                bool? secondBooster = calculationBooster(subexpression);
+                if (secondBooster.HasValue)
+                {
+                    return secondBooster.Value;
                 }
 
                 //Calculate second subexpression value if it doesn't exists
@@ -480,6 +503,28 @@ namespace master_piece.service
                         return false;
                 }
             }
+        }
+
+        public bool? calculationBooster(Subexpression subexpression)
+        {
+            if (subexpression.subexpressionFirst.value.HasValue)
+            {
+                if (subexpression.operation == OperationEnum.And)
+                {
+                    if (subexpression.subexpressionFirst.value.Value.Equals(false))
+                    {
+                        return false;
+                    }
+                }
+                else if (subexpression.operation == OperationEnum.Or)
+                {
+                    if (subexpression.subexpressionFirst.value.Value.Equals(true))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return null;
         }
 
         //TODO: move to another class?

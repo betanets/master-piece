@@ -170,7 +170,6 @@ namespace master_piece
                 {
                     //Calculate subexpression
                     subexpression.value = subexpressionService.calculateSubexpressionValue(subexpression, variablesStorage);
-                    LoggingService.logSubexpressions(richTextBox_log, subexpressions);
 
                     //Prepare int variables storage to next iteration
                     List<Lexeme> parserResult;
@@ -193,6 +192,7 @@ namespace master_piece
                     }
                 }
             }
+            LoggingService.logSubexpressions(richTextBox_log, subexpressions);
             LoggingService.logAssignedVariables(richTextBox_log, variablesStorage, false);
         }
 
