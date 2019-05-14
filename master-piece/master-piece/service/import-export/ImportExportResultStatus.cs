@@ -1,7 +1,7 @@
 ﻿namespace master_piece.service.import_export
 {
     /// <summary>
-    /// Enum of import or export result statuses
+    /// Перечисление статусов импорта или экспорта
     /// </summary>
     public enum ImportExportResultStatus
     {

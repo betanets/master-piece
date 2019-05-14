@@ -6,17 +6,20 @@ using System.Windows.Forms;
 namespace master_piece.service
 {
     /// <summary>
-    /// Import and export service
+    /// Сервис импорта и экспорта
     /// </summary>
     class ImportExportService
     {
+        /// <summary>
+        /// Разделитель в результирующем текстовом файле
+        /// </summary>
         private static readonly string DELIMITER = "\t\t";
 
         /// <summary>
-        /// Variables import method
+        /// Метод импорта переменных.
+        /// Возвращает сущность <see cref="ImportExportResult"/>.
         /// </summary>
-        /// <param name="dataGridView">Table of variables from MainForm</param>
-        /// <returns>Result of import: status and message string</returns>
+        /// <param name="dataGridView">Таблица переменных с формы MainForm</param>
         public static ImportExportResult importVariables(DataGridView dataGridView)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -59,10 +62,10 @@ namespace master_piece.service
         }
 
         /// <summary>
-        /// Expressions import method
+        /// Метод импорта выражений.
+        /// Возвращает сущность <see cref="ImportExportResult"/>.
         /// </summary>
-        /// <param name="dataGridView">Table of expressions from MainForm</param>
-        /// <returns>Result of import: status and message string</returns>
+        /// <param name="dataGridView">Таблица выражений с формы MainForm</param>
         public static ImportExportResult importExpressions(DataGridView dataGridView)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -108,10 +111,10 @@ namespace master_piece.service
         }
 
         /// <summary>
-        /// Variables export method
+        /// Метод экспорта переменных.
+        /// Возвращает сущность <see cref="ImportExportResult"/>.
         /// </summary>
-        /// <param name="dataGridView">Table of variables in MainForm</param>
-        /// <returns>Result of export: status and message string</returns>
+        /// <param name="dataGridView">Таблица переменных с формы MainForm</param>
         public static ImportExportResult exportVariables(DataGridView dataGridView)
         {
             if (dataGridView.NewRowIndex == 0)
@@ -159,10 +162,10 @@ namespace master_piece.service
         }
 
         /// <summary>
-        /// Expressions export method
+        /// Метод экспорта выражений.
+        /// Возвращает сущность <see cref="ImportExportResult"/>.
         /// </summary>
-        /// <param name="dataGridView">Table of expressions in MainForm</param>
-        /// <returns>Result of export: status and message string</returns>
+        /// <param name="dataGridView">Таблица выражений с формы MainForm</param>
         public static ImportExportResult exportExpressions(DataGridView dataGridView)
         {
             if (dataGridView.NewRowIndex == 0)
@@ -217,10 +220,10 @@ namespace master_piece.service
         }
 
         /// <summary>
-        /// Results export method
+        /// Метод экспорта результатов обработки нечетких правил.
+        /// Возвращает сущность <see cref="ImportExportResult"/>.
         /// </summary>
-        /// <param name="richTextBox">List of results in MainForm</param>
-        /// <returns>Result of export: status and message string</returns>
+        /// <param name="richTextBox">RichTextBox с результатами, расположенный на форме MainForm</param>
         public static ImportExportResult exportResults(RichTextBox richTextBox)
         {
             if (richTextBox.Lines.Length == 0)

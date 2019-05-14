@@ -9,15 +9,29 @@ using System.Linq;
 
 namespace master_piece.service.fuzzy_variable
 {
+    /// <summary>
+    /// Сервис по работе с нечеткими переменными
+    /// </summary>
     class FuzzyVariableService
     {
+        /// <summary>
+        /// Сущность соединения с базой данных
+        /// </summary>
         private SQLiteConnection dbConnection;
 
+        /// <summary>
+        /// Конструктор по умолчанию
+        /// </summary>
+        /// <param name="arg_dbConnection">Сущность соединения с базой данных</param>
         public FuzzyVariableService(SQLiteConnection arg_dbConnection)
         {
             dbConnection = arg_dbConnection;
         }
 
+        /// <summary>
+        /// Метод получения сущности нечекой переменной по ID
+        /// </summary>
+        /// <param name="fuzzyVariableId">ID нечеткой переменной. Может быть null</param>
         public FuzzyVariable getFuzzyVariableById(int? fuzzyVariableId)
         {
             if (!fuzzyVariableId.HasValue)
@@ -38,6 +52,11 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Метод получения ID нечеткой переменной по алиасу.
+        /// Если алиасу соответствуют несколько нечетких переменных, или не соответствует ни одна, то вернется null.
+        /// </summary>
+        /// <param name="fuzzyVariableName">Алиас нечеткой переменной</param>
         public int? getFuzzyVariableIdByName(string fuzzyVariableName)
         {
             fuzzyVariableName = fuzzyVariableName.Trim(' ', '\t', '"');
@@ -52,6 +71,11 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Метод получения сущности нечеткой переменной по алиасу.
+        /// Если алиасу соответствуют несколько нечетких переменных, или не соответствует ни одна, то вернется null.
+        /// </summary>
+        /// <param name="fuzzyVariableName">Алиас нечеткой переменной</param>
         public FuzzyVariable getFuzzyVariableByName(string fuzzyVariableName)
         {
             fuzzyVariableName = fuzzyVariableName.Trim(' ', '\t', '"');
@@ -66,6 +90,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Метод подбора нечетких переменных по значениям.
+        /// Используется при инициализации переменных, перед вычислением выражений ТО или ИНАЧЕ, и после обработки каждого из нечетких правил.
+        /// Возвращает сущность <see cref="FuzzyVariableSelectionResult"/>.
+        /// </summary>
+        /// <param name="variables">Хранилище переменных</param>
         public FuzzyVariableSelectionResult makeSelection(VariablesStorage variables)
         {
             foreach(FuzzyViewVariable fvv in variables.fuzzyVariables)
@@ -83,6 +113,12 @@ namespace master_piece.service.fuzzy_variable
             return new FuzzyVariableSelectionResult(true, null);
         }
 
+        /// <summary>
+        /// Метод подбора нечетких переменных по списку лексем.
+        /// Используется перед вычислением выражений ЕСЛИ.
+        /// Возвращает сущность <see cref="FuzzyVariableSelectionResult"/>.
+        /// </summary>
+        /// <param name="lexemes">Список лексем</param>
         public FuzzyVariableSelectionResult makeSelection(List<Lexeme> lexemes)
         {
             foreach(Lexeme lex in lexemes)
@@ -98,7 +134,12 @@ namespace master_piece.service.fuzzy_variable
             }
             return new FuzzyVariableSelectionResult(true, null);
         }
-
+        
+        /// <summary>
+        /// Метод вычисления диапазона четких значений нечеткой переменных.
+        /// Производит изменения в сущности нечеткой переменной и сохраняет их в базу данных.
+        /// </summary>
+        /// <param name="fuzzyVariableId">ID нечеткой переменной</param>
         public void calculateFuzzyRanges(int fuzzyVariableId)
         {
             //Searching for linguistic variable
@@ -249,7 +290,13 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
-
+        /// <summary>
+        /// Операция сравнения четкого значения с нечетким значением.
+        /// Возвращает true, если четкое значение входит в диапазон четких значений нечеткой переменной.
+        /// Операция коммутативна.
+        /// </summary>
+        /// <param name="intValue">Четкое значение</param>
+        /// <param name="fuzzyValue">Нечеткое значение</param>
         public bool fuzzyEquals(int intValue, string fuzzyValue)
         {
             FuzzyVariable fuzzyVariable = getFuzzyVariableByName(fuzzyValue);
@@ -263,6 +310,13 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Операция неравенства между четким и нечетким значением.
+        /// Возвращает true, если четкое значение не входит в диапазон четких значений нечеткой переменной.
+        /// Операция коммутативна.
+        /// </summary>
+        /// <param name="intValue">Четкое значение</param>
+        /// <param name="fuzzyValue">Нечеткое значение</param>
         public bool fuzzyNotEquals(int intValue, string fuzzyValue)
         {
             FuzzyVariable fuzzyVariable = getFuzzyVariableByName(fuzzyValue);
@@ -276,7 +330,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
-
+        /// <summary>
+        /// Операция "больше" между четким и нечетким значениями.
+        /// Возвращает true, если четкое значение больше, чем конец диапазона четких значений нечеткой переменной.
+        /// </summary>
+        /// <param name="intValue">Четкое значение</param>
+        /// <param name="fuzzyValue">Нечеткое значение</param>
         public bool fuzzyMore(int intValue, string fuzzyValue)
         {
             FuzzyVariable fuzzyVariable = getFuzzyVariableByName(fuzzyValue);
@@ -290,6 +349,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Операция "больше" между нечетким и четким значениями.
+        /// Возвращает true, если начало диапазона четких значений нечеткой переменных больше, чем четкое значение.
+        /// </summary>
+        /// <param name="fuzzyValue">Нечеткое значение</param>
+        /// <param name="intValue">Четкое значение</param>
         public bool fuzzyMore(string fuzzyValue, int intValue)
         {
             FuzzyVariable fuzzyVariable = getFuzzyVariableByName(fuzzyValue);
@@ -303,6 +368,13 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Операция "больше" между двумя нечеткими значениями.
+        /// Возвращает true, если начало диапазона четких значений первой нечеткой переменной больше, чем начало диапазона четких значений второй нечеткой переменной.
+        /// Данное сравнение корректно, так как все диапазоны четких значений нечетной переменной идут строго друг за другом и не пересекаются.
+        /// </summary>
+        /// <param name="fuzzyValue1">Первое нечеткое значение</param>
+        /// <param name="fuzzyValue2">Второе нечеткое значение</param>
         public bool fuzzyMore(string fuzzyValue1, string fuzzyValue2)
         {
             FuzzyVariable fuzzyVariable1 = getFuzzyVariableByName(fuzzyValue1);
@@ -317,7 +389,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
-
+        /// <summary>
+        /// Операция "больше либо равно" между четким и нечетким значениями.
+        /// Возвращает true, если четкое значение больше, чем конец диапазона четких значений нечеткой переменной, или находится в пределах этого диапазона.
+        /// </summary>
+        /// <param name="intValue">Четкое значение</param>
+        /// <param name="fuzzyValue">Нечеткое значение</param>
         public bool fuzzyMoreOrEquals(int intValue, string fuzzyValue)
         {
             FuzzyVariable fuzzyVariable = getFuzzyVariableByName(fuzzyValue);
@@ -331,6 +408,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Операция "больше" между нечетким и четким значениями.
+        /// Возвращает true, если начало диапазона четких значений нечеткой переменной больше либо равно нечеткому значению, или четкое значение находится в пределах этого диапазона.
+        /// </summary>
+        /// <param name="fuzzyValue">Нечеткое значение</param>
+        /// <param name="intValue">Четкое значение</param>
         public bool fuzzyMoreOrEquals(string fuzzyValue, int intValue)
         {
             FuzzyVariable fuzzyVariable = getFuzzyVariableByName(fuzzyValue);
@@ -344,6 +427,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Операция "больше либо равно" между двумя нечеткими значениями.
+        /// Возвращает true, если конец диапазона четких значений первой нечеткой переменной больше либо равен концу диапазона четких значений второй нечеткой переменной.
+        /// </summary>
+        /// <param name="fuzzyValue1">Первое нечеткое значение</param>
+        /// <param name="fuzzyValue2">Второе нечеткое значение</param>
         public bool fuzzyMoreOrEquals(string fuzzyValue1, string fuzzyValue2)
         {
             FuzzyVariable fuzzyVariable1 = getFuzzyVariableByName(fuzzyValue1);
@@ -359,6 +448,12 @@ namespace master_piece.service.fuzzy_variable
         }
 
 
+        /// <summary>
+        /// Операция "меньше" между четким и нечетким значениями.
+        /// Возвращает true, если четкое значение меньше, чем начало диапазона четких значений нечеткой переменной.
+        /// </summary>
+        /// <param name="intValue">Четкое значение</param>
+        /// <param name="fuzzyValue">Нечеткое значение</param>
         public bool fuzzyLess(int intValue, string fuzzyValue)
         {
             FuzzyVariable fuzzyVariable = getFuzzyVariableByName(fuzzyValue);
@@ -372,6 +467,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Операция "меньше" между нечетким и четким значениями.
+        /// Возвращает true, если конец диапазона четких значений нечеткой переменной меньше, чем четкое значение.
+        /// </summary>
+        /// <param name="fuzzyValue">Нечеткое значение</param>
+        /// <param name="intValue">Четкое значение</param>
         public bool fuzzyLess(string fuzzyValue, int intValue)
         {
             FuzzyVariable fuzzyVariable = getFuzzyVariableByName(fuzzyValue);
@@ -385,6 +486,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Операция "меньше" между двумя нечеткими значениями.
+        /// Возвращает true, если конец диапазона четких значений первой нечеткой переменной меньше, чем конец диапазона четких значений второй нечеткой переменной.
+        /// </summary>
+        /// <param name="fuzzyValue1">Первое нечеткое значение</param>
+        /// <param name="fuzzyValue2">Второе нечеткое значение</param>
         public bool fuzzyLess(string fuzzyValue1, string fuzzyValue2)
         {
             FuzzyVariable fuzzyVariable1 = getFuzzyVariableByName(fuzzyValue1);
@@ -399,7 +506,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
-
+        /// <summary>
+        /// Операция "меньше либо равно" между четким и нечетким значениями.
+        /// Возвращает true, если четкое значение меньше, чем начало диапазона четких значений нечеткой переменной, или находится в пределах этого диапазона.
+        /// </summary>
+        /// <param name="intValue">Четкое значение</param>
+        /// <param name="fuzzyValue">Нечеткое значение</param>
         public bool fuzzyLessOrEquals(int intValue, string fuzzyValue)
         {
             FuzzyVariable fuzzyVariable = getFuzzyVariableByName(fuzzyValue);
@@ -413,6 +525,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Операция "меньше либо равно" между нечетким и четким значениями.
+        /// Возвращает true, если конец диапазона четких значение нечеткой переменной меньше значения четкой переменной, или значение четкой переменной находится в пределах этого диапазона.
+        /// </summary>
+        /// <param name="fuzzyValue">Нечеткое значение</param>
+        /// <param name="intValue">Четкое значение</param>
         public bool fuzzyLessOrEquals(string fuzzyValue, int intValue)
         {
             FuzzyVariable fuzzyVariable = getFuzzyVariableByName(fuzzyValue);
@@ -426,6 +544,12 @@ namespace master_piece.service.fuzzy_variable
             }
         }
 
+        /// <summary>
+        /// Операция "меньше либо равно" между двумя нечеткими значениями.
+        /// Возвращает true, если конец диапазона четких значений первой нечеткой переменной меньше, либо равен концу диапазона четких значений второй нечеткой переменной.
+        /// </summary>
+        /// <param name="fuzzyValue1">Первое нечеткое значение</param>
+        /// <param name="fuzzyValue2">Второе нечеткое значение</param>
         public bool fuzzyLessOrEquals(string fuzzyValue1, string fuzzyValue2)
         {
             FuzzyVariable fuzzyVariable1 = getFuzzyVariableByName(fuzzyValue1);

@@ -4,8 +4,18 @@ using System.Collections.Generic;
 
 namespace master_piece.service
 {
+    /// <summary>
+    /// Сервис выделения дубликатов подвыражений
+    /// </summary>
     class DuplicateExpressionService
     {
+        /// <summary>
+        /// Метод выделения дубликатов подвыражений.
+        /// Если выражение - дубликат, флаг mustBePrecalculated будет установлен в значение true.
+        /// Флаг устанавливается для ВСЕХ подвыражений, включая первое.
+        /// </summary>
+        /// <param name="expressions">Список подвыражений</param>
+        /// <param name="variablesStorage">Хранилище переменных</param>
         public static void markDuplicates(List<Subexpression> expressions, VariablesStorage variablesStorage)
         {
             List<Subexpression> deduplicatedExpressions = new List<Subexpression>();
