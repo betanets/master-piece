@@ -15,7 +15,6 @@ namespace master_piece.service
         /// <param name="dgvrCollection">Строки с таблицы со списком выражений на форме MainForm</param>
         /// <param name="newRowIndex">Индекс новой строки в таблице</param>
         /// <param name="logComponent">RichTextBox с результатами, расположенный на форме MainForm</param>
-        /// <returns></returns>
         public static List<Expression> initExpressions(DataGridViewRowCollection dgvrCollection, int newRowIndex, RichTextBox logComponent)
         {
             logComponent.AppendText("\n\n----------Ввод выражений:----------------\n");

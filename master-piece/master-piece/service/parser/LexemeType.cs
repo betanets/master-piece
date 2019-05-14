@@ -2,9 +2,12 @@
 
 namespace master_piece.lexeme
 {
+    /// <summary>
+    /// Перечисление типов лексем
+    /// </summary>
     public enum LexemeType
     {
-        //Operations
+        //Операции
         OpenBracket,
         CloseBracket,
         Assign,
@@ -16,20 +19,26 @@ namespace master_piece.lexeme
         MoreOrEqual,
         Less,
         LessOrEqual,
-        //Delimiter
+        //Разделитель
         Comma,
-        //Values
+        //Значения
         IntValue,
         FuzzyValue,
-        //Identifier
+        //Идентификатор
         Identifier,
-        //Errorenous lexeme type
+        //Ошибочный тип лексемы
         Error
     }
 
+    /// <summary>
+    /// Вспомогательный класс по определению супертипа лексемы
+    /// </summary>
     public static class LexemeTypes
     {
-        //Notice that Assign and Brackets' operations are NOT in this list
+        /// <summary>
+        /// true, если переданный тип является операцией, false - в противном случае
+        /// </summary>
+        /// <param name="lexemeType">Тип лексемы</param>
         public static bool IsOperation(LexemeType lexemeType)
         {
             switch (lexemeType)
@@ -48,17 +57,29 @@ namespace master_piece.lexeme
             }
         }
 
+        /// <summary>
+        /// true, если переданный тип является целочисленным значением, false - в противном случае
+        /// </summary>
+        /// <param name="lexemeType">Тип лексемы</param>
         public static bool IsIntValue(LexemeType lexemeType)
         {
             return lexemeType == LexemeType.IntValue;
         }
 
+        /// <summary>
+        /// true, если переданный тип является нечетким значением, false - в противном случае
+        /// </summary>
+        /// <param name="lexemeType">Тип лексемы</param>
         public static bool IsFuzzyValue(LexemeType lexemeType)
         {
             return lexemeType == LexemeType.FuzzyValue;
         }
 
-        [Obsolete("Use IsIntValue or IsFuzzyValue instead")]
+        /// <summary>
+        /// true, если переданный тип является нечетким значением, false - в противном случае
+        /// </summary>
+        /// <param name="lexemeType">Тип лексемы</param>
+        [Obsolete("Следует использовать IsIntValue или IsFuzzyValue")]
         public static bool IsValue(LexemeType lexemeType)
         {
             switch (lexemeType)
@@ -71,6 +92,10 @@ namespace master_piece.lexeme
             }
         }
 
+        /// <summary>
+        /// true, если переданный тип является идентификатором, false - в противном случае
+        /// </summary>
+        /// <param name="lexemeType">Тип лексемы</param>
         public static bool IsIdentifier(LexemeType lexemeType)
         {
             switch (lexemeType)

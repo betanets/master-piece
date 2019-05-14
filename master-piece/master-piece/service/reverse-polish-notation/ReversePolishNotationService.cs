@@ -3,8 +3,16 @@ using System.Collections.Generic;
 
 namespace master_piece.service
 {
+    /// <summary>
+    /// Сервис по работе с ПОЛИЗ
+    /// </summary>
     class ReversePolishNotationService
     {
+        /// <summary>
+        /// Метод получения приоритета типа лексемы.
+        /// Возвращает приоритет типа лексемы - целое число от 0 до 3
+        /// </summary>
+        /// <param name="lexemeType"></param>
         private static byte GetPriority(LexemeType lexemeType)
         {
             switch (lexemeType)
@@ -27,6 +35,11 @@ namespace master_piece.service
             }
         }
 
+        /// <summary>
+        /// Метод преобразования списка лексем из инфиксной записи в ПОЛИЗ.
+        /// Возвращает список лексем, представленных в виде ПОЛИЗ.
+        /// </summary>
+        /// <param name="lexemes">Список лексем в инфиксной записи</param>
         public static List<Lexeme> createNotation(List<Lexeme> lexemes)
         {
             List<Lexeme> output = new List<Lexeme>();

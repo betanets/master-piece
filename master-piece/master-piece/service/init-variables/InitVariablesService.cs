@@ -5,8 +5,18 @@ using System.Windows.Forms;
 
 namespace master_piece.service
 {
+    /// <summary>
+    /// Сервис инициализации переменных
+    /// </summary>
     class InitVariablesService
     {
+        /// <summary>
+        /// Метод инициализации переменных.
+        /// Возвращает хранилище переменных <see cref="VariablesStorage"/>
+        /// </summary>
+        /// <param name="dgvrCollection">Строки с таблицы со списком выражений на форме MainForm</param>
+        /// <param name="newRowIndex">Индекс новой строки в таблице</param>
+        /// <param name="logComponent">RichTextBox с результатами, расположенный на форме MainForm</param>
         public static VariablesStorage initVariables(DataGridViewRowCollection dgvrCollection, int newRowIndex, RichTextBox logComponent)
         {
             logComponent.AppendText("\n\n----------Ввод переменных:----------------\n");

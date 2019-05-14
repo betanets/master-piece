@@ -9,17 +9,36 @@ using static master_piece.service.Operation;
 
 namespace master_piece.service
 {
+    /// <summary>
+    /// Сервис по работе с подвыражениями
+    /// </summary>
     class SubexpressionService
     {
+        /// <summary>
+        /// Объект соединения с базой данных
+        /// </summary>
         private SQLiteConnection dbConnection;
+
+        /// <summary>
+        /// Сервис по работе с нечеткими переменными 
+        /// </summary>
         private FuzzyVariableService fuzzyVariableService;
 
+        /// <summary>
+        /// Конструктор по умолчанию
+        /// </summary>
+        /// <param name="arg_dbConnection">Объект соединения с базой данных</param>
         public SubexpressionService(SQLiteConnection arg_dbConnection)
         {
             dbConnection = arg_dbConnection;
             fuzzyVariableService = new FuzzyVariableService(dbConnection);
         }
 
+        /// <summary>
+        /// Метод создания списка подвыражений из списка лексем
+        /// </summary>
+        /// <param name="lexemes">Список лексем</param>
+        /// <param name="expressionLevel">Порядковый номер выражения</param>
         public List<Subexpression> createSubexpressionsList(List<Lexeme> lexemes, int expressionLevel)
         {
             List<Subexpression> subexpressions = new List<Subexpression>();
@@ -71,10 +90,10 @@ namespace master_piece.service
         }
 
         /// <summary>
-        /// Duplicates precalculation method
+        /// Метод вычисления дубликатов подвыражений
         /// </summary>
-        /// <param name="subexpressions">List of subexpressions</param>
-        /// <param name="variables">Lists of currently initialized int and fuzzy variables</param>
+        /// <param name="subexpressions">Список подвыражений</param>
+        /// <param name="variables">Хранилище переменных</param>
         public void calculateDuplicates(List<Subexpression> subexpressions, VariablesStorage variables)
         {
             foreach (Subexpression subexpression in subexpressions)
@@ -86,6 +105,12 @@ namespace master_piece.service
             }
         }
 
+        /// <summary>
+        /// Метод вычисления одного подвыражения.
+        /// Возвращает значение подвыражения - true или false
+        /// </summary>
+        /// <param name="subexpression">Подвыражение</param>
+        /// <param name="variablesStorage">Хранилище переменных</param>
         public bool calculateSubexpressionValue(Subexpression subexpression, VariablesStorage variablesStorage)
         {
             //If subexpression already has the value, simply return it
@@ -505,6 +530,11 @@ namespace master_piece.service
             }
         }
 
+        /// <summary>
+        /// Метод поиска подвыражений, не влияющих на общий результат.
+        /// Возвращает null, если подвыражение следует считать в общем потоке, и true или false (как значения подвыражения), если удалось отбросить не влияющую на результат часть
+        /// </summary>
+        /// <param name="subexpression">Подвыражение</param>
         public bool? calculationBooster(Subexpression subexpression)
         {
             if (subexpression.subexpressionFirst.value.HasValue)
@@ -527,6 +557,11 @@ namespace master_piece.service
             return null;
         }
 
+        /// <summary>
+        /// Метод получения значения представления переменной по алиасу
+        /// </summary>
+        /// <param name="identifier">Алиас переменной</param>
+        /// <param name="variablesStorage">Хранилище переменных</param>
         //TODO: move to another class?
         public object getValueFromVariablesStorage(string identifier, VariablesStorage variablesStorage)
         {

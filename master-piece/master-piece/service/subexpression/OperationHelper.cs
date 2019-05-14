@@ -3,8 +3,14 @@ using System.Linq;
 
 namespace master_piece.service
 {
+    /// <summary>
+    /// Вспомогательный класс по работе с операциями
+    /// </summary>
     public static class Operation
     {
+        /// <summary>
+        /// Перечисление операций
+        /// </summary>
         public enum OperationEnum {
             Assign,
             And,
@@ -17,6 +23,9 @@ namespace master_piece.service
             LessOrEqual
         }
 
+        /// <summary>
+        /// Словарь сопоставления перечисления операций с их текстовым представлением
+        /// </summary>
         private static Dictionary<OperationEnum, string> separators = new Dictionary<OperationEnum, string>
         {
             { OperationEnum.Assign, "=" },
@@ -30,6 +39,10 @@ namespace master_piece.service
             { OperationEnum.LessOrEqual, "<=" }
         };
 
+        /// <summary>
+        /// Метод получения операции по лексеме
+        /// </summary>
+        /// <param name="lexeme">Текст лексемы</param>
         public static OperationEnum getOperationByLexeme(string lexeme)
         {
             return separators.FirstOrDefault(dictionary => dictionary.Value == lexeme).Key;

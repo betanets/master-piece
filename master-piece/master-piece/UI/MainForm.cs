@@ -99,7 +99,7 @@ namespace master_piece
 
                 //Checking semantic
                 LexicalAnalysisResult semanticResult = LexicalAnalysisService.makeSemanticAnalysis(ifParserResult, variablesStorage);
-                LoggingService.logSemantic(richTextBox_log, semanticResult);
+                LoggingService.logLexicalAnalysis(richTextBox_log, semanticResult);
 
                 //Next steps are available only if semantic analysis is correct
                 if (!semanticResult.isCorrect) return;

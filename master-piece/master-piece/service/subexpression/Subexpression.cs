@@ -5,31 +5,65 @@ using static master_piece.service.Operation;
 
 namespace master_piece.service
 {
+    /// <summary>
+    /// Сущность подвыражения
+    /// </summary>
     class Subexpression
     {
+        /// <summary>
+        /// Первая лексема
+        /// </summary>
         public Lexeme lexemeFirst { get; }
+        
+        /// <summary>
+        /// Операция в подвыражении
+        /// </summary>
         public OperationEnum operation { get; }
+
+        /// <summary>
+        /// Вторая лексема
+        /// </summary>
         public Lexeme lexemeSecond { get; }
 
+        /// <summary>
+        /// Первое вложенное подвыражение
+        /// </summary>
         public Subexpression subexpressionFirst { get; }
+
+        /// <summary>
+        /// Второе вложенное подвыражение
+        /// </summary>
         public Subexpression subexpressionSecond { get; }
 
-        //Expression's serial number in list
+        /// <summary>
+        /// Порядковый номер выражения, к которому принадлежит данное подвыражение
+        /// </summary>
         public int expressionLevel { get; }
 
+        /// <summary>
+        /// Флаг, указывающий, что выражение следует вычислять до непосредственной работы с нечеткими правилами.
+        /// По умолчанию: false
+        /// </summary>
         public bool mustBePrecalculated { get; set; } = false;
 
         /// <summary>
-        /// Expression's value. Remains null until calculated
+        /// Значение подвыражения.
+        /// По умолчанию: null
         /// </summary>
         public bool? value = null;
 
         /// <summary>
-        /// Is expression major - not a part of another subexpression
+        /// true, если подвыражение - главное (не является частью другого подвыражения), false - в противном случае
         /// </summary>
         public bool major { get; set; } = false;
 
-        //Leaf subexpression
+        /// <summary>
+        /// Конструктор подвыражения типа "лист"
+        /// </summary>
+        /// <param name="lexemeFirst">Первая лексема</param>
+        /// <param name="operation">Операция</param>
+        /// <param name="lexemeSecond">Вторая лексема</param>
+        /// <param name="expressionLevel">Порядковый номер выражения</param>
         public Subexpression(Lexeme lexemeFirst, OperationEnum operation, Lexeme lexemeSecond, int expressionLevel)
         {
             this.lexemeFirst = lexemeFirst;
@@ -38,7 +72,13 @@ namespace master_piece.service
             this.expressionLevel = expressionLevel;
         }
 
-        //Ordinary subexpression
+        /// <summary>
+        /// Конструктор обычного подвыражения
+        /// </summary>
+        /// <param name="subexpressionFirst">Первое подвыражение</param>
+        /// <param name="operation">Операция</param>
+        /// <param name="subexpressionSecond">Второе подвыражение</param>
+        /// <param name="expressionLevel">Порядковый номер выражения</param>
         public Subexpression(Subexpression subexpressionFirst, OperationEnum operation, Subexpression subexpressionSecond, int expressionLevel)
         {
             this.subexpressionFirst = subexpressionFirst;
@@ -47,7 +87,13 @@ namespace master_piece.service
             this.expressionLevel = expressionLevel;
         }
 
-        //Mixed subexpression
+        /// <summary>
+        /// Конструктор подвыражения смешанного типа
+        /// </summary>
+        /// <param name="subexpressionFirst">Первое подвыражение</param>
+        /// <param name="operation">Операция</param>
+        /// <param name="lexemeSecond">Вторая лексема</param>
+        /// <param name="expressionLevel">Порядковый номер выражения</param>
         public Subexpression(Subexpression subexpressionFirst, OperationEnum operation, Lexeme lexemeSecond, int expressionLevel)
         {
             this.subexpressionFirst = subexpressionFirst;
@@ -56,18 +102,25 @@ namespace master_piece.service
             this.expressionLevel = expressionLevel;
         }
 
-        //Is leaf expression (contains only lemexes and operation)
+        /// <summary>
+        /// true, если выражение имеет тип "лист", false - в противном случае
+        /// </summary>
         public bool isLeaf()
         {
             return lexemeFirst != null && lexemeSecond != null && subexpressionFirst == null && subexpressionSecond == null;
         }
 
-        //Is mixed expression (contains 1 subexpression, 1 operation 1 lexeme) 
+        /// <summary>
+        /// true, если выражение - смешанного типа, false - в противном случае
+        /// </summary>
         public bool isMixed()
         {
             return lexemeFirst == null && lexemeSecond != null && subexpressionFirst != null && subexpressionSecond == null;
         }
 
+        /// <summary>
+        /// Метод преобразования подвыражения в строку
+        /// </summary>
         public override string ToString()
         {
             if (isLeaf())
@@ -83,6 +136,12 @@ namespace master_piece.service
             }
         }
 
+        /// <summary>
+        /// Метод сравнения.
+        /// Определяет, равен ли указанный объект текущему объекту
+        /// true, если объекты равны, false - в противном случае
+        /// </summary>
+        /// <param name="obj">Объект, с которым требуется сравнить текущий объект</param>
         public override bool Equals(object obj)
         {
             if (GetType() != obj.GetType() || this == null || obj == null)
@@ -121,6 +180,9 @@ namespace master_piece.service
             return false;
         }
 
+        /// <summary>
+        /// Хэш-функция
+        /// </summary>
         public override int GetHashCode()
         {
             var hashCode = -322050275;

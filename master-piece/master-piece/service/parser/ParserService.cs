@@ -4,26 +4,42 @@ using System.Text.RegularExpressions;
 
 namespace master_piece.service
 {
-    /**
-     * Expression parser service
-     */
+    /// <summary>
+    /// Сервис по созданию списка лексем из выражений в текстовом виде
+    /// </summary>
     class ParserService
     {
+        /// <summary>
+        /// true, если символ - большая буква, false - в противном случе
+        /// </summary>
+        /// <param name="symbol">Проверяемый символ</param>
         static bool isBigLetter(char symbol)
         {
             return symbol >= 'A' && symbol <= 'Z';
         }
 
+        /// <summary>
+        /// true, если символ - маленькая буква, false - в противном случе
+        /// </summary>
+        /// <param name="symbol">Проверяемый символ</param>
         static bool isLittleLetter(char symbol)
         {
             return symbol >= 'a' && symbol <= 'z';
         }
 
+        /// <summary>
+        /// true, если символ - цифра, false - в противном случе
+        /// </summary>
+        /// <param name="symbol">Проверяемый символ</param>
         static bool isNumber(char symbol)
         {
             return symbol >= '0' && symbol <= '9';
         }
 
+        /// <summary>
+        /// true, если символ является игнорируемым, false - в противном случе
+        /// </summary>
+        /// <param name="symbol">Проверяемый символ</param>
         static bool isIgnoredSymbol(char symbol)
         {
             return symbol == ' ' || symbol == '\t' || symbol == '\n';
@@ -31,6 +47,10 @@ namespace master_piece.service
 
         private static List<Lexeme> lexemesList;
 
+        /// <summary>
+        /// Метод по созданию списка лексем из выражения ЕСЛИ
+        /// </summary>
+        /// <param name="expression">Выражение ЕСЛИ в текстовом виде</param>
         //TODO: need more research to determine correct parser
         //TODO: combine same parts with parseThenExpression
         public static List<Lexeme> parseIfExpression(string expression)
@@ -205,6 +225,10 @@ namespace master_piece.service
             return lexemesList;
         }
 
+        /// <summary>
+        /// Метод по созданию списка лексем из выражения ТО или ИНАЧЕ
+        /// </summary>
+        /// <param name="expression">Выражение ТО или ИНАЧЕ в текстовом виде</param>
         public static List<Lexeme> parseThenOrElseExpression(string expression)
         {
             lexemesList = new List<Lexeme>();
@@ -283,6 +307,11 @@ namespace master_piece.service
             return lexemesList;
         }
 
+        /// <summary>
+        /// Метод по проверке хранилища символов.
+        /// Используется только внутри данного класса как вспомогательный метод при обработке идентификаторов, целочисленных и нечетких значений
+        /// </summary>
+        /// <param name="symbolSavior">Хранилище символов</param>
         private static string checkSymbolSavior(string symbolSavior)
         {
             if(symbolSavior.Length == 0)

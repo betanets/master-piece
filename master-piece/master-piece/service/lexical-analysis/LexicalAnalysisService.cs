@@ -6,8 +6,17 @@ using System.Collections.Generic;
 
 namespace master_piece.service
 {
+    /// <summary>
+    /// Сервис лексического анализа лексем
+    /// </summary>
     class LexicalAnalysisService
     {
+        /// <summary>
+        /// Метод выполнения лексического анализа.
+        /// Возвращает результат лексического анализа <see cref="LexicalAnalysisResult"/>
+        /// </summary>
+        /// <param name="parserResult">Список лексем</param>
+        /// <param name="variables">Хранилище переменных</param>
         //TODO: work with possible redefinitions in THEN expressions
         public static LexicalAnalysisResult makeSemanticAnalysis(List<Lexeme> parserResult, VariablesStorage variables)
         {
@@ -52,6 +61,14 @@ namespace master_piece.service
             return semanticResult;
         }
 
+        /// <summary>
+        /// Метод присваивания переменных.
+        /// Изменяет значения в хранилище переменных.
+        /// Выполняется для выражений ТО или ИНАЧЕ, а также после обработки каждого из нечетких правил.
+        /// </summary>
+        /// <param name="parserResult">Список лексем</param>
+        /// <param name="variables">Хранилище переменных</param>
+        /// <param name="subexpressionLevel">Уровень текущего подвыражения</param>
         //TODO: possible move to another or separate sevice
         //TODO: split into two methods: one for assign value, another for assign level
         public static void assignVariables(List<Lexeme> parserResult, VariablesStorage variables, int subexpressionLevel)
@@ -119,6 +136,12 @@ namespace master_piece.service
             }
         }
 
+        /// <summary>
+        /// Метод получения абстрактного представления переменной из лексемы.
+        /// Возврщает абстрактное представление целочисленной или нечеткой переменной в алгоритме <see cref="AbstractViewVariable"/>
+        /// </summary>
+        /// <param name="lexeme">Лексема</param>
+        /// <param name="variablesStorage">Хранилище переменных</param>
         public static AbstractViewVariable getVariableByLexeme(Lexeme lexeme, VariablesStorage variablesStorage)
         {
             if (lexeme == null || !LexemeTypes.IsIdentifier(lexeme.lexemeType))
@@ -144,6 +167,12 @@ namespace master_piece.service
             return null;
         }
 
+        /// <summary>
+        /// Метод получения списка абстрактных представлений переменных из подвыражения.
+        /// Возврщает список абстрактных представлений переменных <see cref="AbstractViewVariable"/>
+        /// </summary>
+        /// <param name="subexpression">Подвыражение</param>
+        /// <param name="variablesStorage">Хранилище переменных</param>
         public static List<AbstractViewVariable> getVariablesBySubexpression(Subexpression subexpression, VariablesStorage variablesStorage)
         {
             List<AbstractViewVariable> returnVariables = new List<AbstractViewVariable>();

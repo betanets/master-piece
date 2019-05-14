@@ -15,14 +15,14 @@ namespace master_piece.service.fuzzy_variable
     class FuzzyVariableService
     {
         /// <summary>
-        /// Сущность соединения с базой данных
+        /// Объект соединения с базой данных
         /// </summary>
         private SQLiteConnection dbConnection;
 
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
-        /// <param name="arg_dbConnection">Сущность соединения с базой данных</param>
+        /// <param name="arg_dbConnection">Объект соединения с базой данных</param>
         public FuzzyVariableService(SQLiteConnection arg_dbConnection)
         {
             dbConnection = arg_dbConnection;
