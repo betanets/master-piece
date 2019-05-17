@@ -76,7 +76,7 @@ namespace master_piece.service.parser
         }
 
         /// <summary>
-        /// true, если переданный тип является нечетким значением, false - в противном случае
+        /// true, если переданный тип является нечетким или целочисленным значением, false - в противном случае
         /// </summary>
         /// <param name="lexemeType">Тип лексемы</param>
         [Obsolete("Следует использовать IsIntValue или IsFuzzyValue")]

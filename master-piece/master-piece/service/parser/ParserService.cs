@@ -9,7 +9,7 @@ namespace master_piece.service.parser
     class ParserService
     {
         /// <summary>
-        /// true, если символ - большая буква, false - в противном случе
+        /// true, если символ - большая буква, false - в противном случае
         /// </summary>
         /// <param name="symbol">Проверяемый символ</param>
         static bool isBigLetter(char symbol)
@@ -18,7 +18,7 @@ namespace master_piece.service.parser
         }
 
         /// <summary>
-        /// true, если символ - маленькая буква, false - в противном случе
+        /// true, если символ - маленькая буква, false - в противном случае
         /// </summary>
         /// <param name="symbol">Проверяемый символ</param>
         static bool isLittleLetter(char symbol)
@@ -27,7 +27,7 @@ namespace master_piece.service.parser
         }
 
         /// <summary>
-        /// true, если символ - цифра, false - в противном случе
+        /// true, если символ - цифра, false - в противном случае
         /// </summary>
         /// <param name="symbol">Проверяемый символ</param>
         static bool isNumber(char symbol)
@@ -36,7 +36,7 @@ namespace master_piece.service.parser
         }
 
         /// <summary>
-        /// true, если символ является игнорируемым, false - в противном случе
+        /// true, если символ является игнорируемым, false - в противном случае
         /// </summary>
         /// <param name="symbol">Проверяемый символ</param>
         static bool isIgnoredSymbol(char symbol)

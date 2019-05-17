@@ -1,7 +1,7 @@
 ﻿namespace master_piece.service.fuzzy_variable
 {
     /// <summary>
-    /// Сущность результата подбора нечеткой переменной по значению.
+    /// Сущность результата подбора нечеткой переменной по значению
     /// </summary>
     class FuzzyVariableSelectionResult
     {

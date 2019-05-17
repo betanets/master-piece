@@ -119,7 +119,7 @@
     <Compile Include="service\lexical-analysis\LexicalAnalysisResult.cs" />
     <Compile Include="service\lexical-analysis\LexicalAnalysisService.cs" />
     <Compile Include="service\subexpression\SubexpressionService.cs" />
-    <Compile Include="service\subexpression\Expression.cs" />
+    <Compile Include="service\init-expressions\Expression.cs" />
     <Compile Include="service\subexpression\Subexpression.cs" />
     <Compile Include="service\reverse-polish-notation\ReversePolishNotationService.cs" />
     <Compile Include="tests\ParserServiceTest.cs" />
