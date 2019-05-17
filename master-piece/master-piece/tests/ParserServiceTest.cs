@@ -1,5 +1,4 @@
-﻿using master_piece.lexeme;
-using master_piece.service;
+﻿using master_piece.service.parser;
 using NUnit.Framework;
 
 namespace master_piece.tests

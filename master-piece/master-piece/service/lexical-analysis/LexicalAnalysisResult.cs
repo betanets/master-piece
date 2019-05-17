@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace master_piece.service
+namespace master_piece.service.lexical_analysis
 {
     /// <summary>
     /// Сущность результата лексического анализа

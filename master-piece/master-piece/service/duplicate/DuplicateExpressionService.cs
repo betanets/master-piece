@@ -1,8 +1,9 @@
 ﻿using master_piece.service.init_variables;
-using master_piece.variable;
+using master_piece.service.lexical_analysis;
+using master_piece.service.subexpression;
 using System.Collections.Generic;
 
-namespace master_piece.service
+namespace master_piece.service.duplicate
 {
     /// <summary>
     /// Сервис выделения дубликатов подвыражений
@@ -20,12 +21,12 @@ namespace master_piece.service
         {
             List<Subexpression> deduplicatedExpressions = new List<Subexpression>();
 
-            foreach(Subexpression exp in expressions)
+            foreach (Subexpression exp in expressions)
             {
                 bool duplicateFound = false;
-                foreach(Subexpression dde in deduplicatedExpressions)
+                foreach (Subexpression dde in deduplicatedExpressions)
                 {
-                    if(exp.Equals(dde))
+                    if (exp.Equals(dde))
                     {
                         dde.mustBePrecalculated = true;
                         exp.mustBePrecalculated = true;
@@ -33,7 +34,7 @@ namespace master_piece.service
                         //No need to break: we should add all same expressions with different levels
                     }
                 }
-                if(!duplicateFound)
+                if (!duplicateFound)
                 {
                     deduplicatedExpressions.Add(exp);
                 }

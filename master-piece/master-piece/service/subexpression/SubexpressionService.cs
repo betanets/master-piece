@@ -1,13 +1,12 @@
-﻿using master_piece.lexeme;
-using master_piece.service.fuzzy_variable;
+﻿using master_piece.service.fuzzy_variable;
 using master_piece.service.init_variables;
-using master_piece.variable;
+using master_piece.service.parser;
 using SQLite;
 using System;
 using System.Collections.Generic;
-using static master_piece.service.Operation;
+using static master_piece.service.subexpression.Operation;
 
-namespace master_piece.service
+namespace master_piece.service.subexpression
 {
     /// <summary>
     /// Сервис по работе с подвыражениями

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace master_piece.lexeme
+namespace master_piece.service.parser
 {
     /// <summary>
     /// Сущность лексемы

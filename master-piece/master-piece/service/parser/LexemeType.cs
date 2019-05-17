@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace master_piece.lexeme
+namespace master_piece.service.parser
 {
     /// <summary>
     /// Перечисление типов лексем

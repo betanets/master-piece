@@ -1,10 +1,10 @@
-﻿using master_piece.lexeme;
-using master_piece.service.init_variables;
-using master_piece.variable;
+﻿using master_piece.service.init_variables;
+using master_piece.service.parser;
+using master_piece.service.subexpression;
 using System;
 using System.Collections.Generic;
 
-namespace master_piece.service
+namespace master_piece.service.lexical_analysis
 {
     /// <summary>
     /// Сервис лексического анализа лексем

@@ -1,4 +1,4 @@
-﻿namespace master_piece.subexpression
+﻿namespace master_piece.service.subexpression
 {
     /// <summary>
     /// Сущность выражения

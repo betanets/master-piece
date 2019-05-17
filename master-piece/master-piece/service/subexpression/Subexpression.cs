@@ -1,9 +1,8 @@
-﻿using master_piece.lexeme;
-using System;
+﻿using master_piece.service.parser;
 using System.Collections.Generic;
-using static master_piece.service.Operation;
+using static master_piece.service.subexpression.Operation;
 
-namespace master_piece.service
+namespace master_piece.service.subexpression
 {
     /// <summary>
     /// Сущность подвыражения

@@ -1,4 +1,4 @@
-﻿namespace master_piece.variable
+﻿namespace master_piece.service.init_variables
 {
     /// <summary>
     /// Абстрактное представление переменной в алгоритме

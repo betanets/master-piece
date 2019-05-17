@@ -1,9 +1,8 @@
-﻿using master_piece.service.import_export;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace master_piece.service
+namespace master_piece.service.import_export
 {
     /// <summary>
     /// Сервис импорта и экспорта

@@ -1,7 +1,6 @@
 ﻿using master_piece.domain;
-using master_piece.lexeme;
 using master_piece.service.init_variables;
-using master_piece.variable;
+using master_piece.service.parser;
 using SQLite;
 using System;
 using System.Collections.Generic;

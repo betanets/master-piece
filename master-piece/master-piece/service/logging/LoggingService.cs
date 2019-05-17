@@ -1,12 +1,12 @@
-﻿using master_piece.lexeme;
-using master_piece.service.fuzzy_variable;
+﻿using master_piece.service.fuzzy_variable;
 using master_piece.service.init_variables;
-using master_piece.subexpression;
-using master_piece.variable;
+using master_piece.service.lexical_analysis;
+using master_piece.service.parser;
+using master_piece.service.subexpression;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace master_piece.service
+namespace master_piece.service.logging
 {
     /// <summary>
     /// Сервис логирования 

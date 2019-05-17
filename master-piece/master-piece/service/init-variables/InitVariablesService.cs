@@ -1,9 +1,8 @@
-﻿using master_piece.service.init_variables;
-using master_piece.variable;
+﻿using master_piece.service.logging;
 using System;
 using System.Windows.Forms;
 
-namespace master_piece.service
+namespace master_piece.service.init_variables
 {
     /// <summary>
     /// Сервис инициализации переменных

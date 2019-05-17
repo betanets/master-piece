@@ -1,7 +1,7 @@
-﻿using master_piece.lexeme;
+﻿using master_piece.service.parser;
 using System.Collections.Generic;
 
-namespace master_piece.service
+namespace master_piece.service.reverse_polish_notation
 {
     /// <summary>
     /// Сервис по работе с ПОЛИЗ

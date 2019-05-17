@@ -1,10 +1,14 @@
 ﻿using master_piece.domain;
-using master_piece.lexeme;
-using master_piece.service;
+using master_piece.service.duplicate;
 using master_piece.service.fuzzy_variable;
 using master_piece.service.import_export;
+using master_piece.service.init_expressions;
 using master_piece.service.init_variables;
-using master_piece.subexpression;
+using master_piece.service.lexical_analysis;
+using master_piece.service.logging;
+using master_piece.service.parser;
+using master_piece.service.reverse_polish_notation;
+using master_piece.service.subexpression;
 using SQLite;
 using System;
 using System.Collections.Generic;

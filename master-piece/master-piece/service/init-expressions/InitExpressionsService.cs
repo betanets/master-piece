@@ -1,8 +1,9 @@
-﻿using master_piece.subexpression;
+﻿using master_piece.service.logging;
+using master_piece.service.subexpression;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace master_piece.service
+namespace master_piece.service.init_expressions
 {
     /// <summary>
     /// Сервис инициализации выражений

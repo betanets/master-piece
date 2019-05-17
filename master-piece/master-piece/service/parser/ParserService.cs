@@ -1,8 +1,7 @@
-﻿using master_piece.lexeme;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace master_piece.service
+namespace master_piece.service.parser
 {
     /// <summary>
     /// Сервис по созданию списка лексем из выражений в текстовом виде

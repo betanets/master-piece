@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace master_piece.service
+namespace master_piece.service.subexpression
 {
     /// <summary>
     /// Вспомогательный класс по работе с операциями
