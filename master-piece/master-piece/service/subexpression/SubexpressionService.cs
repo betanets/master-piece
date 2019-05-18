@@ -131,7 +131,7 @@ namespace master_piece.service.subexpression
                 }
                 else if (LexemeTypes.IsIdentifier(subexpression.lexemeFirst.lexemeType))
                 {
-                    var obj = getValueFromVariablesStorage(subexpression.lexemeFirst.lexemeText, variablesStorage);
+                    var obj = InitVariablesService.getValueFromVariablesStorage(subexpression.lexemeFirst.lexemeText, variablesStorage);
                     if ((obj == null) || (obj is int?))
                     {
                         intValueFirst = Convert.ToInt32(obj);
@@ -153,7 +153,7 @@ namespace master_piece.service.subexpression
                 }
                 else if (LexemeTypes.IsIdentifier(subexpression.lexemeSecond.lexemeType))
                 {
-                    var obj = getValueFromVariablesStorage(subexpression.lexemeSecond.lexemeText, variablesStorage);
+                    var obj = InitVariablesService.getValueFromVariablesStorage(subexpression.lexemeSecond.lexemeText, variablesStorage);
                     if ((obj == null) || (obj is int?))
                     {
                         intValueSecond = Convert.ToInt32(obj);
@@ -405,7 +405,7 @@ namespace master_piece.service.subexpression
                 }
                 else if (LexemeTypes.IsIdentifier(subexpression.lexemeSecond.lexemeType))
                 {
-                    var obj = getValueFromVariablesStorage(subexpression.lexemeSecond.lexemeText, variablesStorage);
+                    var obj = InitVariablesService.getValueFromVariablesStorage(subexpression.lexemeSecond.lexemeText, variablesStorage);
                     if ((obj == null) || (obj is int?))
                     {
                         intValueSecond = Convert.ToInt32(obj);
@@ -553,33 +553,6 @@ namespace master_piece.service.subexpression
                     }
                 }
             }
-            return null;
-        }
-
-        /// <summary>
-        /// Метод получения значения представления переменной по алиасу
-        /// </summary>
-        /// <param name="identifier">Алиас переменной</param>
-        /// <param name="variablesStorage">Хранилище переменных</param>
-        //TODO: move to another class?
-        public object getValueFromVariablesStorage(string identifier, VariablesStorage variablesStorage)
-        {
-            foreach (IntViewVariable iv in variablesStorage.intVariables)
-            {
-                if (iv.name.Equals(identifier))
-                {
-                    return iv.value;
-                }
-            }
-
-            foreach (FuzzyViewVariable iv in variablesStorage.fuzzyVariables)
-            {
-                if (iv.name.Equals(identifier))
-                {
-                    return iv.value;
-                }
-            }
-
             return null;
         }
     }

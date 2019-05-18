@@ -74,5 +74,31 @@ namespace master_piece.service.init_variables
 
             return variablesStorage;
         }
+
+        /// <summary>
+        /// Метод получения значения представления переменной по алиасу
+        /// </summary>
+        /// <param name="identifier">Алиас переменной</param>
+        /// <param name="variablesStorage">Хранилище переменных</param>
+        public static object getValueFromVariablesStorage(string identifier, VariablesStorage variablesStorage)
+        {
+            foreach (IntViewVariable iv in variablesStorage.intVariables)
+            {
+                if (iv.name.Equals(identifier))
+                {
+                    return iv.value;
+                }
+            }
+
+            foreach (FuzzyViewVariable iv in variablesStorage.fuzzyVariables)
+            {
+                if (iv.name.Equals(identifier))
+                {
+                    return iv.value;
+                }
+            }
+
+            return null;
+        }
     }
 }
