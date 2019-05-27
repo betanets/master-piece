@@ -12,6 +12,7 @@ using master_piece.service.subexpression;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -22,6 +23,7 @@ namespace master_piece
         private SQLiteConnection dbConnection;
         private FuzzyVariableService fuzzyVariableService;
         private SubexpressionService subexpressionService;
+        private LoggingService loggingService;
 
         VariablesStorage variablesStorage = new VariablesStorage();
         VariablesStorage variablesStorage_holder = new VariablesStorage();
@@ -64,17 +66,21 @@ namespace master_piece
 
         private void button_process_Click(object sender, EventArgs e)
         {
+            var watch = Stopwatch.StartNew();
+
+            loggingService = new LoggingService(richTextBox_log);
+            loggingService.noLogMode = checkBox_measureExecutionTime.Checked;
             clearWorkplace();
 
             //Init int and fuzzy variables
             VariablesStorage variablesStorage = 
-                InitVariablesService.initVariables(dataGridView_intVariables.Rows, dataGridView_intVariables.NewRowIndex, richTextBox_log);
+                InitVariablesService.initVariables(dataGridView_intVariables.Rows, dataGridView_intVariables.NewRowIndex, loggingService);
 
             //Select fuzzy variables by their names
             FuzzyVariableSelectionResult selectionResult = fuzzyVariableService.makeSelection(variablesStorage);
             if(!selectionResult.isSuccess)
             {
-                LoggingService.logFuzzySelectionError(richTextBox_log, selectionResult);
+                loggingService.logFuzzySelectionError(selectionResult);
                 return;
             }
 
@@ -84,88 +90,91 @@ namespace master_piece
 
             //Init expressions
             expressionsStorage.AddRange(
-                InitExpressionsService.initExpressions(dataGridView_expressions.Rows, dataGridView_expressions.NewRowIndex, richTextBox_log)
+                InitExpressionsService.initExpressions(dataGridView_expressions.Rows, dataGridView_expressions.NewRowIndex, loggingService)
             );
 
             foreach (Expression expression in expressionsStorage)
             {
                 //Checking IF expression
                 List<Lexeme> ifParserResult = ParserService.parseIfExpression(expression.ifExpressionText);
-                LoggingService.logIfParser(richTextBox_log, expression.ifExpressionText, ifParserResult);
+                loggingService.logIfParser(expression.ifExpressionText, ifParserResult);
 
                 //Checking parser result on fuzzy values existence
                 FuzzyVariableSelectionResult ifSelectionResult = fuzzyVariableService.makeSelection(ifParserResult);
                 if (!ifSelectionResult.isSuccess)
                 {
-                    LoggingService.logFuzzySelectionError(richTextBox_log, ifSelectionResult);
+                    loggingService.logFuzzySelectionError(ifSelectionResult);
                     return;
                 }
 
                 //Checking semantic
                 LexicalAnalysisResult semanticResult = LexicalAnalysisService.makeSemanticAnalysis(ifParserResult, variablesStorage);
-                LoggingService.logLexicalAnalysis(richTextBox_log, semanticResult);
+                loggingService.logLexicalAnalysis(semanticResult);
 
                 //Next steps are available only if semantic analysis is correct
                 if (!semanticResult.isCorrect) return;
 
                 //Sorting by reverse polish notation
                 List<Lexeme> reversePolishNotationLexemeList = ReversePolishNotationService.createNotation(ifParserResult);
-                LoggingService.logReversePolishNotation(richTextBox_log, reversePolishNotationLexemeList);
+                loggingService.logReversePolishNotation(reversePolishNotationLexemeList);
 
                 //Creating subexpressions
                 List<Subexpression> currentSubexpressions = subexpressionService.createSubexpressionsList(reversePolishNotationLexemeList, expression.expressionLevel);
-                LoggingService.logSubexpressions(richTextBox_log, currentSubexpressions);
+                loggingService.logSubexpressions(currentSubexpressions);
                 subexpressions.AddRange(currentSubexpressions);
 
                 //Checking THEN expression
                 List<Lexeme> thenParserResult = ParserService.parseThenOrElseExpression(expression.thenExpressionText);
-                LoggingService.logThenOrElseParser(richTextBox_log, expression.thenExpressionText, thenParserResult, true);
+                loggingService.logThenOrElseParser(expression.thenExpressionText, thenParserResult, true);
 
 
                 //Variable assignment
                 //We should assign variables now to correctly mark duplicates
                 //We have no idea now whether THEN or ELSE expression will be executed
                 LexicalAnalysisService.assignVariables(thenParserResult, variablesStorage, expression.expressionLevel);
-                LoggingService.logAssignedVariables(richTextBox_log, variablesStorage, true);
+                loggingService.logAssignedVariables(variablesStorage, true);
 
                 //Select fuzzy variables by their names
                 FuzzyVariableSelectionResult thenSelectionResult = fuzzyVariableService.makeSelection(variablesStorage);
                 if (!thenSelectionResult.isSuccess)
                 {
-                    LoggingService.logFuzzySelectionError(richTextBox_log, thenSelectionResult);
+                    loggingService.logFuzzySelectionError(thenSelectionResult);
                     return;
                 }
 
                 //Checking ELSE expression
                 List<Lexeme> elseParserResult = ParserService.parseThenOrElseExpression(expression.elseExpressionText);
-                LoggingService.logThenOrElseParser(richTextBox_log, expression.elseExpressionText, elseParserResult, false);
+                loggingService.logThenOrElseParser(expression.elseExpressionText, elseParserResult, false);
 
                 LexicalAnalysisService.assignVariables(elseParserResult, variablesStorage, expression.expressionLevel);
-                LoggingService.logAssignedVariables(richTextBox_log, variablesStorage, true);
+                loggingService.logAssignedVariables(variablesStorage, true);
 
                 //Select fuzzy variables by their names
                 FuzzyVariableSelectionResult elseSelectionResult = fuzzyVariableService.makeSelection(variablesStorage);
                 if (!elseSelectionResult.isSuccess)
                 {
-                    LoggingService.logFuzzySelectionError(richTextBox_log, elseSelectionResult);
+                    loggingService.logFuzzySelectionError(elseSelectionResult);
                     return;
                 }
             }
 
-            //Marking duplicates
-            DuplicateExpressionService.markDuplicates(subexpressions, variablesStorage);
-            LoggingService.logDuplicates(richTextBox_log, subexpressions);
+            if (!checkBox_disableBoosters.Checked)
+            {
+                //Marking duplicates
+                DuplicateExpressionService.markDuplicates(subexpressions, variablesStorage);
+                loggingService.logDuplicates(subexpressions);
 
-            //Precalculating duplicates
-            subexpressionService.calculateDuplicates(subexpressions, variablesStorage);
-            LoggingService.logDuplicatesValues(richTextBox_log, subexpressions);
+                //Precalculating duplicates
+                subexpressionService.calculateDuplicates(subexpressions, variablesStorage, !checkBox_disableBoosters.Checked);
+                loggingService.logDuplicatesValues(subexpressions);
+            }
 
             //Restore int variables storage to init state
             variablesStorage.Clear();
             variablesStorage.intVariables.AddRange(variablesStorage_holder.intVariables);
             variablesStorage.fuzzyVariables.AddRange(variablesStorage_holder.fuzzyVariables);
 
-            richTextBox_log.AppendText("------========РЕЗУЛЬТАТЫ:========---------\n");
+            loggingService.logString("------========РЕЗУЛЬТАТЫ:========---------\n");
             //Calculating major subexpressions one by one
             //TODO: check level and compare it with local counter to avoid wrong order
             foreach (Subexpression subexpression in subexpressions)
@@ -173,7 +182,7 @@ namespace master_piece
                 if (subexpression.major)
                 {
                     //Calculate subexpression
-                    subexpression.value = subexpressionService.calculateSubexpressionValue(subexpression, variablesStorage);
+                    subexpression.value = subexpressionService.calculateSubexpressionValue(subexpression, variablesStorage, !checkBox_disableBoosters.Checked);
 
                     //Prepare int variables storage to next iteration
                     List<Lexeme> parserResult;
@@ -191,13 +200,19 @@ namespace master_piece
                     FuzzyVariableSelectionResult sfvSelectionResult = fuzzyVariableService.makeSelection(variablesStorage);
                     if (!sfvSelectionResult.isSuccess)
                     {
-                        LoggingService.logFuzzySelectionError(richTextBox_log, sfvSelectionResult);
+                        loggingService.logFuzzySelectionError(sfvSelectionResult);
                         return;
                     }
                 }
             }
-            LoggingService.logSubexpressions(richTextBox_log, subexpressions);
-            LoggingService.logAssignedVariables(richTextBox_log, variablesStorage, false);
+            loggingService.logSubexpressions(subexpressions);
+            loggingService.logAssignedVariables(variablesStorage, false);
+
+            watch.Stop();
+            if (checkBox_measureExecutionTime.Checked)
+            {
+                loggingService.logExecutionTime(watch.ElapsedMilliseconds);
+            }
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)

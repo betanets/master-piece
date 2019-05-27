@@ -15,10 +15,10 @@ namespace master_piece.service.init_variables
         /// </summary>
         /// <param name="dgvrCollection">Строки с таблицы со списком выражений на форме MainForm</param>
         /// <param name="newRowIndex">Индекс новой строки в таблице</param>
-        /// <param name="logComponent">RichTextBox с результатами, расположенный на форме MainForm</param>
-        public static VariablesStorage initVariables(DataGridViewRowCollection dgvrCollection, int newRowIndex, RichTextBox logComponent)
+        /// <param name="loggingService">Сервис логирования</param>
+        public static VariablesStorage initVariables(DataGridViewRowCollection dgvrCollection, int newRowIndex, LoggingService loggingService)
         {
-            logComponent.AppendText("\n\n----------Ввод переменных:----------------\n");
+            loggingService.logString("\n\n----------Ввод переменных:----------------\n");
 
             VariablesStorage variablesStorage = new VariablesStorage();
 
@@ -33,13 +33,13 @@ namespace master_piece.service.init_variables
 
                 if (dgvr.Cells.Count != 2)
                 {
-                    logComponent.AppendText("Ошибка в строке " + dgvr.Index.ToString() + ": не все ячейки заполнены\n");
+                    loggingService.logError("Ошибка в строке " + dgvr.Index.ToString() + ": не все ячейки заполнены\n");
                     break;
                 }
 
                 if(dgvr.Cells[0].Value == null || dgvr.Cells[0].Value.ToString().Length == 0)
                 {
-                    logComponent.AppendText("Ошибка в строке " + dgvr.Index.ToString() + ": не задан идентификатор переменной\n");
+                    loggingService.logError("Ошибка в строке " + dgvr.Index.ToString() + ": не задан идентификатор переменной\n");
                     processingTerminated = true;
                     break;
                 }
@@ -61,7 +61,7 @@ namespace master_piece.service.init_variables
                 }
                 catch (Exception)
                 {
-                    logComponent.AppendText("Ошибка в строке " + dgvr.Index.ToString() + ": значение переменной не задано или введено неверно\n");
+                    loggingService.logError("Ошибка в строке " + dgvr.Index.ToString() + ": значение переменной не задано или введено неверно\n");
                     processingTerminated = true;
                     break;
                 }
@@ -69,7 +69,7 @@ namespace master_piece.service.init_variables
 
             if (!processingTerminated)
             {
-                LoggingService.logVariables(logComponent, variablesStorage);
+                loggingService.logVariables(variablesStorage);
             }
 
             return variablesStorage;

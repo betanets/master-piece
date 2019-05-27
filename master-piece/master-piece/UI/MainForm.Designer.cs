@@ -52,6 +52,8 @@
             this.dataGridView_intVariables = new System.Windows.Forms.DataGridView();
             this.identifier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.identifierValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkBox_disableBoosters = new System.Windows.Forms.CheckBox();
+            this.checkBox_measureExecutionTime = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_expressions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_intVariables)).BeginInit();
@@ -94,7 +96,7 @@
             this.переменныеToolStripMenuItem,
             this.выраженияToolStripMenuItem});
             this.загрузитьToolStripMenuItem.Name = "загрузитьToolStripMenuItem";
-            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.загрузитьToolStripMenuItem.Text = "Импорт";
             // 
             // переменныеToolStripMenuItem
@@ -118,7 +120,7 @@
             this.выраженияToolStripMenuItem1,
             this.результатыОбработкиToolStripMenuItem});
             this.экспортToolStripMenuItem.Name = "экспортToolStripMenuItem";
-            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.экспортToolStripMenuItem.Text = "Экспорт";
             // 
             // переменныеToolStripMenuItem1
@@ -145,7 +147,7 @@
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
@@ -257,11 +259,33 @@
             this.identifierValue.Name = "identifierValue";
             this.identifierValue.Width = 300;
             // 
+            // checkBox_disableBoosters
+            // 
+            this.checkBox_disableBoosters.AutoSize = true;
+            this.checkBox_disableBoosters.Location = new System.Drawing.Point(20, 621);
+            this.checkBox_disableBoosters.Name = "checkBox_disableBoosters";
+            this.checkBox_disableBoosters.Size = new System.Drawing.Size(172, 17);
+            this.checkBox_disableBoosters.TabIndex = 16;
+            this.checkBox_disableBoosters.Text = "Отключить все оптимизации";
+            this.checkBox_disableBoosters.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_measureExecutionTime
+            // 
+            this.checkBox_measureExecutionTime.AutoSize = true;
+            this.checkBox_measureExecutionTime.Location = new System.Drawing.Point(198, 620);
+            this.checkBox_measureExecutionTime.Name = "checkBox_measureExecutionTime";
+            this.checkBox_measureExecutionTime.Size = new System.Drawing.Size(176, 17);
+            this.checkBox_measureExecutionTime.TabIndex = 17;
+            this.checkBox_measureExecutionTime.Text = "Замерить время выполнения";
+            this.checkBox_measureExecutionTime.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1284, 650);
+            this.Controls.Add(this.checkBox_measureExecutionTime);
+            this.Controls.Add(this.checkBox_disableBoosters);
             this.Controls.Add(this.dataGridView_intVariables);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -308,6 +332,8 @@
         private System.Windows.Forms.ToolStripMenuItem переменныеToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem выраженияToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem результатыОбработкиToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBox_disableBoosters;
+        private System.Windows.Forms.CheckBox checkBox_measureExecutionTime;
     }
 }
 

@@ -1,5 +1,4 @@
 ﻿using master_piece.service.logging;
-using master_piece.service.subexpression;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -15,10 +14,10 @@ namespace master_piece.service.init_expressions
         /// </summary>
         /// <param name="dgvrCollection">Строки с таблицы со списком выражений на форме MainForm</param>
         /// <param name="newRowIndex">Индекс новой строки в таблице</param>
-        /// <param name="logComponent">RichTextBox с результатами, расположенный на форме MainForm</param>
-        public static List<Expression> initExpressions(DataGridViewRowCollection dgvrCollection, int newRowIndex, RichTextBox logComponent)
+        /// <param name="loggingService">Сервис логирования</param>
+        public static List<Expression> initExpressions(DataGridViewRowCollection dgvrCollection, int newRowIndex, LoggingService loggingService)
         {
-            logComponent.AppendText("\n\n----------Ввод выражений:----------------\n");
+            loggingService.logString("\n\n----------Ввод выражений:----------------\n");
 
             List<Expression> expressions = new List<Expression>();
 
@@ -34,14 +33,14 @@ namespace master_piece.service.init_expressions
 
                 if (dgvr.Cells[0].Value == null || dgvr.Cells[0].Value.ToString().Length == 0)
                 {
-                    logComponent.AppendText("Ошибка в строке " + dgvr.Index.ToString() + ": не задано выражение ЕСЛИ\n");
+                    loggingService.logError("Ошибка в строке " + dgvr.Index.ToString() + ": не задано выражение ЕСЛИ\n");
                     processingTerminated = true;
                     break;
                 }
 
                 if (dgvr.Cells[1].Value == null || dgvr.Cells[1].Value.ToString().Length == 0)
                 {
-                    logComponent.AppendText("Ошибка в строке " + dgvr.Index.ToString() + ": не задано выражение ТО\n");
+                    loggingService.logError("Ошибка в строке " + dgvr.Index.ToString() + ": не задано выражение ТО\n");
                     processingTerminated = true;
                     break;
                 }
@@ -57,7 +56,7 @@ namespace master_piece.service.init_expressions
 
                 if(openBracketCount != closeBracketCount)
                 {
-                    logComponent.AppendText("Ошибка в строке " + dgvr.Index.ToString() + 
+                    loggingService.logError("Ошибка в строке " + dgvr.Index.ToString() + 
                         ": количество открывающих скобок (" + openBracketCount + 
                         ") не совпадает с количеством закрывающих (" + closeBracketCount + ")\n");
                     processingTerminated = true;
@@ -73,7 +72,7 @@ namespace master_piece.service.init_expressions
 
             if (!processingTerminated)
             {
-                LoggingService.logExpressions(logComponent, expressions);
+                loggingService.logExpressions(expressions);
             }
 
             return expressions;

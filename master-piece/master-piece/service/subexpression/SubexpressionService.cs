@@ -93,13 +93,14 @@ namespace master_piece.service.subexpression
         /// </summary>
         /// <param name="subexpressions">Список подвыражений</param>
         /// <param name="variables">Хранилище переменных</param>
-        public void calculateDuplicates(List<Subexpression> subexpressions, VariablesStorage variables)
+        /// <param name="enableBooster">Флаг, отвечающий за включение ускорения вычислений</param>
+        public void calculateDuplicates(List<Subexpression> subexpressions, VariablesStorage variables, bool enableBooster)
         {
             foreach (Subexpression subexpression in subexpressions)
             {
                 if (subexpression.mustBePrecalculated)
                 {
-                    subexpression.value = calculateSubexpressionValue(subexpression, variables);
+                    subexpression.value = calculateSubexpressionValue(subexpression, variables, enableBooster);
                 }
             }
         }
@@ -110,7 +111,8 @@ namespace master_piece.service.subexpression
         /// </summary>
         /// <param name="subexpression">Подвыражение</param>
         /// <param name="variablesStorage">Хранилище переменных</param>
-        public bool calculateSubexpressionValue(Subexpression subexpression, VariablesStorage variablesStorage)
+        /// <param name="enableBooster">Флаг, отвечающий за включение ускорения вычислений</param>
+        public bool calculateSubexpressionValue(Subexpression subexpression, VariablesStorage variablesStorage, bool enableBooster)
         {
             //If subexpression already has the value, simply return it
             if (subexpression.value.HasValue) return subexpression.value.Value;
@@ -373,22 +375,28 @@ namespace master_piece.service.subexpression
             }
             else if (subexpression.isMixed())
             {
-                bool? preBooster = calculationBooster(subexpression);
-                if (preBooster.HasValue)
+                if (enableBooster)
                 {
-                    return preBooster.Value;
+                    bool? preBooster = calculationBooster(subexpression);
+                    if (preBooster.HasValue)
+                    {
+                        return preBooster.Value;
+                    }
                 }
 
                 //Calculate first subexpression value if it doesn't exists
                 if (!subexpression.subexpressionFirst.value.HasValue)
                 {
-                    subexpression.subexpressionFirst.value = calculateSubexpressionValue(subexpression.subexpressionFirst, variablesStorage);
+                    subexpression.subexpressionFirst.value = calculateSubexpressionValue(subexpression.subexpressionFirst, variablesStorage, enableBooster);
                 }
 
-                bool? secondBooster = calculationBooster(subexpression);
-                if (secondBooster.HasValue)
+                if (enableBooster)
                 {
-                    return secondBooster.Value;
+                    bool? secondBooster = calculationBooster(subexpression);
+                    if (secondBooster.HasValue)
+                    {
+                        return secondBooster.Value;
+                    }
                 }
 
                 int? intValueSecond = null;
@@ -486,28 +494,34 @@ namespace master_piece.service.subexpression
             //Ordinary subexpression are here
             else
             {
-                bool? preBooster = calculationBooster(subexpression);
-                if (preBooster.HasValue)
+                if (enableBooster)
                 {
-                    return preBooster.Value;
+                    bool? preBooster = calculationBooster(subexpression);
+                    if (preBooster.HasValue)
+                    {
+                        return preBooster.Value;
+                    }
                 }
 
                 //Calculate first subexpression value if it doesn't exists
                 if (!subexpression.subexpressionFirst.value.HasValue)
                 {
-                    subexpression.subexpressionFirst.value = calculateSubexpressionValue(subexpression.subexpressionFirst, variablesStorage);
+                    subexpression.subexpressionFirst.value = calculateSubexpressionValue(subexpression.subexpressionFirst, variablesStorage, enableBooster);
                 }
 
-                bool? secondBooster = calculationBooster(subexpression);
-                if (secondBooster.HasValue)
+                if (enableBooster)
                 {
-                    return secondBooster.Value;
+                    bool? secondBooster = calculationBooster(subexpression);
+                    if (secondBooster.HasValue)
+                    {
+                        return secondBooster.Value;
+                    }
                 }
 
                 //Calculate second subexpression value if it doesn't exists
                 if (!subexpression.subexpressionSecond.value.HasValue)
                 {
-                    subexpression.subexpressionSecond.value = calculateSubexpressionValue(subexpression.subexpressionSecond, variablesStorage);
+                    subexpression.subexpressionSecond.value = calculateSubexpressionValue(subexpression.subexpressionSecond, variablesStorage, enableBooster);
                 }
 
                 switch (subexpression.operation)

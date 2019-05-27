@@ -4,7 +4,9 @@ using master_piece.service.init_variables;
 using master_piece.service.lexical_analysis;
 using master_piece.service.parser;
 using master_piece.service.subexpression;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace master_piece.service.logging
@@ -12,16 +14,70 @@ namespace master_piece.service.logging
     /// <summary>
     /// Сервис логирования 
     /// </summary>
-    //TODO: вынести loggerComponent в поле, внести его в конструктор сервиса, использовать поле во всех методах
     class LoggingService
     {
         /// <summary>
+        /// Флаг, отвечающий за включение/отключение логирования
+        /// </summary>
+        public bool noLogMode { get; set; } = false;
+
+        /// <summary>
+        /// Компонент вывода лога
+        /// </summary>
+        private RichTextBox loggerComponent;
+
+        /// <summary>
+        /// Конструктор с параметрами
+        /// </summary>
+        /// <param name="loggerComponent"></param>
+        public LoggingService(RichTextBox loggerComponent)
+        {
+            this.loggerComponent = loggerComponent;
+        }
+
+        /// <summary>
+        /// Метод логирования произвольной строки. Переводы строки в методе не добавляются
+        /// </summary>
+        /// <param name="str">Строка, которую требуется вывести в лог</param>
+        public void logString(string str)
+        {
+            if (noLogMode) return;
+
+            loggerComponent.AppendText(str);
+        }
+
+        /// <summary>
+        /// Метод логирования строки с ошибкой. Переводы строки в методе не добавляются
+        /// </summary>
+        /// <param name="str">Строка, которую требуется вывести в лог</param>
+        public void logError(string str)
+        {
+            loggerComponent.AppendText(str);
+        }
+
+        /// <summary>
+        /// Мето логирования времени выполнения алгоритма
+        /// </summary>
+        /// <param name="executionTimeMilliseconds">Время выполнения алгоритма в миллисекундах</param>
+        public void logExecutionTime(long executionTimeMilliseconds)
+        {
+            TimeSpan t = TimeSpan.FromMilliseconds(executionTimeMilliseconds);
+            string answer = string.Format("{0:D2}ч:{1:D2}м:{2:D2}сек:{3:D3}мс",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            loggerComponent.AppendText("\n\nВремя выполнения: " + answer + "\n");
+        }
+
+        /// <summary>
         /// Метод логирования переменных
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="variablesStorage">Хранилище переменных</param>
-        public static void logVariables(RichTextBox loggerComponent, VariablesStorage variablesStorage)
+        public void logVariables(VariablesStorage variablesStorage)
         {
+            if (noLogMode) return;
+
             foreach (IntViewVariable intVariable in variablesStorage.intVariables)
             {
                 loggerComponent.AppendText("Переменная: " + intVariable.name + ", значение: " + intVariable.value + "\n");
@@ -35,10 +91,11 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования нечетких переменных
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="fuzzyVariables">Список представлений нечетких переменных</param>
-        public static void logFuzzyVariables(RichTextBox loggerComponent, List<FuzzyViewVariable> fuzzyVariables)
+        public void logFuzzyVariables(List<FuzzyViewVariable> fuzzyVariables)
         {
+            if (noLogMode) return;
+
             foreach (FuzzyViewVariable fuzzyVariable in fuzzyVariables)
             {
                 loggerComponent.AppendText("Переменная: " + fuzzyVariable.name + ", значение: " + fuzzyVariable.value + "\n");
@@ -48,10 +105,11 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования выражений
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="expressionsStorage">Список выражений</param>
-        public static void logExpressions(RichTextBox loggerComponent, List<Expression> expressionsStorage)
+        public void logExpressions(List<Expression> expressionsStorage)
         {
+            if (noLogMode) return;
+
             foreach (Expression expression in expressionsStorage)
             {
                 loggerComponent.AppendText("Выражение " + expression.expressionLevel + ": ЕСЛИ " + expression.ifExpressionText + ", ТО " + expression.thenExpressionText
@@ -62,11 +120,12 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования парсера для выражений ЕСЛИ
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="expression">Выражение в текстовом виде</param>
         /// <param name="lexemesList">Список лексем, полученных из выражения</param>
-        public static void logIfParser(RichTextBox loggerComponent, string expression, List<Lexeme> lexemesList)
+        public void logIfParser(string expression, List<Lexeme> lexemesList)
         {
+            if (noLogMode) return;
+
             loggerComponent.AppendText("\n\n----------Обработка выражения ЕСЛИ: " + expression + "----------------\n");
             foreach (Lexeme lexeme in lexemesList)
             {
@@ -77,12 +136,13 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования парсера для выражений ТО или ИНАЧЕ
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="expression">Выражение в текстовом виде</param>
         /// <param name="lexemesList">Список лексем, полученных из выражения</param>
         /// <param name="isThenExpression">true, если обрабатывается выражение ТО, false - если обрабатывается выражение ИНАЧЕ</param>
-        public static void logThenOrElseParser(RichTextBox loggerComponent, string expression, List<Lexeme> lexemesList, bool isThenExpression)
+        public void logThenOrElseParser(string expression, List<Lexeme> lexemesList, bool isThenExpression)
         {
+            if (noLogMode) return;
+
             loggerComponent.AppendText("\n\n----------Обработка выражения " + (isThenExpression ? "ТО: " : "ИНАЧЕ: ") + expression + "----------------\n");
             foreach (Lexeme lexeme in lexemesList)
             {
@@ -93,11 +153,9 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования результатов работы лексического анализатора
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
-        /// <param name="semanticResult">Результат лексического анализа</param>
-        public static void logLexicalAnalysis(RichTextBox loggerComponent, LexicalAnalysisResult lexicalAnalysisResult)
+        /// <param name="lexicalAnalysisResult">Результат лексического анализа</param>
+        public void logLexicalAnalysis(LexicalAnalysisResult lexicalAnalysisResult)
         {
-            loggerComponent.AppendText("\n----------\nРезультаты лексического анализа\n-----------\n");
             if (!lexicalAnalysisResult.isCorrect)
             {
                 foreach (string str in lexicalAnalysisResult.output)
@@ -109,6 +167,8 @@ namespace master_piece.service.logging
             }
             else
             {
+                if (noLogMode) return;
+                loggerComponent.AppendText("\n----------\nРезультаты лексического анализа\n-----------\n");
                 loggerComponent.AppendText("Лексический анализ успешно выполнен\n");
             }
         }
@@ -116,10 +176,11 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования преобразования в ПОЛИЗ 
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="reversePolishNotationResult">Список лексем, полученных после преобразования в ПОЛИЗ</param>
-        public static void logReversePolishNotation(RichTextBox loggerComponent, List<Lexeme> reversePolishNotationResult)
+        public void logReversePolishNotation(List<Lexeme> reversePolishNotationResult)
         {
+            if (noLogMode) return;
+
             loggerComponent.AppendText("\n----------\nРезультаты представления в ПОЛИЗ\n-----------\n");
             foreach (Lexeme lexeme in reversePolishNotationResult)
             {
@@ -130,10 +191,11 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования подвыражений
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="subexpressions">Список подвыражений</param>
-        public static void logSubexpressions(RichTextBox loggerComponent, List<Subexpression> subexpressions)
+        public void logSubexpressions(List<Subexpression> subexpressions)
         {
+            if (noLogMode) return;
+
             loggerComponent.AppendText("\n----------\nСписок подвыражений\n-----------\n");
 
             foreach (Subexpression subexpression in subexpressions)
@@ -145,11 +207,12 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования переменных с присвоенными им значениями
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="variables">Хранилище переменных</param>
         /// <param name="showReassignmentInfo">true, если нужно указать информацию об уровне переопределения, false в противном случае</param>
-        public static void logAssignedVariables(RichTextBox loggerComponent, VariablesStorage variables, bool showReassignmentInfo)
+        public void logAssignedVariables(VariablesStorage variables, bool showReassignmentInfo)
         {
+            if (noLogMode) return;
+
             loggerComponent.AppendText("\n\n----------Текущие значения переменных:----------------\n");
             foreach (IntViewVariable iv in variables.intVariables)
             {
@@ -166,10 +229,11 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования дубликатов подвыражений
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="subexpressions">Список подвыражений</param>
-        public static void logDuplicates(RichTextBox loggerComponent, List<Subexpression> subexpressions)
+        public void logDuplicates(List<Subexpression> subexpressions)
         {
+            if (noLogMode) return;
+
             loggerComponent.AppendText("\n----------\nДубликаты подвыражений\n-----------\n");
 
             foreach (Subexpression exp in subexpressions)
@@ -184,10 +248,11 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования значений дубликатов подвыражений
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="subexpressions">Список подвыражений</param>
-        public static void logDuplicatesValues(RichTextBox loggerComponent, List<Subexpression> subexpressions)
+        public void logDuplicatesValues(List<Subexpression> subexpressions)
         {
+            if (noLogMode) return;
+
             loggerComponent.AppendText("\n----------\nЗначения дубликатов подвыражений\n-----------\n");
 
             foreach (Subexpression exp in subexpressions)
@@ -202,10 +267,11 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования значений подвыражений
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="subexpressions">Список подвыражений</param>
-        public static void logSubexpressionsValues(RichTextBox loggerComponent, List<Subexpression> subexpressions)
+        public void logSubexpressionsValues(List<Subexpression> subexpressions)
         {
+            if (noLogMode) return;
+
             loggerComponent.AppendText("\n----------\nЗначения подвыражений\n-----------\n");
 
             foreach (Subexpression exp in subexpressions)
@@ -217,10 +283,11 @@ namespace master_piece.service.logging
         /// <summary>
         /// Метод логирования результата подбора нечеткой переменной по значению
         /// </summary>
-        /// <param name="loggerComponent">Компонент, в который выводится лог</param>
         /// <param name="selectionResult">Результат подбора нечеткой переменной по значению</param>
-        public static void logFuzzySelectionError(RichTextBox loggerComponent, FuzzyVariableSelectionResult selectionResult)
+        public void logFuzzySelectionError(FuzzyVariableSelectionResult selectionResult)
         {
+            if (noLogMode) return;
+
             loggerComponent.AppendText("\n----------\nПодбор нечётких переменных по значению\n-----------\n");
             loggerComponent.AppendText(selectionResult.messageString + "\n");
         }
