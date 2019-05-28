@@ -9,6 +9,7 @@ using master_piece.service.logging;
 using master_piece.service.parser;
 using master_piece.service.reverse_polish_notation;
 using master_piece.service.subexpression;
+using master_piece.UI;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -311,6 +312,17 @@ namespace master_piece
                     MessageBox.Show(result.messageString, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
             }
+        }
+
+        /// <summary>
+        /// Expression generation call method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ВыраженияToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            GenerateForm generateForm = new GenerateForm();
+            generateForm.ShowDialog();
         }
     }
 }
