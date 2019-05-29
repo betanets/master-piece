@@ -18,7 +18,7 @@ namespace master_piece.service.generation
         private static Random rand = new Random();
         private static string alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-        public static List<string> generateExpressions(List<string> variableNames, int expressionsCount)
+        public static List<string> generateExpressions(List<string> variableNames, int expressionsCount, bool allowReuse, int blockCountFrom, int blockCountTo)
         {
             List<string> expressions = new List<string>();
 
@@ -27,7 +27,7 @@ namespace master_piece.service.generation
                 string expression = "";
 
                 //IF expression generation
-                int subexpressionsCount = 3 + rand.Next(10);
+                int subexpressionsCount = blockCountFrom + rand.Next(blockCountTo - blockCountFrom);
                 for (int j = 0; j < subexpressionsCount; j++)
                 {
                     int subexpressionType = rand.Next(3) % 3;
@@ -67,13 +67,13 @@ namespace master_piece.service.generation
                 }
 
                 //THEN expression generation
-                expression += "\t\t" + generateThenOrElseExpression(variableNames);
+                expression += "\t\t" + generateThenOrElseExpression(variableNames, allowReuse);
 
                 //ELSE expression generation
                 int generateElse = rand.Next(2);
                 if(generateElse == 1)
                 {
-                    expression += "\t\t" + generateThenOrElseExpression(variableNames);
+                    expression += "\t\t" + generateThenOrElseExpression(variableNames, allowReuse);
                 }
 
                 expressions.Add(expression);
@@ -91,7 +91,7 @@ namespace master_piece.service.generation
             return "(" + firstVariable + " " + operation + " " + secondVariable + ")";
         }
 
-        public static string generateThenOrElseExpression(List<string> variableNames)
+        public static string generateThenOrElseExpression(List<string> variableNames, bool allowReuse)
         {
             int reassignOrAssignNew = rand.Next(2);
             string variableToAssign;
@@ -104,7 +104,10 @@ namespace master_piece.service.generation
             {
                 //Create new variable
                 variableToAssign = generateRandomString(2);
-                variableNames.Add(variableToAssign);
+                if(allowReuse)
+                {
+                    variableNames.Add(variableToAssign);
+                }
             }
 
             int valueOrVariable = rand.Next(2);

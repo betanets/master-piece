@@ -17,8 +17,24 @@ namespace master_piece.UI
         {
             List<string> names = new List<string>(
                 textBox_names.Text.Split(new char[] { ' ', '\t', '\r', '\n'}, StringSplitOptions.RemoveEmptyEntries));
-            List<string> expressions = 
-                GenerationService.generateExpressions(names, (int)numericUpDown_count.Value);
+
+            if (numericUpDown_blockCountFrom.Value > numericUpDown_blockCountTo.Value)
+            {
+                MessageBox.Show("Неверно указан диапазон числа блоков в выражении",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (names.Count == 0)
+            {
+                MessageBox.Show("Необходимо указать хотя бы одно имя переменной", 
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            List<string> expressions = GenerationService.generateExpressions(
+                names, (int)numericUpDown_count.Value, checkBox_allowReuse.Checked,
+                (int)numericUpDown_blockCountFrom.Value, (int)numericUpDown_blockCountTo.Value);
 
             ImportExportResult result = GenerationService.exportGeneratedStrings(expressions);
             switch (result.status)

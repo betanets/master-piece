@@ -20,5 +20,18 @@
             this.name = name;
             this.value = value;
         }
+
+        /// <summary>
+        /// Конструктор по умолчанию
+        /// </summary>
+        /// <param name="name">Алиас</param>
+        /// <param name="value">Значение</param>
+        /// <param name="firstReassignmentLevel">Уровень переопределения</param>
+        public IntViewVariable(string name, int value, int firstReassignmentLevel)
+        {
+            this.name = name;
+            this.value = value;
+            this.firstReassignmentLevel = firstReassignmentLevel;
+        }
     }
 }

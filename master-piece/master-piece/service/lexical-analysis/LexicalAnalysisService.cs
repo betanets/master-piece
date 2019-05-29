@@ -97,6 +97,10 @@ namespace master_piece.service.lexical_analysis
                                 if (iv.name.Equals(identifierSavior.lexemeText))
                                 {
                                     iv.value = intAfterVariable.value;
+                                    if (iv.firstReassignmentLevel == -1)
+                                    {
+                                        iv.firstReassignmentLevel = subexpressionLevel;
+                                    }
                                     found = true;
                                     break;
                                 }
@@ -106,11 +110,13 @@ namespace master_piece.service.lexical_analysis
                             if (!found)
                             {
                                 //...пытаемся получить переменную ДО знака "=" как нечеткую
+                                int levelSavior = -1;
                                 foreach (FuzzyViewVariable fv in variables.fuzzyVariables)
                                 {
                                     //Если нашли, её удаляем...
                                     if (fv.name.Equals(identifierSavior.lexemeText))
                                     {
+                                        levelSavior = fv.firstReassignmentLevel;
                                         variables.fuzzyVariables.Remove(fv);
                                         found = true;
                                         break;
@@ -119,7 +125,7 @@ namespace master_piece.service.lexical_analysis
                                 //...и добавляем новую целочисленную
                                 if (found)
                                 {
-                                    variables.intVariables.Add(new IntViewVariable(identifierSavior.lexemeText, intAfterVariable.value));
+                                    variables.intVariables.Add(new IntViewVariable(identifierSavior.lexemeText, intAfterVariable.value, levelSavior));
                                 }
                             }
 
@@ -142,6 +148,10 @@ namespace master_piece.service.lexical_analysis
                                     if (fv.name.Equals(identifierSavior.lexemeText))
                                     {
                                         fv.value = fuzzyAfterVariable.value;
+                                        if (fv.firstReassignmentLevel == -1)
+                                        {
+                                            fv.firstReassignmentLevel = subexpressionLevel;
+                                        }
                                         found = true;
                                         break;
                                     }
@@ -151,6 +161,7 @@ namespace master_piece.service.lexical_analysis
                                 if (!found)
                                 {
                                     //...пытаемся получить переменную ДО знака "=" как целочисленную
+                                    int levelSavior = -1;
                                     foreach (IntViewVariable iv in variables.intVariables)
                                     {
                                         //Если нашли, её удаляем...
@@ -164,7 +175,7 @@ namespace master_piece.service.lexical_analysis
                                     //...и добавляем новую нечеткую
                                     if (found)
                                     {
-                                        variables.fuzzyVariables.Add(new FuzzyViewVariable(identifierSavior.lexemeText, fuzzyAfterVariable.value));
+                                        variables.fuzzyVariables.Add(new FuzzyViewVariable(identifierSavior.lexemeText, fuzzyAfterVariable.value, levelSavior));
                                     }
                                 }
                                 
@@ -177,6 +188,7 @@ namespace master_piece.service.lexical_analysis
                                 }
                             }
                         }
+                        identifierSavior = null;
                     }
                     else
                     {
