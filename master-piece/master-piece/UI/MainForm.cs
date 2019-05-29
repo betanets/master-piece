@@ -159,12 +159,12 @@ namespace master_piece
                 }
             }
 
+            //Marking duplicates
+            DuplicateExpressionService.markDuplicates(subexpressions, variablesStorage);
+            loggingService.logDuplicates(subexpressions);
+
             if (!checkBox_disableBoosters.Checked)
             {
-                //Marking duplicates
-                DuplicateExpressionService.markDuplicates(subexpressions, variablesStorage);
-                loggingService.logDuplicates(subexpressions);
-
                 //Precalculating duplicates
                 subexpressionService.calculateDuplicates(subexpressions, variablesStorage, !checkBox_disableBoosters.Checked);
                 loggingService.logDuplicatesValues(subexpressions);
@@ -175,7 +175,6 @@ namespace master_piece
             variablesStorage.intVariables.AddRange(variablesStorage_holder.intVariables);
             variablesStorage.fuzzyVariables.AddRange(variablesStorage_holder.fuzzyVariables);
 
-            loggingService.logString("------========РЕЗУЛЬТАТЫ:========---------\n");
             //Calculating major subexpressions one by one
             //TODO: check level and compare it with local counter to avoid wrong order
             foreach (Subexpression subexpression in subexpressions)
@@ -206,7 +205,11 @@ namespace master_piece
                     }
                 }
             }
+
+            loggingService.logString("------========РЕЗУЛЬТАТЫ:========---------\n");
             loggingService.logSubexpressions(subexpressions);
+
+            loggingService.noLogMode = false;
             loggingService.logAssignedVariables(variablesStorage, false);
 
             watch.Stop();

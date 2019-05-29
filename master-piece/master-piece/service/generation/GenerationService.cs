@@ -104,6 +104,7 @@ namespace master_piece.service.generation
             {
                 //Create new variable
                 variableToAssign = generateRandomString(2);
+                variableNames.Add(variableToAssign);
             }
 
             int valueOrVariable = rand.Next(2);

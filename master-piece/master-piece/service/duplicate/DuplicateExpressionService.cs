@@ -41,25 +41,19 @@ namespace master_piece.service.duplicate
             }
 
             //Checking semantic and filtering duplicates: if variable already reassigned, we should NOT add subexpression into duplicates
-            //Backward traverse used only for correct remove
             foreach (Subexpression exp in expressions)
             {
                 if (exp.mustBePrecalculated == true)
                 {
                     List<AbstractViewVariable> abstractVariables = LexicalAnalysisService.getVariablesBySubexpression(exp, variablesStorage);
-                    bool mustBeFiltered = false;
+
                     foreach (AbstractViewVariable av in abstractVariables)
                     {
                         if (av.firstReassignmentLevel != -1 && av.firstReassignmentLevel < exp.expressionLevel)
                         {
-                            mustBeFiltered = true;
+                            exp.mustBePrecalculated = false;
                             break;
                         }
-                    }
-
-                    if (mustBeFiltered)
-                    {
-                        exp.mustBePrecalculated = false;
                     }
                 }
             }

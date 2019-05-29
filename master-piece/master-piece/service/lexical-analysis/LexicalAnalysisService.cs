@@ -73,14 +73,116 @@ namespace master_piece.service.lexical_analysis
         //TODO: split into two methods: one for assign value, another for assign level
         public static void assignVariables(List<Lexeme> parserResult, VariablesStorage variables, int subexpressionLevel)
         {
-            //Lexemes now stored as Identifier-Assign-Value-Comma-Identifier-...
+            //Lexemes now stored as Identifier-Assign-(Value/Identifier)-Comma-Identifier-...
             //TODO: check assign and comma lexemes
             Lexeme identifierSavior = null;
-            foreach (Lexeme lex in parserResult)
+            for (int i = 0; i < parserResult.Count; i++)
             {
+                Lexeme lex = parserResult[i];
                 if (LexemeTypes.IsIdentifier(lex.lexemeType))
                 {
-                    identifierSavior = lex;
+                    if ((i != 0) && (parserResult[i - 1].lexemeType == LexemeType.Assign))
+                    {
+                        //В данном случае lex - это переменная ПОСЛЕ знака "="
+
+                        //Пытаемся получить переменную ПОСЛЕ знака "=" как целочисленную
+                        IntViewVariable intAfterVariable = getIntVariableByLexeme(lex, variables);
+                        if (intAfterVariable != null)
+                        {
+                            bool found = false;
+                            //Пытаемся получить переменную ДО знака "=" как целочисленную
+                            foreach (IntViewVariable iv in variables.intVariables)
+                            {
+                                //Если нашли, ей нужно установить значение
+                                if (iv.name.Equals(identifierSavior.lexemeText))
+                                {
+                                    iv.value = intAfterVariable.value;
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            //Если всё ещё не нашли, то...
+                            if (!found)
+                            {
+                                //...пытаемся получить переменную ДО знака "=" как нечеткую
+                                foreach (FuzzyViewVariable fv in variables.fuzzyVariables)
+                                {
+                                    //Если нашли, её удаляем...
+                                    if (fv.name.Equals(identifierSavior.lexemeText))
+                                    {
+                                        variables.fuzzyVariables.Remove(fv);
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                //...и добавляем новую целочисленную
+                                if (found)
+                                {
+                                    variables.intVariables.Add(new IntViewVariable(identifierSavior.lexemeText, intAfterVariable.value));
+                                }
+                            }
+
+                            if(!found)
+                            {
+                                variables.intVariables.Add(new IntViewVariable(identifierSavior.lexemeText, intAfterVariable.value));
+                            }
+                        }
+                        else
+                        {
+                            //Пытаемся получить переменную ПОСЛЕ знака "=" как нечеткую
+                            FuzzyViewVariable fuzzyAfterVariable = getFuzzyVariableByLexeme(lex, variables);
+                            if(fuzzyAfterVariable != null)
+                            {
+                                bool found = false;
+                                //Пытаемся получить переменную ДО знака "=" как нечеткую
+                                foreach (FuzzyViewVariable fv in variables.fuzzyVariables)
+                                {
+                                    //Если нашли, ей нужно установить значение
+                                    if (fv.name.Equals(identifierSavior.lexemeText))
+                                    {
+                                        fv.value = fuzzyAfterVariable.value;
+                                        found = true;
+                                        break;
+                                    }
+                                }
+
+                                //Если всё ещё не нашли, то...
+                                if (!found)
+                                {
+                                    //...пытаемся получить переменную ДО знака "=" как целочисленную
+                                    foreach (IntViewVariable iv in variables.intVariables)
+                                    {
+                                        //Если нашли, её удаляем...
+                                        if (iv.name.Equals(identifierSavior.lexemeText))
+                                        {
+                                            variables.intVariables.Remove(iv);
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    //...и добавляем новую нечеткую
+                                    if (found)
+                                    {
+                                        variables.fuzzyVariables.Add(new FuzzyViewVariable(identifierSavior.lexemeText, fuzzyAfterVariable.value));
+                                    }
+                                }
+                                
+                                if(!found)
+                                {
+                                    if (found)
+                                    {
+                                        variables.fuzzyVariables.Add(new FuzzyViewVariable(identifierSavior.lexemeText, fuzzyAfterVariable.value));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //В данном случае мы только прочитали первый идентификатор
+                        identifierSavior = lex;
+                    }
                 }
                 else if (LexemeTypes.IsIntValue(lex.lexemeType))
                 {
@@ -164,6 +266,42 @@ namespace master_piece.service.lexical_analysis
                     return iv;
                 }
             }
+            return null;
+        }
+
+        public static IntViewVariable getIntVariableByLexeme(Lexeme lexeme, VariablesStorage variablesStorage)
+        {
+            if (lexeme == null || !LexemeTypes.IsIdentifier(lexeme.lexemeType))
+            {
+                return null;
+            }
+
+            foreach (IntViewVariable iv in variablesStorage.intVariables)
+            {
+                if (iv.name.Equals(lexeme.lexemeText))
+                {
+                    return iv;
+                }
+            }
+
+            return null;
+        }
+
+        public static FuzzyViewVariable getFuzzyVariableByLexeme(Lexeme lexeme, VariablesStorage variablesStorage)
+        {
+            if (lexeme == null || !LexemeTypes.IsIdentifier(lexeme.lexemeType))
+            {
+                return null;
+            }
+
+            foreach (FuzzyViewVariable iv in variablesStorage.fuzzyVariables)
+            {
+                if (iv.name.Equals(lexeme.lexemeText))
+                {
+                    return iv;
+                }
+            }
+
             return null;
         }
 
