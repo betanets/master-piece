@@ -181,10 +181,7 @@ namespace master_piece.service.lexical_analysis
                                 
                                 if(!found)
                                 {
-                                    if (found)
-                                    {
-                                        variables.fuzzyVariables.Add(new FuzzyViewVariable(identifierSavior.lexemeText, fuzzyAfterVariable.value));
-                                    }
+                                    variables.fuzzyVariables.Add(new FuzzyViewVariable(identifierSavior.lexemeText, fuzzyAfterVariable.value));
                                 }
                             }
                         }

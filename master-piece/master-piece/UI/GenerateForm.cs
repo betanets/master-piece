@@ -18,9 +18,23 @@ namespace master_piece.UI
             List<string> names = new List<string>(
                 textBox_names.Text.Split(new char[] { ' ', '\t', '\r', '\n'}, StringSplitOptions.RemoveEmptyEntries));
 
-            if (numericUpDown_blockCountFrom.Value > numericUpDown_blockCountTo.Value)
+            if (numericUpDown_ifBlockCountFrom.Value > numericUpDown_ifBlockCountTo.Value)
             {
-                MessageBox.Show("Неверно указан диапазон числа блоков в выражении",
+                MessageBox.Show("Неверно указан диапазон числа блоков в выражениях ЕСЛИ",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (numericUpDown_thenBlockCountFrom.Value > numericUpDown_thenBlockCountTo.Value)
+            {
+                MessageBox.Show("Неверно указан диапазон числа блоков в выражениях ТО",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (numericUpDown_elseBlockCountFrom.Value > numericUpDown_elseBlockCountTo.Value)
+            {
+                MessageBox.Show("Неверно указан диапазон числа блоков в выражениях ИНАЧЕ",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -34,7 +48,9 @@ namespace master_piece.UI
 
             List<string> expressions = GenerationService.generateExpressions(
                 names, (int)numericUpDown_count.Value, checkBox_allowReuse.Checked,
-                (int)numericUpDown_blockCountFrom.Value, (int)numericUpDown_blockCountTo.Value);
+                (int)numericUpDown_ifBlockCountFrom.Value, (int)numericUpDown_ifBlockCountTo.Value,
+                (int)numericUpDown_thenBlockCountFrom.Value, (int)numericUpDown_thenBlockCountTo.Value,
+                (int)numericUpDown_elseBlockCountFrom.Value, (int)numericUpDown_elseBlockCountTo.Value);
 
             ImportExportResult result = GenerationService.exportGeneratedStrings(expressions);
             switch (result.status)

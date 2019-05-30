@@ -18,7 +18,9 @@ namespace master_piece.service.generation
         private static Random rand = new Random();
         private static string alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-        public static List<string> generateExpressions(List<string> variableNames, int expressionsCount, bool allowReuse, int blockCountFrom, int blockCountTo)
+        public static List<string> generateExpressions(List<string> variableNames, int expressionsCount, bool allowReuse, 
+            int ifBlockCountFrom, int ifBlockCountTo, int thenBlockCountFrom, int thenBlockCountTo,
+            int elseBlockCountFrom, int elseBlockCountTo)
         {
             List<string> expressions = new List<string>();
 
@@ -27,7 +29,7 @@ namespace master_piece.service.generation
                 string expression = "";
 
                 //IF expression generation
-                int subexpressionsCount = blockCountFrom + rand.Next(blockCountTo - blockCountFrom);
+                int subexpressionsCount = ifBlockCountFrom + rand.Next(ifBlockCountTo - ifBlockCountFrom);
                 for (int j = 0; j < subexpressionsCount; j++)
                 {
                     int subexpressionType = rand.Next(3) % 3;
@@ -67,13 +69,31 @@ namespace master_piece.service.generation
                 }
 
                 //THEN expression generation
-                expression += "\t\t" + generateThenOrElseExpression(variableNames, allowReuse);
+                int countOfThenExpressions = thenBlockCountFrom + rand.Next(thenBlockCountTo - thenBlockCountFrom);
+                expression += "\t\t";
+                for (int j = 0; j < countOfThenExpressions; j++)
+                {
+                    expression += generateThenOrElseExpression(variableNames, allowReuse);
+                    if (j != countOfThenExpressions - 1)
+                    {
+                        expression += ", ";
+                    }
+                }
 
                 //ELSE expression generation
                 int generateElse = rand.Next(2);
-                if(generateElse == 1)
+                if (generateElse == 1)
                 {
-                    expression += "\t\t" + generateThenOrElseExpression(variableNames, allowReuse);
+                    int countOfElseExpressions = elseBlockCountFrom + rand.Next(elseBlockCountTo - elseBlockCountFrom);
+                    expression += "\t\t";
+                    for (int j = 0; j < countOfElseExpressions; j++)
+                    {
+                        expression += generateThenOrElseExpression(variableNames, allowReuse);
+                        if (j != countOfElseExpressions - 1)
+                        {
+                            expression += ", ";
+                        }
+                    }
                 }
 
                 expressions.Add(expression);

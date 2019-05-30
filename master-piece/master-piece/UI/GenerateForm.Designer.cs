@@ -35,15 +35,31 @@
             this.button_ok = new System.Windows.Forms.Button();
             this.button_cancel = new System.Windows.Forms.Button();
             this.checkBox_allowReuse = new System.Windows.Forms.CheckBox();
-            this.groupBox_blockCount = new System.Windows.Forms.GroupBox();
-            this.label_blockCountFrom = new System.Windows.Forms.Label();
-            this.numericUpDown_blockCountFrom = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_blockCountTo = new System.Windows.Forms.NumericUpDown();
-            this.label_blockCountTo = new System.Windows.Forms.Label();
+            this.groupBox_ifBlockCount = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_ifBlockCountTo = new System.Windows.Forms.NumericUpDown();
+            this.label_ifBlockCountTo = new System.Windows.Forms.Label();
+            this.numericUpDown_ifBlockCountFrom = new System.Windows.Forms.NumericUpDown();
+            this.label_ifBlockCountFrom = new System.Windows.Forms.Label();
+            this.groupBox_thenBlockCount = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_thenBlockCountTo = new System.Windows.Forms.NumericUpDown();
+            this.label_thenBlockCountTo = new System.Windows.Forms.Label();
+            this.numericUpDown_thenBlockCountFrom = new System.Windows.Forms.NumericUpDown();
+            this.label_thenBlockCountFrom = new System.Windows.Forms.Label();
+            this.groupBox_elseBlockCount = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_elseBlockCountTo = new System.Windows.Forms.NumericUpDown();
+            this.label_elseBlockCountTo = new System.Windows.Forms.Label();
+            this.numericUpDown_elseBlockCountFrom = new System.Windows.Forms.NumericUpDown();
+            this.label_elseBlockCountFrom = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_count)).BeginInit();
-            this.groupBox_blockCount.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_blockCountFrom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_blockCountTo)).BeginInit();
+            this.groupBox_ifBlockCount.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ifBlockCountTo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ifBlockCountFrom)).BeginInit();
+            this.groupBox_thenBlockCount.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_thenBlockCountTo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_thenBlockCountFrom)).BeginInit();
+            this.groupBox_elseBlockCount.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_elseBlockCountTo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_elseBlockCountFrom)).BeginInit();
             this.SuspendLayout();
             // 
             // label_count
@@ -80,7 +96,7 @@
             // label_names
             // 
             this.label_names.AutoSize = true;
-            this.label_names.Location = new System.Drawing.Point(13, 108);
+            this.label_names.Location = new System.Drawing.Point(13, 233);
             this.label_names.Name = "label_names";
             this.label_names.Size = new System.Drawing.Size(107, 13);
             this.label_names.TabIndex = 2;
@@ -88,15 +104,15 @@
             // 
             // textBox_names
             // 
-            this.textBox_names.Location = new System.Drawing.Point(16, 124);
+            this.textBox_names.Location = new System.Drawing.Point(16, 249);
             this.textBox_names.Multiline = true;
             this.textBox_names.Name = "textBox_names";
-            this.textBox_names.Size = new System.Drawing.Size(297, 138);
+            this.textBox_names.Size = new System.Drawing.Size(297, 99);
             this.textBox_names.TabIndex = 3;
             // 
             // button_ok
             // 
-            this.button_ok.Location = new System.Drawing.Point(157, 292);
+            this.button_ok.Location = new System.Drawing.Point(157, 378);
             this.button_ok.Name = "button_ok";
             this.button_ok.Size = new System.Drawing.Size(75, 23);
             this.button_ok.TabIndex = 4;
@@ -107,7 +123,7 @@
             // button_cancel
             // 
             this.button_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button_cancel.Location = new System.Drawing.Point(238, 292);
+            this.button_cancel.Location = new System.Drawing.Point(238, 378);
             this.button_cancel.Name = "button_cancel";
             this.button_cancel.Size = new System.Drawing.Size(75, 23);
             this.button_cancel.TabIndex = 5;
@@ -117,84 +133,216 @@
             // checkBox_allowReuse
             // 
             this.checkBox_allowReuse.AutoSize = true;
-            this.checkBox_allowReuse.Location = new System.Drawing.Point(16, 269);
+            this.checkBox_allowReuse.Location = new System.Drawing.Point(16, 355);
             this.checkBox_allowReuse.Name = "checkBox_allowReuse";
             this.checkBox_allowReuse.Size = new System.Drawing.Size(298, 17);
             this.checkBox_allowReuse.TabIndex = 6;
             this.checkBox_allowReuse.Text = "Использовать случайные переменные в выражениях";
             this.checkBox_allowReuse.UseVisualStyleBackColor = true;
             // 
-            // groupBox_blockCount
+            // groupBox_ifBlockCount
             // 
-            this.groupBox_blockCount.Controls.Add(this.numericUpDown_blockCountTo);
-            this.groupBox_blockCount.Controls.Add(this.label_blockCountTo);
-            this.groupBox_blockCount.Controls.Add(this.numericUpDown_blockCountFrom);
-            this.groupBox_blockCount.Controls.Add(this.label_blockCountFrom);
-            this.groupBox_blockCount.Location = new System.Drawing.Point(16, 37);
-            this.groupBox_blockCount.Name = "groupBox_blockCount";
-            this.groupBox_blockCount.Size = new System.Drawing.Size(297, 57);
-            this.groupBox_blockCount.TabIndex = 7;
-            this.groupBox_blockCount.TabStop = false;
-            this.groupBox_blockCount.Text = "Количество блоков в выражениях";
+            this.groupBox_ifBlockCount.Controls.Add(this.numericUpDown_ifBlockCountTo);
+            this.groupBox_ifBlockCount.Controls.Add(this.label_ifBlockCountTo);
+            this.groupBox_ifBlockCount.Controls.Add(this.numericUpDown_ifBlockCountFrom);
+            this.groupBox_ifBlockCount.Controls.Add(this.label_ifBlockCountFrom);
+            this.groupBox_ifBlockCount.Location = new System.Drawing.Point(16, 37);
+            this.groupBox_ifBlockCount.Name = "groupBox_ifBlockCount";
+            this.groupBox_ifBlockCount.Size = new System.Drawing.Size(297, 57);
+            this.groupBox_ifBlockCount.TabIndex = 7;
+            this.groupBox_ifBlockCount.TabStop = false;
+            this.groupBox_ifBlockCount.Text = "Количество блоков в выражениях ЕСЛИ";
             // 
-            // label_blockCountFrom
+            // numericUpDown_ifBlockCountTo
             // 
-            this.label_blockCountFrom.AutoSize = true;
-            this.label_blockCountFrom.Location = new System.Drawing.Point(6, 27);
-            this.label_blockCountFrom.Name = "label_blockCountFrom";
-            this.label_blockCountFrom.Size = new System.Drawing.Size(18, 13);
-            this.label_blockCountFrom.TabIndex = 0;
-            this.label_blockCountFrom.Text = "от";
-            // 
-            // numericUpDown_blockCountFrom
-            // 
-            this.numericUpDown_blockCountFrom.Location = new System.Drawing.Point(31, 25);
-            this.numericUpDown_blockCountFrom.Minimum = new decimal(new int[] {
+            this.numericUpDown_ifBlockCountTo.Location = new System.Drawing.Point(184, 25);
+            this.numericUpDown_ifBlockCountTo.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown_blockCountFrom.Name = "numericUpDown_blockCountFrom";
-            this.numericUpDown_blockCountFrom.Size = new System.Drawing.Size(107, 20);
-            this.numericUpDown_blockCountFrom.TabIndex = 1;
-            this.numericUpDown_blockCountFrom.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // numericUpDown_blockCountTo
-            // 
-            this.numericUpDown_blockCountTo.Location = new System.Drawing.Point(184, 25);
-            this.numericUpDown_blockCountTo.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown_blockCountTo.Name = "numericUpDown_blockCountTo";
-            this.numericUpDown_blockCountTo.Size = new System.Drawing.Size(107, 20);
-            this.numericUpDown_blockCountTo.TabIndex = 3;
-            this.numericUpDown_blockCountTo.Value = new decimal(new int[] {
+            this.numericUpDown_ifBlockCountTo.Name = "numericUpDown_ifBlockCountTo";
+            this.numericUpDown_ifBlockCountTo.Size = new System.Drawing.Size(107, 20);
+            this.numericUpDown_ifBlockCountTo.TabIndex = 3;
+            this.numericUpDown_ifBlockCountTo.Value = new decimal(new int[] {
             8,
             0,
             0,
             0});
             // 
-            // label_blockCountTo
+            // label_ifBlockCountTo
             // 
-            this.label_blockCountTo.AutoSize = true;
-            this.label_blockCountTo.Location = new System.Drawing.Point(159, 27);
-            this.label_blockCountTo.Name = "label_blockCountTo";
-            this.label_blockCountTo.Size = new System.Drawing.Size(19, 13);
-            this.label_blockCountTo.TabIndex = 2;
-            this.label_blockCountTo.Text = "до";
+            this.label_ifBlockCountTo.AutoSize = true;
+            this.label_ifBlockCountTo.Location = new System.Drawing.Point(159, 27);
+            this.label_ifBlockCountTo.Name = "label_ifBlockCountTo";
+            this.label_ifBlockCountTo.Size = new System.Drawing.Size(19, 13);
+            this.label_ifBlockCountTo.TabIndex = 2;
+            this.label_ifBlockCountTo.Text = "до";
+            // 
+            // numericUpDown_ifBlockCountFrom
+            // 
+            this.numericUpDown_ifBlockCountFrom.Location = new System.Drawing.Point(31, 25);
+            this.numericUpDown_ifBlockCountFrom.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_ifBlockCountFrom.Name = "numericUpDown_ifBlockCountFrom";
+            this.numericUpDown_ifBlockCountFrom.Size = new System.Drawing.Size(107, 20);
+            this.numericUpDown_ifBlockCountFrom.TabIndex = 1;
+            this.numericUpDown_ifBlockCountFrom.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label_ifBlockCountFrom
+            // 
+            this.label_ifBlockCountFrom.AutoSize = true;
+            this.label_ifBlockCountFrom.Location = new System.Drawing.Point(6, 27);
+            this.label_ifBlockCountFrom.Name = "label_ifBlockCountFrom";
+            this.label_ifBlockCountFrom.Size = new System.Drawing.Size(18, 13);
+            this.label_ifBlockCountFrom.TabIndex = 0;
+            this.label_ifBlockCountFrom.Text = "от";
+            // 
+            // groupBox_thenBlockCount
+            // 
+            this.groupBox_thenBlockCount.Controls.Add(this.numericUpDown_thenBlockCountTo);
+            this.groupBox_thenBlockCount.Controls.Add(this.label_thenBlockCountTo);
+            this.groupBox_thenBlockCount.Controls.Add(this.numericUpDown_thenBlockCountFrom);
+            this.groupBox_thenBlockCount.Controls.Add(this.label_thenBlockCountFrom);
+            this.groupBox_thenBlockCount.Location = new System.Drawing.Point(16, 100);
+            this.groupBox_thenBlockCount.Name = "groupBox_thenBlockCount";
+            this.groupBox_thenBlockCount.Size = new System.Drawing.Size(297, 57);
+            this.groupBox_thenBlockCount.TabIndex = 8;
+            this.groupBox_thenBlockCount.TabStop = false;
+            this.groupBox_thenBlockCount.Text = "Количество блоков в выражениях ТО";
+            // 
+            // numericUpDown_thenBlockCountTo
+            // 
+            this.numericUpDown_thenBlockCountTo.Location = new System.Drawing.Point(184, 25);
+            this.numericUpDown_thenBlockCountTo.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_thenBlockCountTo.Name = "numericUpDown_thenBlockCountTo";
+            this.numericUpDown_thenBlockCountTo.Size = new System.Drawing.Size(107, 20);
+            this.numericUpDown_thenBlockCountTo.TabIndex = 3;
+            this.numericUpDown_thenBlockCountTo.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // label_thenBlockCountTo
+            // 
+            this.label_thenBlockCountTo.AutoSize = true;
+            this.label_thenBlockCountTo.Location = new System.Drawing.Point(159, 27);
+            this.label_thenBlockCountTo.Name = "label_thenBlockCountTo";
+            this.label_thenBlockCountTo.Size = new System.Drawing.Size(19, 13);
+            this.label_thenBlockCountTo.TabIndex = 2;
+            this.label_thenBlockCountTo.Text = "до";
+            // 
+            // numericUpDown_thenBlockCountFrom
+            // 
+            this.numericUpDown_thenBlockCountFrom.Location = new System.Drawing.Point(31, 25);
+            this.numericUpDown_thenBlockCountFrom.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_thenBlockCountFrom.Name = "numericUpDown_thenBlockCountFrom";
+            this.numericUpDown_thenBlockCountFrom.Size = new System.Drawing.Size(107, 20);
+            this.numericUpDown_thenBlockCountFrom.TabIndex = 1;
+            this.numericUpDown_thenBlockCountFrom.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label_thenBlockCountFrom
+            // 
+            this.label_thenBlockCountFrom.AutoSize = true;
+            this.label_thenBlockCountFrom.Location = new System.Drawing.Point(6, 27);
+            this.label_thenBlockCountFrom.Name = "label_thenBlockCountFrom";
+            this.label_thenBlockCountFrom.Size = new System.Drawing.Size(18, 13);
+            this.label_thenBlockCountFrom.TabIndex = 0;
+            this.label_thenBlockCountFrom.Text = "от";
+            // 
+            // groupBox_elseBlockCount
+            // 
+            this.groupBox_elseBlockCount.Controls.Add(this.numericUpDown_elseBlockCountTo);
+            this.groupBox_elseBlockCount.Controls.Add(this.label_elseBlockCountTo);
+            this.groupBox_elseBlockCount.Controls.Add(this.numericUpDown_elseBlockCountFrom);
+            this.groupBox_elseBlockCount.Controls.Add(this.label_elseBlockCountFrom);
+            this.groupBox_elseBlockCount.Location = new System.Drawing.Point(16, 163);
+            this.groupBox_elseBlockCount.Name = "groupBox_elseBlockCount";
+            this.groupBox_elseBlockCount.Size = new System.Drawing.Size(297, 57);
+            this.groupBox_elseBlockCount.TabIndex = 9;
+            this.groupBox_elseBlockCount.TabStop = false;
+            this.groupBox_elseBlockCount.Text = "Количество блоков в выражениях ИНАЧЕ";
+            // 
+            // numericUpDown_elseBlockCountTo
+            // 
+            this.numericUpDown_elseBlockCountTo.Location = new System.Drawing.Point(184, 25);
+            this.numericUpDown_elseBlockCountTo.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_elseBlockCountTo.Name = "numericUpDown_elseBlockCountTo";
+            this.numericUpDown_elseBlockCountTo.Size = new System.Drawing.Size(107, 20);
+            this.numericUpDown_elseBlockCountTo.TabIndex = 3;
+            this.numericUpDown_elseBlockCountTo.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // label_elseBlockCountTo
+            // 
+            this.label_elseBlockCountTo.AutoSize = true;
+            this.label_elseBlockCountTo.Location = new System.Drawing.Point(159, 27);
+            this.label_elseBlockCountTo.Name = "label_elseBlockCountTo";
+            this.label_elseBlockCountTo.Size = new System.Drawing.Size(19, 13);
+            this.label_elseBlockCountTo.TabIndex = 2;
+            this.label_elseBlockCountTo.Text = "до";
+            // 
+            // numericUpDown_elseBlockCountFrom
+            // 
+            this.numericUpDown_elseBlockCountFrom.Location = new System.Drawing.Point(31, 25);
+            this.numericUpDown_elseBlockCountFrom.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_elseBlockCountFrom.Name = "numericUpDown_elseBlockCountFrom";
+            this.numericUpDown_elseBlockCountFrom.Size = new System.Drawing.Size(107, 20);
+            this.numericUpDown_elseBlockCountFrom.TabIndex = 1;
+            this.numericUpDown_elseBlockCountFrom.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label_elseBlockCountFrom
+            // 
+            this.label_elseBlockCountFrom.AutoSize = true;
+            this.label_elseBlockCountFrom.Location = new System.Drawing.Point(6, 27);
+            this.label_elseBlockCountFrom.Name = "label_elseBlockCountFrom";
+            this.label_elseBlockCountFrom.Size = new System.Drawing.Size(18, 13);
+            this.label_elseBlockCountFrom.TabIndex = 0;
+            this.label_elseBlockCountFrom.Text = "от";
             // 
             // GenerateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(325, 325);
-            this.Controls.Add(this.groupBox_blockCount);
+            this.ClientSize = new System.Drawing.Size(325, 410);
+            this.Controls.Add(this.groupBox_elseBlockCount);
+            this.Controls.Add(this.groupBox_thenBlockCount);
+            this.Controls.Add(this.groupBox_ifBlockCount);
             this.Controls.Add(this.checkBox_allowReuse);
             this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.button_ok);
@@ -208,10 +356,18 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Генератор выражений";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_count)).EndInit();
-            this.groupBox_blockCount.ResumeLayout(false);
-            this.groupBox_blockCount.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_blockCountFrom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_blockCountTo)).EndInit();
+            this.groupBox_ifBlockCount.ResumeLayout(false);
+            this.groupBox_ifBlockCount.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ifBlockCountTo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ifBlockCountFrom)).EndInit();
+            this.groupBox_thenBlockCount.ResumeLayout(false);
+            this.groupBox_thenBlockCount.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_thenBlockCountTo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_thenBlockCountFrom)).EndInit();
+            this.groupBox_elseBlockCount.ResumeLayout(false);
+            this.groupBox_elseBlockCount.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_elseBlockCountTo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_elseBlockCountFrom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -226,10 +382,20 @@
         private System.Windows.Forms.Button button_ok;
         private System.Windows.Forms.Button button_cancel;
         private System.Windows.Forms.CheckBox checkBox_allowReuse;
-        private System.Windows.Forms.GroupBox groupBox_blockCount;
-        private System.Windows.Forms.NumericUpDown numericUpDown_blockCountTo;
-        private System.Windows.Forms.Label label_blockCountTo;
-        private System.Windows.Forms.NumericUpDown numericUpDown_blockCountFrom;
-        private System.Windows.Forms.Label label_blockCountFrom;
+        private System.Windows.Forms.GroupBox groupBox_ifBlockCount;
+        private System.Windows.Forms.NumericUpDown numericUpDown_ifBlockCountTo;
+        private System.Windows.Forms.Label label_ifBlockCountTo;
+        private System.Windows.Forms.NumericUpDown numericUpDown_ifBlockCountFrom;
+        private System.Windows.Forms.Label label_ifBlockCountFrom;
+        private System.Windows.Forms.GroupBox groupBox_thenBlockCount;
+        private System.Windows.Forms.NumericUpDown numericUpDown_thenBlockCountTo;
+        private System.Windows.Forms.Label label_thenBlockCountTo;
+        private System.Windows.Forms.NumericUpDown numericUpDown_thenBlockCountFrom;
+        private System.Windows.Forms.Label label_thenBlockCountFrom;
+        private System.Windows.Forms.GroupBox groupBox_elseBlockCount;
+        private System.Windows.Forms.NumericUpDown numericUpDown_elseBlockCountTo;
+        private System.Windows.Forms.Label label_elseBlockCountTo;
+        private System.Windows.Forms.NumericUpDown numericUpDown_elseBlockCountFrom;
+        private System.Windows.Forms.Label label_elseBlockCountFrom;
     }
 }
