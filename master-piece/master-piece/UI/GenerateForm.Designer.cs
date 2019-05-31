@@ -50,6 +50,9 @@
             this.label_elseBlockCountTo = new System.Windows.Forms.Label();
             this.numericUpDown_elseBlockCountFrom = new System.Windows.Forms.NumericUpDown();
             this.label_elseBlockCountFrom = new System.Windows.Forms.Label();
+            this.checkBox_allowRandomFuzzy = new System.Windows.Forms.CheckBox();
+            this.comboBox_selectLV = new System.Windows.Forms.ComboBox();
+            this.label_selectLV = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_count)).BeginInit();
             this.groupBox_ifBlockCount.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ifBlockCountTo)).BeginInit();
@@ -112,7 +115,7 @@
             // 
             // button_ok
             // 
-            this.button_ok.Location = new System.Drawing.Point(157, 378);
+            this.button_ok.Location = new System.Drawing.Point(158, 477);
             this.button_ok.Name = "button_ok";
             this.button_ok.Size = new System.Drawing.Size(75, 23);
             this.button_ok.TabIndex = 4;
@@ -123,7 +126,7 @@
             // button_cancel
             // 
             this.button_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button_cancel.Location = new System.Drawing.Point(238, 378);
+            this.button_cancel.Location = new System.Drawing.Point(239, 477);
             this.button_cancel.Name = "button_cancel";
             this.button_cancel.Size = new System.Drawing.Size(75, 23);
             this.button_cancel.TabIndex = 5;
@@ -139,6 +142,7 @@
             this.checkBox_allowReuse.TabIndex = 6;
             this.checkBox_allowReuse.Text = "Использовать случайные переменные в выражениях";
             this.checkBox_allowReuse.UseVisualStyleBackColor = true;
+            this.checkBox_allowReuse.CheckedChanged += new System.EventHandler(this.CheckBox_allowReuse_CheckedChanged);
             // 
             // groupBox_ifBlockCount
             // 
@@ -335,11 +339,45 @@
             this.label_elseBlockCountFrom.TabIndex = 0;
             this.label_elseBlockCountFrom.Text = "от";
             // 
+            // checkBox_allowRandomFuzzy
+            // 
+            this.checkBox_allowRandomFuzzy.AutoSize = true;
+            this.checkBox_allowRandomFuzzy.Enabled = false;
+            this.checkBox_allowRandomFuzzy.Location = new System.Drawing.Point(16, 379);
+            this.checkBox_allowRandomFuzzy.Name = "checkBox_allowRandomFuzzy";
+            this.checkBox_allowRandomFuzzy.Size = new System.Drawing.Size(272, 17);
+            this.checkBox_allowRandomFuzzy.TabIndex = 10;
+            this.checkBox_allowRandomFuzzy.Text = "Использовать случайные нечеткие переменные";
+            this.checkBox_allowRandomFuzzy.UseVisualStyleBackColor = true;
+            this.checkBox_allowRandomFuzzy.CheckedChanged += new System.EventHandler(this.CheckBox_allowRandomFuzzy_CheckedChanged);
+            // 
+            // comboBox_selectLV
+            // 
+            this.comboBox_selectLV.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_selectLV.Enabled = false;
+            this.comboBox_selectLV.FormattingEnabled = true;
+            this.comboBox_selectLV.Location = new System.Drawing.Point(15, 423);
+            this.comboBox_selectLV.Name = "comboBox_selectLV";
+            this.comboBox_selectLV.Size = new System.Drawing.Size(298, 21);
+            this.comboBox_selectLV.TabIndex = 11;
+            // 
+            // label_selectLV
+            // 
+            this.label_selectLV.AutoSize = true;
+            this.label_selectLV.Location = new System.Drawing.Point(13, 407);
+            this.label_selectLV.Name = "label_selectLV";
+            this.label_selectLV.Size = new System.Drawing.Size(214, 13);
+            this.label_selectLV.TabIndex = 12;
+            this.label_selectLV.Text = "Выберите лингвистическую переменную";
+            // 
             // GenerateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(325, 410);
+            this.ClientSize = new System.Drawing.Size(325, 512);
+            this.Controls.Add(this.label_selectLV);
+            this.Controls.Add(this.comboBox_selectLV);
+            this.Controls.Add(this.checkBox_allowRandomFuzzy);
             this.Controls.Add(this.groupBox_elseBlockCount);
             this.Controls.Add(this.groupBox_thenBlockCount);
             this.Controls.Add(this.groupBox_ifBlockCount);
@@ -397,5 +435,8 @@
         private System.Windows.Forms.Label label_elseBlockCountTo;
         private System.Windows.Forms.NumericUpDown numericUpDown_elseBlockCountFrom;
         private System.Windows.Forms.Label label_elseBlockCountFrom;
+        private System.Windows.Forms.CheckBox checkBox_allowRandomFuzzy;
+        private System.Windows.Forms.ComboBox comboBox_selectLV;
+        private System.Windows.Forms.Label label_selectLV;
     }
 }

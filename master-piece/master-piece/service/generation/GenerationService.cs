@@ -20,7 +20,7 @@ namespace master_piece.service.generation
 
         public static List<string> generateExpressions(List<string> variableNames, int expressionsCount, bool allowReuse, 
             int ifBlockCountFrom, int ifBlockCountTo, int thenBlockCountFrom, int thenBlockCountTo,
-            int elseBlockCountFrom, int elseBlockCountTo)
+            int elseBlockCountFrom, int elseBlockCountTo, List<string> fuzzyVariableNames)
         {
             List<string> expressions = new List<string>();
 
@@ -73,7 +73,7 @@ namespace master_piece.service.generation
                 expression += "\t\t";
                 for (int j = 0; j < countOfThenExpressions; j++)
                 {
-                    expression += generateThenOrElseExpression(variableNames, allowReuse);
+                    expression += generateThenOrElseExpression(variableNames, allowReuse, fuzzyVariableNames);
                     if (j != countOfThenExpressions - 1)
                     {
                         expression += ", ";
@@ -88,7 +88,7 @@ namespace master_piece.service.generation
                     expression += "\t\t";
                     for (int j = 0; j < countOfElseExpressions; j++)
                     {
-                        expression += generateThenOrElseExpression(variableNames, allowReuse);
+                        expression += generateThenOrElseExpression(variableNames, allowReuse, fuzzyVariableNames);
                         if (j != countOfElseExpressions - 1)
                         {
                             expression += ", ";
@@ -111,7 +111,7 @@ namespace master_piece.service.generation
             return "(" + firstVariable + " " + operation + " " + secondVariable + ")";
         }
 
-        public static string generateThenOrElseExpression(List<string> variableNames, bool allowReuse)
+        public static string generateThenOrElseExpression(List<string> variableNames, bool allowReuse, List<string> fuzzyVariableNames)
         {
             int reassignOrAssignNew = rand.Next(2);
             string variableToAssign;
@@ -130,18 +130,22 @@ namespace master_piece.service.generation
                 }
             }
 
-            int valueOrVariable = rand.Next(2);
+            int valueOrVariable = (fuzzyVariableNames.Count > 0) ? rand.Next(3) : rand.Next(2);
             string value;
             if (valueOrVariable == 0)
             {
-                //Generate value
+                //Generate int value
                 value = rand.Next(1000).ToString();
+            }
+            else if (valueOrVariable == 1)
+            {
+                //Assign to another random variable
+                value = variableNames[rand.Next(variableNames.Count)];
             }
             else
             {
-                //Assign to another random variable
-                //TODO: assign to fuzzy value
-                value = variableNames[rand.Next(variableNames.Count)];
+                //Assign to random fuzzy value
+                value = "\"" + fuzzyVariableNames[rand.Next(fuzzyVariableNames.Count)] + "\"";
             }
             return variableToAssign + " = " + value;
         }

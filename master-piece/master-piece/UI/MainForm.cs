@@ -324,7 +324,7 @@ namespace master_piece
         /// <param name="e"></param>
         private void ВыраженияToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            GenerateForm generateForm = new GenerateForm();
+            GenerateForm generateForm = new GenerateForm(dbConnection);
             generateForm.ShowDialog();
         }
     }
