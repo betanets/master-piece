@@ -53,6 +53,7 @@
             this.checkBox_allowRandomFuzzy = new System.Windows.Forms.CheckBox();
             this.comboBox_selectLV = new System.Windows.Forms.ComboBox();
             this.label_selectLV = new System.Windows.Forms.Label();
+            this.checkBox_allowOnlyFuzzy = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_count)).BeginInit();
             this.groupBox_ifBlockCount.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ifBlockCountTo)).BeginInit();
@@ -115,7 +116,7 @@
             // 
             // button_ok
             // 
-            this.button_ok.Location = new System.Drawing.Point(158, 477);
+            this.button_ok.Location = new System.Drawing.Point(157, 490);
             this.button_ok.Name = "button_ok";
             this.button_ok.Size = new System.Drawing.Size(75, 23);
             this.button_ok.TabIndex = 4;
@@ -126,7 +127,7 @@
             // button_cancel
             // 
             this.button_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button_cancel.Location = new System.Drawing.Point(239, 477);
+            this.button_cancel.Location = new System.Drawing.Point(238, 490);
             this.button_cancel.Name = "button_cancel";
             this.button_cancel.Size = new System.Drawing.Size(75, 23);
             this.button_cancel.TabIndex = 5;
@@ -370,11 +371,23 @@
             this.label_selectLV.TabIndex = 12;
             this.label_selectLV.Text = "Выберите лингвистическую переменную";
             // 
+            // checkBox_allowOnlyFuzzy
+            // 
+            this.checkBox_allowOnlyFuzzy.AutoSize = true;
+            this.checkBox_allowOnlyFuzzy.Enabled = false;
+            this.checkBox_allowOnlyFuzzy.Location = new System.Drawing.Point(16, 450);
+            this.checkBox_allowOnlyFuzzy.Name = "checkBox_allowOnlyFuzzy";
+            this.checkBox_allowOnlyFuzzy.Size = new System.Drawing.Size(263, 17);
+            this.checkBox_allowOnlyFuzzy.TabIndex = 13;
+            this.checkBox_allowOnlyFuzzy.Text = "Использовать ТОЛЬКО нечеткие переменные";
+            this.checkBox_allowOnlyFuzzy.UseVisualStyleBackColor = true;
+            // 
             // GenerateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(325, 512);
+            this.ClientSize = new System.Drawing.Size(325, 525);
+            this.Controls.Add(this.checkBox_allowOnlyFuzzy);
             this.Controls.Add(this.label_selectLV);
             this.Controls.Add(this.comboBox_selectLV);
             this.Controls.Add(this.checkBox_allowRandomFuzzy);
@@ -438,5 +451,6 @@
         private System.Windows.Forms.CheckBox checkBox_allowRandomFuzzy;
         private System.Windows.Forms.ComboBox comboBox_selectLV;
         private System.Windows.Forms.Label label_selectLV;
+        private System.Windows.Forms.CheckBox checkBox_allowOnlyFuzzy;
     }
 }

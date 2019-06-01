@@ -25,6 +25,7 @@ namespace master_piece.UI
                 dbConnection.Query<LinguisticVariable>("select * from LinguisticVariable where deleted = '0'");
             comboBox_selectLV.DisplayMember = "name";
             comboBox_selectLV.ValueMember = "id";
+            comboBox_selectLV.SelectedIndex = -1;
         }
 
         private void Button_ok_Click(object sender, EventArgs e)
@@ -83,7 +84,7 @@ namespace master_piece.UI
                 (int)numericUpDown_ifBlockCountFrom.Value, (int)numericUpDown_ifBlockCountTo.Value,
                 (int)numericUpDown_thenBlockCountFrom.Value, (int)numericUpDown_thenBlockCountTo.Value,
                 (int)numericUpDown_elseBlockCountFrom.Value, (int)numericUpDown_elseBlockCountTo.Value,
-                fuzzyVariableNames);
+                fuzzyVariableNames, checkBox_allowOnlyFuzzy.Checked);
 
             ImportExportResult result = GenerationService.exportGeneratedStrings(expressions);
             switch (result.status)
@@ -106,7 +107,12 @@ namespace master_piece.UI
             else
             {
                 checkBox_allowRandomFuzzy.Enabled = false;
+                comboBox_selectLV.Enabled = false;
+                comboBox_selectLV.SelectedIndex = -1;
+                checkBox_allowOnlyFuzzy.Enabled = false;
             }
+            checkBox_allowRandomFuzzy.Checked = false;
+            checkBox_allowOnlyFuzzy.Checked = false;
         }
 
         private void CheckBox_allowRandomFuzzy_CheckedChanged(object sender, EventArgs e)
@@ -114,11 +120,15 @@ namespace master_piece.UI
             if (checkBox_allowRandomFuzzy.Checked)
             {
                 comboBox_selectLV.Enabled = true;
+                checkBox_allowOnlyFuzzy.Enabled = true;
             }
             else
             {
                 comboBox_selectLV.Enabled = false;
+                comboBox_selectLV.SelectedIndex = -1;
+                checkBox_allowOnlyFuzzy.Enabled = false;
             }
+            checkBox_allowOnlyFuzzy.Checked = false;
         }
     }
 }

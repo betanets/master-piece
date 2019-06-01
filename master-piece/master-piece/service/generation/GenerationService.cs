@@ -20,7 +20,7 @@ namespace master_piece.service.generation
 
         public static List<string> generateExpressions(List<string> variableNames, int expressionsCount, bool allowReuse, 
             int ifBlockCountFrom, int ifBlockCountTo, int thenBlockCountFrom, int thenBlockCountTo,
-            int elseBlockCountFrom, int elseBlockCountTo, List<string> fuzzyVariableNames)
+            int elseBlockCountFrom, int elseBlockCountTo, List<string> fuzzyVariableNames, bool allowOnlyFuzzy)
         {
             List<string> expressions = new List<string>();
 
@@ -29,7 +29,7 @@ namespace master_piece.service.generation
                 string expression = "";
 
                 //IF expression generation
-                int subexpressionsCount = ifBlockCountFrom + rand.Next(ifBlockCountTo - ifBlockCountFrom);
+                int subexpressionsCount = ifBlockCountFrom + rand.Next(ifBlockCountTo - ifBlockCountFrom + 1);
                 for (int j = 0; j < subexpressionsCount; j++)
                 {
                     int subexpressionType = rand.Next(3) % 3;
@@ -69,11 +69,11 @@ namespace master_piece.service.generation
                 }
 
                 //THEN expression generation
-                int countOfThenExpressions = thenBlockCountFrom + rand.Next(thenBlockCountTo - thenBlockCountFrom);
+                int countOfThenExpressions = thenBlockCountFrom + rand.Next(thenBlockCountTo - thenBlockCountFrom + 1);
                 expression += "\t\t";
                 for (int j = 0; j < countOfThenExpressions; j++)
                 {
-                    expression += generateThenOrElseExpression(variableNames, allowReuse, fuzzyVariableNames);
+                    expression += generateThenOrElseExpression(variableNames, allowReuse, allowOnlyFuzzy, fuzzyVariableNames);
                     if (j != countOfThenExpressions - 1)
                     {
                         expression += ", ";
@@ -84,11 +84,11 @@ namespace master_piece.service.generation
                 int generateElse = rand.Next(2);
                 if (generateElse == 1)
                 {
-                    int countOfElseExpressions = elseBlockCountFrom + rand.Next(elseBlockCountTo - elseBlockCountFrom);
+                    int countOfElseExpressions = elseBlockCountFrom + rand.Next(elseBlockCountTo - elseBlockCountFrom + 1);
                     expression += "\t\t";
                     for (int j = 0; j < countOfElseExpressions; j++)
                     {
-                        expression += generateThenOrElseExpression(variableNames, allowReuse, fuzzyVariableNames);
+                        expression += generateThenOrElseExpression(variableNames, allowReuse, allowOnlyFuzzy, fuzzyVariableNames);
                         if (j != countOfElseExpressions - 1)
                         {
                             expression += ", ";
@@ -111,7 +111,7 @@ namespace master_piece.service.generation
             return "(" + firstVariable + " " + operation + " " + secondVariable + ")";
         }
 
-        public static string generateThenOrElseExpression(List<string> variableNames, bool allowReuse, List<string> fuzzyVariableNames)
+        public static string generateThenOrElseExpression(List<string> variableNames, bool allowReuse, bool allowOnlyFuzzy, List<string> fuzzyVariableNames)
         {
             int reassignOrAssignNew = rand.Next(2);
             string variableToAssign;
@@ -130,7 +130,7 @@ namespace master_piece.service.generation
                 }
             }
 
-            int valueOrVariable = (fuzzyVariableNames.Count > 0) ? rand.Next(3) : rand.Next(2);
+            int valueOrVariable = (fuzzyVariableNames.Count > 0) ? ((allowOnlyFuzzy ? 1 + rand.Next(2) : rand.Next(3))) : rand.Next(2);
             string value;
             if (valueOrVariable == 0)
             {
