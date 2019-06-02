@@ -113,6 +113,8 @@ namespace master_piece.service.generation
 
         public static string generateThenOrElseExpression(List<string> variableNames, bool allowReuse, bool allowOnlyFuzzy, List<string> fuzzyVariableNames)
         {
+            bool rerun = true;
+            
             int reassignOrAssignNew = rand.Next(2);
             string variableToAssign;
             if (reassignOrAssignNew == 0)
@@ -124,28 +126,36 @@ namespace master_piece.service.generation
             {
                 //Create new variable
                 variableToAssign = generateRandomString(2);
-                if(allowReuse)
+                if (allowReuse)
                 {
                     variableNames.Add(variableToAssign);
                 }
             }
 
-            int valueOrVariable = (fuzzyVariableNames.Count > 0) ? ((allowOnlyFuzzy ? 1 + rand.Next(2) : rand.Next(3))) : rand.Next(2);
-            string value;
-            if (valueOrVariable == 0)
+            string value = "";
+            while (rerun)
             {
-                //Generate int value
-                value = rand.Next(1000).ToString();
-            }
-            else if (valueOrVariable == 1)
-            {
-                //Assign to another random variable
-                value = variableNames[rand.Next(variableNames.Count)];
-            }
-            else
-            {
-                //Assign to random fuzzy value
-                value = "\"" + fuzzyVariableNames[rand.Next(fuzzyVariableNames.Count)] + "\"";
+                int valueOrVariable = (fuzzyVariableNames.Count > 0) ? ((allowOnlyFuzzy ? 1 + rand.Next(2) : rand.Next(3))) : rand.Next(2);
+                if (valueOrVariable == 0)
+                {
+                    //Generate int value
+                    value = rand.Next(1000).ToString();
+                }
+                else if (valueOrVariable == 1)
+                {
+                    //Assign to another random variable
+                    value = variableNames[rand.Next(variableNames.Count)];
+                }
+                else
+                {
+                    //Assign to random fuzzy value
+                    value = "\"" + fuzzyVariableNames[rand.Next(fuzzyVariableNames.Count)] + "\"";
+                }
+
+                if (variableToAssign != value)
+                {
+                    rerun = false;
+                }
             }
             return variableToAssign + " = " + value;
         }
