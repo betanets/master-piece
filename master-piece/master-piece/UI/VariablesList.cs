@@ -78,7 +78,6 @@ namespace master_piece
                     }
                     catch (Exception ex)
                     {
-                        //TODO: make custom exception window with error, stacktrace, etc
                         //Exception may occur when dbConnection is null
                         MessageBox.Show("Произошла ошибка при работе с базой данных: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -172,7 +171,6 @@ namespace master_piece
                     }
                     catch (Exception ex)
                     {
-                        //TODO: make custom exception window with error, stacktrace, etc
                         //Exception may occur when dbConnection is null
                         MessageBox.Show("Произошла ошибка при работе с базой данных: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }

@@ -10,14 +10,51 @@ namespace master_piece.service.generation
 {
     class GenerationService
     {
+        /// <summary>
+        /// Список операций сравнения
+        /// </summary>
         private static List<OperationEnum> comparisonOperations = getComparisonOperations();
+
+        /// <summary>
+        /// Список логических операций
+        /// </summary>
         private static List<OperationEnum> logicalOperations = getLogicalOperations();
+
+        /// <summary>
+        /// Количество операций сравнения
+        /// </summary>
         private static int comparisonOperationsCount = comparisonOperations.Count;
+
+        /// <summary>
+        /// Количество логических операций
+        /// </summary>
         private static int logicalOperationsCount = logicalOperations.Count;
 
+        /// <summary>
+        /// Генератор псевдослучайных элементов
+        /// </summary>
         private static Random rand = new Random();
+
+        /// <summary>
+        /// Алфавит для создания переменных со случайным именем
+        /// </summary>
         private static string alphabet = "abcdefghijklmnopqrstuvwxyz";
 
+        /// <summary>
+        /// Основной метод генерации выражений.
+        /// Возвращает выражения в виде списка строк
+        /// </summary>
+        /// <param name="variableNames">Список имен исходных переменных</param>
+        /// <param name="expressionsCount">Требуемое количество выражений</param>
+        /// <param name="allowReuse">Флаг, указывающий, что разрешено создавать переменные со случайным именем</param>
+        /// <param name="ifBlockCountFrom">Кол-во подвыражений в блоке ЕСЛИ (ОТ)</param>
+        /// <param name="ifBlockCountTo">Кол-во подвыражения в блоке ЕСЛИ (ДО)</param>
+        /// <param name="thenBlockCountFrom">Кол-во присваиваний в блоке ТО (ОТ)</param>
+        /// <param name="thenBlockCountTo">Кол-во присваиваний в блоке ТО (ДО)</param>
+        /// <param name="elseBlockCountFrom">Кол-во присваиваний в блоке ИНАЧЕ (ОТ)</param>
+        /// <param name="elseBlockCountTo">Кол-во присваиваний в блоке ИНАЧЕ (ДО)</param>
+        /// <param name="fuzzyVariableNames">Список имен нечетких переменных</param>
+        /// <param name="allowOnlyFuzzy">Флаг, указывающий, что следует генерировать только выражения с нечеткими переменными</param>
         public static List<string> generateExpressions(List<string> variableNames, int expressionsCount, bool allowReuse, 
             int ifBlockCountFrom, int ifBlockCountTo, int thenBlockCountFrom, int thenBlockCountTo,
             int elseBlockCountFrom, int elseBlockCountTo, List<string> fuzzyVariableNames, bool allowOnlyFuzzy)
@@ -102,6 +139,11 @@ namespace master_piece.service.generation
             return expressions;
         }
 
+        /// <summary>
+        /// Метод генерации подвыражения типа "лист".
+        /// Возвращает строку-подвыражение
+        /// </summary>
+        /// <param name="variableNames">Список имен переменных</param>
         public static string generateLeafSubexpression(List<string> variableNames)
         {
             string firstVariable = variableNames[rand.Next(variableNames.Count)];
@@ -111,6 +153,14 @@ namespace master_piece.service.generation
             return "(" + firstVariable + " " + operation + " " + secondVariable + ")";
         }
 
+        /// <summary>
+        /// Метод генерации выражения ТО или ИНАЧЕ.
+        /// Возвразает выражение в виде строки
+        /// </summary>
+        /// <param name="variableNames">Список имен переменных</param>
+        /// <param name="allowReuse">Флаг, указывающий, что разрешено создавать переменные со случайным именем</param>
+        /// <param name="allowOnlyFuzzy">Флаг, указывающий, что следует генерировать только выражения с нечеткими переменными</param>
+        /// <param name="fuzzyVariableNames">Список имен нечетких переменных</param>
         public static string generateThenOrElseExpression(List<string> variableNames, bool allowReuse, bool allowOnlyFuzzy, List<string> fuzzyVariableNames)
         {
             bool rerun = true;
@@ -161,7 +211,8 @@ namespace master_piece.service.generation
         }
 
         /// <summary>
-        /// Метод создания строки из случайных символов алфавита
+        /// Метод создания строки из случайных символов алфавита.
+        /// Возвращает строку указанной длины
         /// </summary>
         /// <param name="length">Длина строки</param>
         public static string generateRandomString(int length)
@@ -169,6 +220,11 @@ namespace master_piece.service.generation
             return new string(Enumerable.Repeat(alphabet, length).Select(s => s[rand.Next(s.Length)]).ToArray());
         }
 
+        /// <summary>
+        /// Метод экспорта сгенерированных выражений в файл.
+        /// Возвращает сущность <see cref="ImportExportResult"/>
+        /// </summary>
+        /// <param name="expressions">Список выражений для экспорта</param>
         public static ImportExportResult exportGeneratedStrings(List<string> expressions)
         {
             if (expressions.Count == 0)

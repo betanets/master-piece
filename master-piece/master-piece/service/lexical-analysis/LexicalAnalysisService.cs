@@ -17,7 +17,6 @@ namespace master_piece.service.lexical_analysis
         /// </summary>
         /// <param name="parserResult">Список лексем</param>
         /// <param name="variables">Хранилище переменных</param>
-        //TODO: work with possible redefinitions in THEN expressions
         public static LexicalAnalysisResult makeSemanticAnalysis(List<Lexeme> parserResult, VariablesStorage variables)
         {
             LexicalAnalysisResult semanticResult = new LexicalAnalysisResult();
@@ -74,7 +73,6 @@ namespace master_piece.service.lexical_analysis
         public static void assignVariables(List<Lexeme> parserResult, VariablesStorage variables, int subexpressionLevel)
         {
             //Lexemes now stored as Identifier-Assign-(Value/Identifier)-Comma-Identifier-...
-            //TODO: check assign and comma lexemes
             Lexeme identifierSavior = null;
             for (int i = 0; i < parserResult.Count; i++)
             {
@@ -278,6 +276,12 @@ namespace master_piece.service.lexical_analysis
             return null;
         }
 
+        /// <summary>
+        /// Метод получения представления целочисленной переменной из лексемы.
+        /// Возвращает представление целочисленной переменной <see cref="IntViewVariable"/>
+        /// </summary>
+        /// <param name="lexeme">Лексема</param>
+        /// <param name="variablesStorage">Хранилище переменных</param>
         public static IntViewVariable getIntVariableByLexeme(Lexeme lexeme, VariablesStorage variablesStorage)
         {
             if (lexeme == null || !LexemeTypes.IsIdentifier(lexeme.lexemeType))
@@ -296,6 +300,12 @@ namespace master_piece.service.lexical_analysis
             return null;
         }
 
+        /// <summary>
+        /// Метод получения представления нечекой переменной из лексемы.
+        /// Возвращает представление нечеткой переменной <see cref="FuzzyViewVariable"/>
+        /// </summary>
+        /// <param name="lexeme">Лексема</param>
+        /// <param name="variablesStorage">Хранилище переменных</param>
         public static FuzzyViewVariable getFuzzyVariableByLexeme(Lexeme lexeme, VariablesStorage variablesStorage)
         {
             if (lexeme == null || !LexemeTypes.IsIdentifier(lexeme.lexemeType))
