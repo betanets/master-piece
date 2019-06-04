@@ -156,7 +156,7 @@
             this.groupBox_ifBlockCount.Size = new System.Drawing.Size(297, 57);
             this.groupBox_ifBlockCount.TabIndex = 7;
             this.groupBox_ifBlockCount.TabStop = false;
-            this.groupBox_ifBlockCount.Text = "Количество блоков в выражениях ЕСЛИ";
+            this.groupBox_ifBlockCount.Text = "Количество подвыражений в выражениях ЕСЛИ";
             // 
             // numericUpDown_ifBlockCountTo
             // 
@@ -221,7 +221,7 @@
             this.groupBox_thenBlockCount.Size = new System.Drawing.Size(297, 57);
             this.groupBox_thenBlockCount.TabIndex = 8;
             this.groupBox_thenBlockCount.TabStop = false;
-            this.groupBox_thenBlockCount.Text = "Количество блоков в выражениях ТО";
+            this.groupBox_thenBlockCount.Text = "Количество подвыражений в выражениях ТО";
             // 
             // numericUpDown_thenBlockCountTo
             // 
@@ -286,7 +286,7 @@
             this.groupBox_elseBlockCount.Size = new System.Drawing.Size(297, 57);
             this.groupBox_elseBlockCount.TabIndex = 9;
             this.groupBox_elseBlockCount.TabStop = false;
-            this.groupBox_elseBlockCount.Text = "Количество блоков в выражениях ИНАЧЕ";
+            this.groupBox_elseBlockCount.Text = "Количество подвыражений в выражениях ИНАЧЕ";
             // 
             // numericUpDown_elseBlockCountTo
             // 

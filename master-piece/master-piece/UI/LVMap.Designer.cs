@@ -48,7 +48,7 @@
             this.Controls.Add(this.cartesianChart_map);
             this.Name = "LVMap";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Карта значений лингвистической переменной";
+            this.Text = "Графическое представление лингвистической переменной";
             this.ResumeLayout(false);
 
         }

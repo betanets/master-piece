@@ -56,7 +56,7 @@ namespace master_piece.service.logging
         }
 
         /// <summary>
-        /// Мето логирования времени выполнения алгоритма
+        /// Метод логирования времени выполнения алгоритма
         /// </summary>
         /// <param name="executionTimeMilliseconds">Время выполнения алгоритма в миллисекундах</param>
         public void logExecutionTime(long executionTimeMilliseconds)
